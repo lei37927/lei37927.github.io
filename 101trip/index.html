@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>国庆呼伦贝尔秋色自驾路书 | 10.2-10.7</title>
+<style>
+:root {
+  --bg: #faf7f2;
+  --card: #ffffff;
+  --ink: #2c1810;
+  --ink-light: #6b5544;
+  --accent: #c8782a;
+  --accent-dark: #a05c1a;
+  --gold: #d4a843;
+  --green: #4a7c59;
+  --red: #b5443a;
+  --line: #e8dcc8;
+  --shadow: 0 2px 12px rgba(44,24,16,0.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+}
+.container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #3a2418 0%, #6b4226 50%, #c8782a 100%);
+  color: #fff;
+  padding: 60px 0 50px;
+  text-align: center;
+}
+.hero h1 { font-size: 2.4em; font-weight: 800; letter-spacing: 2px; margin-bottom: 12px; }
+.hero .sub { font-size: 1.1em; opacity: 0.9; margin-bottom: 30px; }
+.hero .meta {
+  display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;
+  font-size: 0.95em;
+}
+.hero .meta div { text-align: center; }
+.hero .meta .num { font-size: 1.6em; font-weight: 700; color: var(--gold); }
+.hero .meta .label { font-size: 0.85em; opacity: 0.8; }
+
+/* SECTION */
+section { padding: 40px 0; }
+section h2 {
+  font-size: 1.6em; font-weight: 700; margin-bottom: 20px;
+  padding-left: 14px; border-left: 4px solid var(--accent);
+}
+
+/* OVERVIEW TABLE */
+.overview { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+.overview th { background: var(--accent); color: #fff; padding: 12px 10px; text-align: left; font-weight: 600; }
+.overview td { padding: 12px 10px; border-bottom: 1px solid var(--line); font-size: 0.92em; }
+.overview tr:last-child td { border-bottom: none; }
+.overview .day { font-weight: 700; color: var(--accent-dark); white-space: nowrap; }
+
+/* DAY CARD */
+.day-card {
+  background: var(--card); border-radius: 16px; box-shadow: var(--shadow);
+  margin-bottom: 30px; overflow: hidden;
+}
+.day-header {
+  background: linear-gradient(135deg, var(--accent-dark), var(--accent));
+  color: #fff; padding: 20px 24px;
+}
+.day-header .day-num { font-size: 0.85em; opacity: 0.8; }
+.day-header .day-title { font-size: 1.4em; font-weight: 700; margin-top: 4px; }
+.day-header .day-route { font-size: 0.9em; opacity: 0.9; margin-top: 6px; }
+.day-body { padding: 24px; }
+
+/* TIMELINE */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before {
+  content: ''; position: absolute; left: 8px; top: 8px; bottom: 8px;
+  width: 2px; background: var(--line);
+}
+.tl-item { position: relative; margin-bottom: 18px; }
+.tl-item::before {
+  content: ''; position: absolute; left: -24px; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent); border: 2px solid #fff;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.tl-item.free::before { background: var(--green); box-shadow: 0 0 0 2px var(--green); }
+.tl-item.drive::before { background: var(--ink-light); box-shadow: 0 0 0 2px var(--ink-light); }
+.tl-time { font-weight: 700; color: var(--accent-dark); font-size: 0.95em; }
+.tl-content { font-size: 0.93em; margin-top: 2px; }
+.tl-tag {
+  display: inline-block; font-size: 0.75em; padding: 2px 8px;
+  border-radius: 10px; margin-left: 6px; vertical-align: middle;
+}
+.tag-free { background: #e6f0e8; color: var(--green); }
+.tag-drive { background: #f0ebe4; color: var(--ink-light); }
+.tag-photo { background: #fdf0e0; color: var(--accent-dark); }
+.tag-food { background: #fbe8e6; color: var(--red); }
+
+/* INFO GRID */
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 16px; }
+.info-box {
+  background: var(--card); border-radius: 12px; padding: 16px; box-shadow: var(--shadow);
+}
+.info-box h4 { font-size: 0.95em; color: var(--accent-dark); margin-bottom: 8px; }
+.info-box p { font-size: 0.88em; color: var(--ink-light); }
+
+/* BUDGET TABLE */
+.budget { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+.budget th { background: var(--ink); color: #fff; padding: 10px; text-align: left; }
+.budget td { padding: 10px; border-bottom: 1px solid var(--line); font-size: 0.92em; }
+.budget .total { font-weight: 700; color: var(--accent-dark); background: #fdf6ec; }
+
+/* TIP BOX */
+.tip {
+  background: #fdf6ec; border-left: 4px solid var(--gold);
+  padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0;
+  font-size: 0.9em;
+}
+.tip strong { color: var(--accent-dark); }
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  .hero h1 { font-size: 1.6em; }
+  .hero .meta { gap: 16px; }
+  .overview { font-size: 0.82em; }
+  .overview th, .overview td { padding: 8px 6px; }
+  .day-body { padding: 16px; }
+  .timeline { padding-left: 22px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <h1>呼伦贝尔秋色自驾路书</h1>
+    <div class="sub">上海出发 · 6天5晚 · 2人 · 212四驱</div>
+    <div class="meta">
+      <div><div class="num">10/2</div><div class="label">出发</div></div>
+      <div><div class="num">10/7</div><div class="label">返程</div></div>
+      <div><div class="num">~1500</div><div class="label">公里</div></div>
+      <div><div class="num">~2万</div><div class="label">预算(2人)</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section>
+<div class="container">
+<h2>行程总览</h2>
+<table class="overview">
+  <tr><th>日期</th><th>路线</th><th>驾驶</th><th>住宿</th></tr>
+  <tr><td class="day">D1 10/2 周五</td><td>上海虹桥→海拉尔 10:30到，取车，市区采购，索伦嘎晚餐</td><td>市区</td><td>海拉尔</td></tr>
+  <tr><td class="day">D2 10/3 周六</td><td>海拉尔→莫日格勒河→黑山头(ATV+骑马日落)→额尔古纳</td><td>~200km/3.5h</td><td>额尔古纳假日酒店</td></tr>
+  <tr><td class="day">D3 10/4 周日</td><td>额尔古纳→野路穿越(哈吉/浩特陶海/特尼河)→哈克崖山→伊敏河</td><td>~190km/8.5h含停留</td><td>伊敏河镇</td></tr>
+  <tr><td class="day">D4 10/5 周一</td><td>伊敏河→S202→阿尔山(火车站/五里泉/乌苏浪子湖/不冻河日落)</td><td>~330km/4.5h</td><td>伊尔施</td></tr>
+  <tr><td class="day">D5 10/6 周二</td><td>不冻河晨雾→阿尔山森林公园自驾(驼峰岭/杜鹃湖/三潭峡/石塘林/鹿鸣湖)</td><td>园内~150km</td><td>伊尔施</td></tr>
+  <tr><td class="day">D6 10/7 周三</td><td>伊尔施→S202→海拉尔(反法西斯纪念园/买特产)→20:00飞</td><td>~330km/4.5h</td><td>飞机上</td></tr>
+</table>
+</div>
+</section>
+
+<!-- D1 -->
+<section>
+<div class="container">
+<div class="day-card">
+  <div class="day-header">
+    <div class="day-num">DAY 1 · 10月2日 周五</div>
+    <div class="day-title">抵达海拉尔</div>
+    <div class="day-route">虹桥T2 06:55 → 海拉尔T2 10:30</div>
+  </div>
+  <div class="day-body">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">06:55</div>
+        <div class="tl-content">虹桥T2起飞<span class="tl-tag tag-photo">飞行3.5h</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">10:30</div>
+        <div class="tl-content">海拉尔T2落地，取车（神州/一嗨 北汽212 T01）<span class="tl-tag tag-drive">检查车况</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">11:30</div>
+        <div class="tl-content">海拉尔市区午饭</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">13:00</div>
+        <div class="tl-content">采购：矿泉水一箱、零食、牛肉干、葡萄糖（野路无补给）</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">15:00</div>
+        <div class="tl-content">海拉尔国家博物院或成吉思汗广场闲逛</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">18:00</div>
+        <div class="tl-content">索伦嘎餐厅晚餐（手把肉/奶茶/烤羊排）<span class="tl-tag tag-food">本地人推荐</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">20:00</div>
+        <div class="tl-content">回酒店休息，检查离线地图、两步路轨迹、加满油</div>
+      </div>
+    </div>
+    <div class="tip"><strong>提醒：</strong>今晚务必下载高德/百度离线地图（呼伦贝尔+兴安盟），两步路APP建好D3野路轨迹。海拉尔加满油，野路无加油站。</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- D2 -->
+<section>
+<div class="container">
+<div class="day-card">
+  <div class="day-header">
+    <div class="day-num">DAY 2 · 10月3日 周六</div>
+    <div class="day-title">莫日格勒河 → 黑山头骑马日落</div>
+    <div class="day-route">海拉尔 → 莫日格勒河 → 黑山头 → 额尔古纳</div>
+  </div>
+  <div class="day-body">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">07:30</div>
+        <div class="tl-content">海拉尔出发，导航"莫日格勒河野生打卡点"或"马背山"<span class="tl-tag tag-drive">40km/1h</span></div>
+      </div>
+      <div class="tl-item free">
+        <div class="tl-time">08:30-10:00</div>
+        <div class="tl-content">莫日格勒河免费观景台拍照，俯瞰九曲回肠<span class="tl-tag tag-free">免费</span><span class="tl-tag tag-photo">无人机可飞</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">10:00-10:40</div>
+        <div class="tl-content">沿S301往黑山头，沿途草原停拍<span class="tl-tag tag-drive">100km/1.5h</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">12:00</div>
+        <div class="tl-content">黑山头镇上午饭</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">13:30-15:00</div>
+        <div class="tl-content">ATV湿地穿越（约200元/人，1.5h）<span class="tl-tag tag-photo">越野车冲坡拍照</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">15:30-17:00</div>
+        <div class="tl-content">黑山头骑马（约200元/人，1.5h），往边境方向走</div>
+      </div>
+      <div class="tl-item free">
+        <div class="tl-time">17:00-18:00</div>
+        <div class="tl-content">黑山头山头看日落（10月初日落约17:50）<span class="tl-tag tag-free">免费</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">18:30-19:30</div>
+        <div class="tl-content">开车去额尔古纳<span class="tl-tag tag-drive">40km/1h</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">20:00</div>
+        <div class="tl-content">入住额尔古纳假日酒店，晚饭</div>
+      </div>
+    </div>
+    <div class="tip"><strong>骑马：</strong>黑山头路边很多马场，不用找"小绵羊牧场"那种套票，直接找牧民马场骑，价格150-200元/人。日落前1.5h上山，光线最好。</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- D3 -->
+<section>
+<div class="container">
+<div class="day-card">
+  <div class="day-header">
+    <div class="day-num">DAY 3 · 10月4日 周日</div>
+    <div class="day-title">北线野路穿越 → 哈克崖山 → 伊敏河</div>
+    <div class="day-route">额尔古纳 → 哈吉 → 浩特陶海 → 特尼河 → 哈克崖山 → 伊敏河</div>
+  </div>
+  <div class="day-body">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">07:00</div>
+        <div class="tl-content">额尔古纳出发（可选：先去睦邻屯免费湿地，多绕1.5h）</div>
+      </div>
+      <div class="tl-item drive">
+        <div class="tl-time">07:00-08:00</div>
+        <div class="tl-content">额尔古纳→哈吉嘎查<span class="tl-tag tag-drive">40km柏油路/1h</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">08:00-08:30</div>
+        <div class="tl-content">哈吉嘎查拍照，小村子+草原</div>
+      </div>
+      <div class="tl-item drive">
+        <div class="tl-time">08:30-11:30</div>
+        <div class="tl-content">哈吉→良种站→浩特陶海牧场七队→特尼河湿地<span class="tl-tag tag-drive">80km乡道/3h</span><span class="tl-tag tag-free">免费</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">11:30-12:00</div>
+        <div class="tl-content">特尼河湿地观景台（过检查站登记，爬上山看全景）</div>
+      </div>
+      <div class="tl-item drive">
+        <div class="tl-time">12:00-13:30</div>
+        <div class="tl-content">特尼河→哈克崖山<span class="tl-tag tag-drive">60km/1.5h</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">13:30-15:00</div>
+        <div class="tl-content">爬哈克崖山（扎罗木得断崖），俯瞰海拉尔河谷<span class="tl-tag tag-free">免费</span><span class="tl-tag tag-photo">俯拍大片</span></div>
+      </div>
+      <div class="tl-item drive">
+        <div class="tl-time">15:00-17:00</div>
+        <div class="tl-content">哈克崖山→伊敏河镇<span class="tl-tag tag-drive">100km/2h</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">17:30</div>
+        <div class="tl-content">入住伊敏河镇（伊敏煤电宾馆/崇华商务宾馆，200-300/晚），晚饭</div>
+      </div>
+    </div>
+    <div class="tip"><strong>野路注意：</strong>全程95%无4G信号，但GPS定位有。提前在两步路建好轨迹，跟着走。草原上看车辙印，别走偏。212四驱无压力，但慢开。油箱见底就见站就加。</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- D4 -->
+<section>
+<div class="container">
+<div class="day-card">
+  <div class="day-header">
+    <div class="day-num">DAY 4 · 10月5日 周一</div>
+    <div class="day-title">S202黄叶公路 → 阿尔山免费景点</div>
+    <div class="day-route">伊敏河 → S202 → 阿尔山 → 乌苏浪子湖 → 不冻河日落</div>
+  </div>
+  <div class="day-body">
+    <div class="timeline">
+      <div class="tl-item drive">
+        <div class="tl-time">07:00-10:30</div>
+        <div class="tl-content">伊敏河→S202→阿尔山<span class="tl-tag tag-drive">330km/4.5h</span><span class="tl-tag tag-photo">沿途黄叶公路停拍</span></div>
+      </div>
+      <div class="tl-item free">
+        <div class="tl-time">10:30-11:10</div>
+        <div class="tl-content">阿尔山火车站打卡（全国最美小站）<span class="tl-tag tag-free">免费</span></div>
+      </div>
+      <div class="tl-item free">
+        <div class="tl-time">11:10-11:40</div>
+        <div class="tl-content">五里泉接泉水、拍照<span class="tl-tag tag-free">免费</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">11:40-12:40</div>
+        <div class="tl-content">阿尔山市区午饭</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">13:00-14:00</div>
+        <div class="tl-content">到伊尔施酒店办入住，午休</div>
+      </div>
+      <div class="tl-item free">
+        <div class="tl-time">14:30-16:00</div>
+        <div class="tl-content">到森林公园门口，说"去柴河方向"登记免费过境<span class="tl-tag tag-free">免费</span></div>
+      </div>
+      <div class="tl-item free">
+        <div class="tl-time">16:00-16:40</div>
+        <div class="tl-content">乌苏浪子湖拍照<span class="tl-tag tag-free">免费</span><span class="tl-tag tag-photo">湖面倒影</span></div>
+      </div>
+      <div class="tl-item free">
+        <div class="tl-time">17:00-18:00</div>
+        <div class="tl-content">不冻河等日落（10月初日落约17:30）<span class="tl-tag tag-free">免费</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">18:30</div>
+        <div class="tl-content">出园回伊尔施晚饭</div>
+      </div>
+    </div>
+    <div class="tip"><strong>免费过境：</strong>在金江沟门口跟工作人员说去柴河，签防火协议即可开车进去。可到乌苏浪子湖、不冻河、蓝房子、鹿鸣湖。不能进收费景点（驼峰岭天池等）。</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- D5 -->
+<section>
+<div class="container">
+<div class="day-card">
+  <div class="day-header">
+    <div class="day-num">DAY 5 · 10月6日 周二</div>
+    <div class="day-title">阿尔山森林公园自驾深度游</div>
+    <div class="day-route">不冻河晨雾 → 驼峰岭天池 → 杜鹃湖 → 三潭峡 → 石塘林 → 鹿鸣湖</div>
+  </div>
+  <div class="day-body">
+    <div class="timeline">
+      <div class="tl-item free">
+        <div class="tl-time">06:00-06:40</div>
+        <div class="tl-content">不冻河晨雾（日出约6:30）<span class="tl-tag tag-free">免费</span><span class="tl-tag tag-photo">晨雾大片</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">07:00-07:30</div>
+        <div class="tl-content">回酒店吃早饭，退房寄存行李</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">07:30</div>
+        <div class="tl-content">到金江沟门口，抢当天自驾名额（300元/车，每日限200台）<span class="tl-tag tag-drive">小程序"阿尔山柴河旅游景区"预约</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">08:00</div>
+        <div class="tl-content">买票进园（大门票180×2=360元），直接开到最远的驼峰岭<span class="tl-tag tag-drive">45km/40min</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">08:40-10:10</div>
+        <div class="tl-content">驼峰岭天池（516级台阶，脚丫形湖泊，1.5h）<span class="tl-tag tag-photo">TOP1景点</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">10:30-11:10</div>
+        <div class="tl-content">杜鹃湖（湖边平路，40min）</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">11:30-13:00</div>
+        <div class="tl-content">三潭峡（峡谷栈道往返，1.5h）</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">13:00-14:00</div>
+        <div class="tl-content">天池服务区午饭</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">14:00-15:00</div>
+        <div class="tl-content">石塘林（火山熔岩地貌，栈道环线1h）</div>
+      </div>
+      <div class="tl-item free">
+        <div class="tl-time">15:20-15:50</div>
+        <div class="tl-content">鹿鸣湖（顺路停一下，免费）<span class="tl-tag tag-free">免费</span></div>
+      </div>
+      <div class="tl-item drive">
+        <div class="tl-time">16:00-16:40</div>
+        <div class="tl-content">开车出园回伊尔施<span class="tl-tag tag-drive">50km</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">17:30</div>
+        <div class="tl-content">晚饭，住伊尔施</div>
+      </div>
+    </div>
+    <div class="tip"><strong>自驾入园：</strong>300元/车/天，每日限200台。7:30准时抢，抢到了开车自己在景点间转，不用等观光车。比坐观光车2人多花90元（300-210），但省2h排队时间。</div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- D6 -->
+<section>
+<div class="container">
+<div class="day-card">
+  <div class="day-header">
+    <div class="day-num">DAY 6 · 10月7日 周三</div>
+    <div class="day-title">返回海拉尔 → 飞上海</div>
+    <div class="day-route">伊尔施 → S202 → 海拉尔 → 20:00飞</div>
+  </div>
+  <div class="day-body">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">07:00</div>
+        <div class="tl-content">早饭，退房</div>
+      </div>
+      <div class="tl-item drive">
+        <div class="tl-time">08:00-11:30</div>
+        <div class="tl-content">伊尔施→S202→海拉尔<span class="tl-tag tag-drive">330km/4.5h</span><span class="tl-tag tag-photo">沿途黄叶公路停拍2-3次</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">12:00-13:00</div>
+        <div class="tl-content">海拉尔午饭</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">13:30-15:00</div>
+        <div class="tl-content">世界反法西斯纪念园（门票50元/人，1.5h）</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">15:30-17:00</div>
+        <div class="tl-content">买特产（牛肉干、奶食品，海拉尔市区）</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">17:30</div>
+        <div class="tl-content">到东山机场还车</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">20:00</div>
+        <div class="tl-content">海拉尔飞虹桥，23:40到</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- BUDGET -->
+<section>
+<div class="container">
+<h2>预算明细（2人）</h2>
+<table class="budget">
+  <tr><th>项目</th><th>明细</th><th>费用</th></tr>
+  <tr><td>往返机票</td><td>虹桥-海拉尔 已出票</td><td>9,230</td></tr>
+  <tr><td>租车</td><td>北汽212 T01 6天 携程券后</td><td>3,100</td></tr>
+  <tr><td>油费</td><td>1500km × 12L/100km × 7.5元/L</td><td>1,350</td></tr>
+  <tr><td>住宿5晚</td><td>海拉尔1+额尔古纳1+伊敏河1+伊尔施2</td><td>~4,000</td></tr>
+  <tr><td>餐饮</td><td>6天 × 2人</td><td>~2,000</td></tr>
+  <tr><td>阿尔山门票</td><td>大门票180×2 + 自驾车300</td><td>660</td></tr>
+  <tr><td>反法西斯纪念园</td><td>50×2</td><td>100</td></tr>
+  <tr><td>ATV+骑马</td><td>ATV约400 + 骑马约400</td><td>800</td></tr>
+  <tr><td>停车费+杂费</td><td></td><td>~500</td></tr>
+  <tr class="total"><td>合计</td><td>2人总预算</td><td>~21,740</td></tr>
+</table>
+</div>
+</section>
+
+<!-- TIPS -->
+<section>
+<div class="container">
+<h2>实用信息</h2>
+<div class="info-grid">
+  <div class="info-box">
+    <h4>信号与导航</h4>
+    <p>北线野路和S209蘑阿公路95%无4G。GPS定位有。提前下载高德/百度离线地图（呼伦贝尔+兴安盟）。两步路APP建好D3轨迹。</p>
+  </div>
+  <div class="info-box">
+    <h4>加油</h4>
+    <p>海拉尔满油出发。额尔古纳、伊尔施、阿尔山市区都有加油站。野路出发前一定加满，沿途无加油站。</p>
+  </div>
+  <div class="info-box">
+    <h4>阿尔山预约</h4>
+    <p>微信小程序"阿尔山柴河旅游景区"。免费过境环线和自驾入园都是每天7:30放当天名额。自驾300元/车/天限200台。</p>
+  </div>
+  <div class="info-box">
+    <h4>天气穿衣</h4>
+    <p>10月初0-15℃，阿尔山可能初雪。带羽绒服/冲锋衣+抓绒，秋裤，防滑鞋。林区17:30天黑。</p>
+  </div>
+  <div class="info-box">
+    <h4>无人机</h4>
+    <p>莫日格勒河、黑山头、哈克崖山、S202黄叶公路可飞。阿尔山森林公园内防火戒严期禁飞。</p>
+  </div>
+  <div class="info-box">
+    <h4>高速免费</h4>
+    <p>国庆高速免费（10/1 00:00-10/7 24:00）。走省道不收费。</p>
+  </div>
+</div>
+</div>
+</section>
+
+</body>
+</html>
