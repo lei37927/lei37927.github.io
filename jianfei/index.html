@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>减脂计划 · 51天日历执行版（2026.10.08–11.28）</title>
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="%23101B2E"/><path d="M16 6v15M10 14l6 6 6-6" stroke="%23E8542E" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'>
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
+<style>
+  :root{
+    --ink:#101B2E; --ink-2:#1D2B45; --ink-3:#24395C;
+    --paper:#F7F8FB; --card:#FFFFFF;
+    --line:#E6EAF2; --line-2:#D5DBE8;
+    --text:#1B2437; --muted:#5D6B85; --faint:#98A3B8;
+    --accent:#E8542E; --accent-soft:#FDF0EC; --accent-2:#F08A4B;
+    --green:#1B8A6B; --amber:#C77E1F; --red:#C33A2E; --blue:#2E5FA3; --violet:#7B61C4;
+    --shadow-card:0 1px 2px rgba(16,27,46,.04), 0 8px 20px -8px rgba(16,27,46,.08);
+    --shadow-pop:0 2px 6px rgba(16,27,46,.08), 0 16px 32px -12px rgba(16,27,46,.18);
+    --r:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--text);font-family:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+  ::selection{background:rgba(232,84,46,.16);}
+  ::-webkit-scrollbar{width:8px;height:8px;}
+  ::-webkit-scrollbar-thumb{background:#C9D2E0;border-radius:999px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 18px;}
+  /* ===== Hero ===== */
+  .hero{position:relative;background:linear-gradient(140deg,#0E1830 0%,#16233C 52%,#20345A 100%);color:#fff;padding:46px 0 40px;overflow:hidden;}
+  .hero::before{content:'';position:absolute;right:-140px;top:-160px;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(232,84,46,.22),rgba(232,84,46,0) 62%);pointer-events:none;}
+  .hero::after{content:'';position:absolute;left:-120px;bottom:-220px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(43,84,150,.28),rgba(43,84,150,0) 60%);pointer-events:none;}
+  .hero .wrap{position:relative;z-index:1;}
+  .kicker{display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;letter-spacing:.16em;color:#9FB0C9;}
+  .kicker::before{content:'';width:26px;height:1px;background:var(--accent);}
+  .hero h1{font-size:34px;font-weight:900;line-height:1.22;margin:10px 0 12px;letter-spacing:.01em;}
+  .hero .sub{font-size:14px;color:#C7D2E4;line-height:1.85;max-width:640px;}
+  .hero .sub b{color:#fff;font-weight:700;}
+  .hero-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:16px;}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:12.5px;font-weight:700;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);color:#E7ECF5;backdrop-filter:blur(4px);}
+  .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-2);}
+  .pill.hl{border-color:rgba(232,84,46,.5);background:rgba(232,84,46,.14);color:#FFD9C9;}
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:26px;}
+  .stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:14px 16px;backdrop-filter:blur(6px);}
+  .stat .num{font-size:24px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.01em;}
+  .stat .num em{font-style:normal;color:#FFB39A;font-size:13px;font-weight:700;margin-left:2px;}
+  .stat .lbl{font-size:12px;color:#9FB0C9;margin-top:2px;font-weight:500;}
+  /* ===== Tabs ===== */
+  .tabs{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);}
+  .tabs .wrap{display:flex;gap:6px;overflow-x:auto;padding:10px 18px;white-space:nowrap;scrollbar-width:none;}
+  .tabs .wrap::-webkit-scrollbar{display:none;}
+  .tabs a{display:inline-flex;align-items:center;justify-content:center;min-height:40px;font-size:13.5px;font-weight:700;color:var(--muted);text-decoration:none;padding:0 16px;border-radius:999px;transition:all .18s ease;}
+  .tabs a:hover{color:var(--ink);background:#F1F4FA;}
+  .tabs a.on{color:#fff;background:var(--ink);box-shadow:0 2px 8px rgba(16,27,46,.22);}
+  .view{display:none;}
+  .view.active{display:block;}
+  /* ===== Sections ===== */
+  section{padding:38px 0 6px;}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px;}
+  .sec-num{color:var(--accent);font-weight:900;font-size:13px;letter-spacing:.06em;}
+  h2{font-size:22px;font-weight:900;color:var(--ink);letter-spacing:.01em;}
+  .lead{color:var(--muted);font-size:13.5px;margin:2px 0 16px;line-height:1.8;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow-card);}
+  .card h3{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:9px;display:flex;align-items:center;gap:9px;}
+  .dotmark{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;flex:none;box-shadow:0 0 0 3px rgba(232,84,46,.14);}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px;}
+  .cards .card{margin-bottom:0;transition:transform .18s ease, box-shadow .18s ease;}
+  .cards .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-pop);}
+  .cards .card p{font-size:13.5px;color:#48536A;line-height:1.75;}
+  ul.plain{list-style:none;}
+  ul.plain li{padding-left:20px;position:relative;font-size:13.5px;color:#333D4D;line-height:1.8;}
+  ul.plain li::before{content:'';position:absolute;left:3px;top:10px;width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  ul.plain li b{color:var(--ink);}
+  ul.plain li.no{color:var(--red);}
+  ul.plain li.no::before{background:var(--red);}
+  table.tbl{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13.5px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow-card);}
+  table.tbl th{background:#F2F4FA;color:var(--ink-2);font-weight:800;text-align:left;padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--line);letter-spacing:.02em;}
+  table.tbl td{padding:11px 14px;border-bottom:1px solid #EEF1F6;color:#333D4D;vertical-align:top;line-height:1.65;}
+  table.tbl tr:last-child td{border-bottom:none;}
+  table.tbl tr{transition:background .15s;}
+  table.tbl tbody tr:hover{background:#FAFBFF;}
+  table.tbl .num{font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink);}
+  .callout{border-left:3px solid var(--accent);background:var(--card);border-radius:0 12px 12px 0;padding:13px 17px;font-size:13.5px;line-height:1.8;margin-bottom:14px;box-shadow:var(--shadow-card);}
+  .callout.warn{border-color:var(--red);background:#FDF3F1;}
+  .callout.green{border-color:var(--green);}
+  .callout.violet{border-color:var(--violet);background:#F7F4FE;}
+  .callout .ttl{font-weight:800;color:var(--ink);display:block;margin-bottom:3px;}
+  /* ===== Buttons ===== */
+  .btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 16px;border-radius:10px;border:1px solid var(--line-2);background:var(--card);color:var(--ink);font-size:13.5px;font-weight:700;cursor:pointer;transition:all .16s ease;}
+  .btn:hover{border-color:var(--ink-3);color:var(--ink);transform:translateY(-1px);box-shadow:0 4px 10px -4px rgba(16,27,46,.16);}
+  .btn:active{transform:translateY(0);}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 3px 10px -2px rgba(232,84,46,.4);}
+  .btn.primary:hover{background:#D64A26;border-color:#D64A26;box-shadow:0 6px 14px -4px rgba(232,84,46,.45);}
+  .btn.sm{min-height:34px;padding:0 12px;font-size:12.5px;border-radius:9px;}
+  .btn:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  .bar{height:8px;border-radius:999px;background:#EDF1F7;overflow:hidden;}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:999px;transition:width .3s ease;}
+  footer{margin-top:44px;padding:24px 0 48px;border-top:1px solid var(--line);}
+  footer p{font-size:12.5px;color:var(--muted);line-height:1.85;max-width:760px;}
+  /* ===== 采购 ===== */
+  .cat{margin-bottom:16px;}
+  .cat-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .cat-head h3{font-size:15px;font-weight:800;color:var(--ink);}
+  .cat-head .cnt{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
+  .shop-progress{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-bottom:18px;box-shadow:var(--shadow-card);}
+  .shop-progress .bar{flex:1;}
+  .shop-progress .num{font-size:22px;font-weight:900;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .shop-progress .lbl{font-size:12px;color:var(--muted);white-space:nowrap;}
+  .check-item,.ck-item{display:flex;align-items:flex-start;gap:11px;padding:12px 10px;border-bottom:1px solid #EEF1F6;cursor:pointer;font-size:13.5px;color:#333D4D;border-radius:8px;transition:background .15s ease;}
+  .check-item:last-child,.ck-item:last-child{border-bottom:none;}
+  .check-item:hover,.ck-item:hover{background:#FAFBFF;}
+  .check-item input,.ck-item input{appearance:none;-webkit-appearance:none;width:20px;height:20px;border:1.5px solid #C9D2E0;border-radius:6px;background:#fff;cursor:pointer;flex:none;margin-top:2px;transition:all .15s ease;background-position:center;background-repeat:no-repeat;background-size:13px;}
+  .check-item input:checked,.ck-item input:checked{background-color:var(--accent);border-color:var(--accent);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 12.5l5 5 10-11'/%3E%3C/svg%3E");}
+  .check-item .nm,.ck-item .nm{font-weight:700;color:var(--ink);transition:color .15s ease;}
+  .check-item .qt{color:var(--muted);font-size:12.5px;margin-left:5px;}
+  .check-item .nt,.ck-item .nt{display:block;font-size:12px;color:var(--muted);line-height:1.55;}
+  .check-item.done .nm,.ck-item.done .nm{color:#9AA4B4;text-decoration:line-through;}
+  .check-item.done .nt,.ck-item.done .nt{color:#B9C2D2;}
+  /* ===== 日历 ===== */
+  .cal-nav{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+  .cal-month{margin-bottom:20px;}
+  .cal-month .mh{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:900;color:var(--ink);margin-bottom:10px;}
+  .cal-month .mh::before{content:'';width:5px;height:18px;border-radius:3px;background:var(--accent);}
+  .cal-legend{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--muted);margin-bottom:16px;}
+  .cal-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .cal-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  .cal-week{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;font-size:12px;color:var(--faint);text-align:center;font-weight:700;margin-bottom:7px;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;}
+  .cal-day{min-height:60px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:7px 8px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:3px;transition:all .15s ease;box-shadow:0 1px 1px rgba(16,27,46,.02);}
+  .cal-day:hover{border-color:#B9C6DA;transform:translateY(-1px);box-shadow:0 6px 14px -8px rgba(16,27,46,.18);}
+  .cal-day.off{background:#F3F5F9;color:#B6BFCE;cursor:default;border-color:#EEF1F6;box-shadow:none;}
+  .cal-day.off:hover{transform:none;box-shadow:none;}
+  .cal-day.today{border-color:var(--accent);box-shadow:0 0 0 1.5px var(--accent),0 6px 14px -8px rgba(232,84,46,.35);}
+  .cal-day.sel{background:var(--accent-soft);border-color:var(--accent);}
+  .cal-day .d{font-size:14px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.2;}
+  .cal-day.off .d{color:#B6BFCE;}
+  .cal-day .tag{font-size:10.5px;line-height:1.3;padding:2px 6px;border-radius:5px;color:#fff;width:fit-content;font-weight:800;letter-spacing:.02em;}
+  .tag.s{background:var(--accent);} .tag.c{background:var(--blue);} .tag.r{background:var(--green);}
+  .tag.m{background:var(--amber);} .tag.p{background:var(--red);} .tag.f{background:var(--violet);}
+  .detail-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;margin-bottom:14px;box-shadow:var(--shadow-card);}
+  .detail-card h3{font-size:17px;font-weight:900;color:var(--ink);display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;line-height:1.5;}
+  .detail-card h3 .ph{font-size:12.5px;font-weight:700;color:var(--muted);background:#F2F4FA;border:1px solid var(--line);padding:3px 10px;border-radius:999px;}
+  .detail-card h3 .tg{font-size:12px;padding:3px 10px;border-radius:999px;color:#fff;font-weight:800;}
+  .d-sec{display:flex;align-items:center;gap:10px;margin:14px 0 7px;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.1em;}
+  .d-sec::after{content:'';flex:1;height:1px;background:var(--line);}
+  .d-sec:first-of-type{margin-top:0;}
+  .detail-card ul{list-style:none;}
+  .detail-card ul li{padding-left:18px;position:relative;font-size:13.5px;color:#333D4D;line-height:1.75;}
+  .detail-card ul li::before{content:'';position:absolute;left:2px;top:10px;width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  .detail-card ul li b{color:var(--ink);}
+  /* ===== 打卡 ===== */
+  .ck-panel{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+  .ck-panel .card{margin-bottom:0;}
+  .ck-date{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:16px;}
+  .ck-date input[type=date],.form-row input{min-height:40px;padding:0 12px;border:1px solid var(--line-2);border-radius:10px;font-size:14px;color:var(--ink);background:#fff;font-family:inherit;}
+  .ck-date input[type=date]:focus,.form-row input:focus{border-color:var(--accent);}
+  .hist-day{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);margin-bottom:7px;font-variant-numeric:tabular-nums;}
+  .hist-day .bar{flex:1;}
+  .hist-day .bar i{background:var(--green);}
+  .form-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:10px;}
+  .form-row label{font-size:12px;color:var(--muted);font-weight:700;}
+  .form-row input{width:130px;}
+  .chart-box{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 8px;margin-bottom:14px;box-shadow:var(--shadow-card);}
+  .chart-box .cap{font-size:13px;color:var(--muted);margin-bottom:4px;}
+  .chart-box .cap b{color:var(--ink);}
+  #wchart{width:100%;height:280px;}
+  .legend{display:flex;gap:14px;font-size:12px;color:var(--muted);margin-bottom:4px;flex-wrap:wrap;}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .legend i{width:16px;height:3px;border-radius:2px;display:inline-block;}
+  .rec-row{display:flex;gap:10px;align-items:center;padding:9px 6px;border-bottom:1px dashed #E9EDF4;font-size:13px;}
+  .rec-row:last-child{border-bottom:none;}
+  .rec-row .dt{min-width:84px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;}
+  @media (max-width:640px){
+    .hero{padding:36px 0 32px;}
+    .hero h1{font-size:26px;}
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .cards{grid-template-columns:1fr;}
+    h2{font-size:20px;}
+    .ck-panel{grid-template-columns:1fr;}
+    .cal-day{min-height:54px;padding:5px 6px;}
+    .cal-day .tag{font-size:9.5px;padding:1px 4px;}
+    .cal-grid,.cal-week{gap:5px;}
+    .form-row input{width:112px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{transition:none !important;animation:none !important;}
+  }
+  @media print{
+    body{background:#fff;}
+    .tabs{display:none;}
+    .hero{background:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .card,.detail-card,.chart-box,.tbl{box-shadow:none;}
+    section{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">婚纱照冲刺 · 2026.10.08 — 11.28 · 51 天</div>
+    <h1>减脂计划<br>日历执行版</h1>
+    <p class="sub">目标 <b>100 → 85 kg</b>（减 30 斤），腰围 105 → 约 93 cm。<b>11/07 试衣 90.5 kg</b> · <b>11/28 拍摄 85 kg</b>。前 3 天（10/08–10/10）清水断食清肠，之后按日历执行。</p>
+    <div class="hero-meta">
+      <span class="pill hl" id="hero-day"><span class="dot"></span>今天：第 1 天 · 还剩 51 天</span>
+      <span class="pill">高蛋白 · 中碳水 · 16:8</span>
+      <span class="pill">居家哑铃 + 骑行/快走</span>
+    </div>
+    <div class="stat-grid">
+      <div class="stat"><div class="num">51<em>天</em></div><div class="lbl">10.08 → 11.28</div></div>
+      <div class="stat"><div class="num">-15<em>kg</em></div><div class="lbl">100 → 85 kg</div></div>
+      <div class="stat"><div class="num">105<em>cm</em></div><div class="lbl">腰围起点 → 约 93</div></div>
+      <div class="stat"><div class="num">2.06<em>kg/周</em></div><div class="lbl">全程平均减重速率</div></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="wrap">
+    <a href="#principle">原理</a>
+    <a href="#shopping">采购清单</a>
+    <a href="#calendar">每日计划</a>
+    <a href="#checklist">打卡</a>
+  </div>
+</nav>
+
+<!-- ============ 视图：原理 ============ -->
+<div id="view-principle" class="view">
+  <div class="wrap">
+    <section>
+      <div class="sec-head"><span class="sec-num">01</span><h2>核心原理</h2></div>
+      <div class="cards">
+        <div class="card"><h3><span class="dotmark"></span>高蛋白优先</h3><p>每天 200 g 蛋白质（吃不够用乳清蛋白补），保肌肉、保头发、防脱相的第一要素。</p></div>
+        <div class="card"><h3><span class="dotmark"></span>非断碳</h3><p>高蛋白 + 中碳水路线。断碳生酮、苹果酸奶节食会掉肌肉、毁气色、伤代谢，不做。</p></div>
+        <div class="card"><h3><span class="dotmark"></span>16:8 辅助</h3><p>进食窗口 12:00–20:00，接你现有不吃早饭的习惯，作为控食工具而非靠饿制造缺口。</p></div>
+        <div class="card"><h3><span class="dotmark"></span>力量 + 有氧</h3><p>力量训练保肌肉，有氧/步行拉热量缺口，双线并进，每天 1–1.5 小时。</p></div>
+        <div class="card"><h3><span class="dotmark"></span>数据驱动</h3><p>每周日同条件称重 + 围度 + 体脂秤 + 照片，按周微调热量与运动量。</p></div>
+        <div class="card"><h3><span class="dotmark"></span>红线优先</h3><p>轻度高血压（140 出头）：肌酸 3g/日、不憋气、每周测血压；出现红线症状立即停止。</p></div>
+      </div>
+      <div class="callout warn">
+        <span class="ttl">为什么不用断碳 / 苹果法</span>
+        断碳生酮初期掉水快，但肌肉分解风险高、训练无力、气色差；苹果酸奶节食蛋白质≈0，掉的几乎都是肌肉和水，代谢一崩就反弹。你要的是「掉脂肪、保肌肉、有气色」，只有高蛋白 + 中等缺口 + 力量训练能做到。
+      </div>
+      <div class="callout violet">
+        <span class="ttl">前 3 天：清水断食（10/08–10/10）</span>
+        按你的安排，头 3 天只喝水清肠：全天 3L 温水、可加淡盐水或电解质；只散步不训练；头晕乏力立即停止断食、恢复正常饮食并补充电解质。掉秤多为水分，属正常。10/11 起恢复三餐。
+      </div>
+    </section>
+    <section>
+      <div class="sec-head"><span class="sec-num">02</span><h2>热量与营养素（分阶段）</h2></div>
+      <table class="tbl">
+        <colgroup><col style="width:24%"><col style="width:19%"><col style="width:19%"><col style="width:19%"><col style="width:19%"></colgroup>
+        <thead><tr><th>阶段</th><th>总热量</th><th>蛋白质</th><th>脂肪</th><th>碳水</th></tr></thead>
+        <tbody>
+          <tr><td>清水断食 10.08–10.10</td><td class="num">0 kcal（只喝水）</td><td>—（暂停补剂）</td><td>—</td><td class="num">0 g</td></tr>
+          <tr><td>启动期 10.11–10.21</td><td class="num">~1700 kcal</td><td>200g ≈ 800 kcal</td><td>55g ≈ 495 kcal</td><td class="num">100g ≈ 400 kcal</td></tr>
+          <tr><td>稳定减脂期 10.22–11.07</td><td class="num">~1650 kcal</td><td>200g ≈ 800 kcal</td><td>55g ≈ 495 kcal</td><td class="num">90g ≈ 355 kcal</td></tr>
+          <tr><td>冲刺期 11.08–11.21</td><td class="num">~1600 kcal</td><td>200g ≈ 800 kcal</td><td>50g ≈ 450 kcal</td><td class="num">75g ≈ 300 kcal</td></tr>
+          <tr><td>上台冲刺 11.22–11.28</td><td class="num">~1600 kcal</td><td>200g ≈ 800 kcal</td><td>50g ≈ 450 kcal</td><td class="num">60g ≈ 240 kcal</td></tr>
+          <tr><td>回血日（10/18、11/01、11/15）</td><td class="num">~2300 kcal</td><td>200g ≈ 800 kcal</td><td>50g ≈ 450 kcal</td><td class="num hl">250g ≈ 1000 kcal</td></tr>
+        </tbody>
+      </table>
+      <div class="card">
+        <h3><span class="dotmark"></span>缺口从哪来</h3>
+        <ul class="plain">
+          <li>饮食：每天约 <b>1600–1700 kcal</b>，比你日常消耗少 1200–1400 kcal</li>
+          <li>运动：力量 + 有氧每天再烧 <b>700–900 kcal</b></li>
+          <li>合计每天缺口约 <b>2000–2300 kcal</b>，对应每周掉 2 kg 左右；断食期与前期含水分糖原，掉得更多</li>
+          <li>体重掉得越慢，身体越抵抗——每周日必须按数据微调（见打卡页规则）</li>
+        </ul>
+      </div>
+    </section>
+    <section>
+      <div class="sec-head"><span class="sec-num">03</span><h2>血压与红线</h2></div>
+      <div class="card">
+        <ul class="plain">
+          <li>每周测 2–3 次血压（静坐 5 分钟后）；训练前静息 ≥150/95 当天只做低强度有氧</li>
+          <li>力量动作全程不憋气，组间休息 60–90 秒</li>
+          <li>肌酸按 3g/日（非常规 5g），初期秤上多 0.5–1kg 肌内水属正常</li>
+          <li class="no"><b>红线：</b>心悸/胸闷、晕眩晕厥、血压进行性升高（≥150/95）、右上腹剧痛、皮肤巩膜发黄、无法完成日常活动 → 立即停止并就医</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- ============ 视图：采购清单 ============ -->
+<div id="view-shopping" class="view">
+  <div class="wrap">
+    <section>
+      <div class="sec-head"><span class="sec-num">01</span><h2>采购清单</h2></div>
+      <p class="lead">按类采购，勾掉即已完成，进度自动保存。蛋白质 / 蔬菜 / 主食按每周采购，补剂与护肤一次买够 51 天。</p>
+      <div class="shop-progress">
+        <div>
+          <div class="num" id="shop-num">0 / 0</div>
+          <div class="lbl">采购进度</div>
+        </div>
+        <div class="bar"><i id="shop-bar"></i></div>
+        <button class="btn sm" id="shop-reset">清空勾选</button>
+      </div>
+      <div id="shop-list"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ============ 视图：日历计划 ============ -->
+<div id="view-calendar" class="view">
+  <div class="wrap">
+    <section>
+      <div class="sec-head"><span class="sec-num">01</span><h2>每日计划</h2></div>
+      <div class="cal-legend">
+        <span><i style="background:var(--accent);"></i>力量</span>
+        <span><i style="background:var(--blue);"></i>有氧</span>
+        <span><i style="background:var(--green);"></i>休息 / 回血日</span>
+        <span><i style="background:var(--violet);"></i>清水断食</span>
+        <span><i style="background:var(--amber);"></i>试衣</span>
+        <span><i style="background:var(--red);"></i>拍摄日</span>
+      </div>
+      <div class="cal-nav">
+        <button class="btn sm" id="cal-prev">前一天</button>
+        <button class="btn sm" id="cal-today">回到今天</button>
+        <button class="btn sm" id="cal-next">后一天</button>
+      </div>
+      <div id="cal-grids"></div>
+      <div id="day-detail"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ============ 视图：打卡 ============ -->
+<div id="view-checklist" class="view">
+  <div class="wrap">
+    <section>
+      <div class="sec-head"><span class="sec-num">01</span><h2>每日打卡</h2></div>
+      <p class="lead">选日期勾选当天完成项，进度自动保存到本机。断食日与周日会显示对应的专属清单。</p>
+      <div class="ck-date">
+        <input type="date" id="ck-date">
+        <button class="btn sm" id="ck-today">今天</button>
+        <button class="btn sm" id="ck-prev">昨天</button>
+        <button class="btn sm" id="ck-reset">重置当天</button>
+      </div>
+      <div class="ck-panel">
+        <div class="card">
+          <h3><span class="dotmark"></span><span id="ck-title">今天</span> · 清单</h3>
+          <div id="ck-items"></div>
+          <div class="bar" style="margin-top:14px;"><i id="ck-bar"></i></div>
+          <p style="font-size:12.5px;color:var(--muted);margin-top:8px;" id="ck-pct"></p>
+        </div>
+        <div class="card">
+          <h3><span class="dotmark"></span>最近 7 天完成度</h3>
+          <div id="ck-history"></div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="sec-head"><span class="sec-num">02</span><h2>体重与腰围记录</h2></div>
+      <p class="lead">每周日空腹称重后填进来，曲线自动和计划目标对比。</p>
+      <div class="form-row">
+        <div><label>日期</label><br><input type="date" id="bd-date"></div>
+        <div><label>体重 kg</label><br><input type="number" id="bd-weight" step="0.1" min="60" max="120" placeholder="如 97.5"></div>
+        <div><label>腰围 cm</label><br><input type="number" id="bd-waist" step="0.5" min="60" max="130" placeholder="如 103"></div>
+        <button class="btn primary" id="bd-save">保存记录</button>
+      </div>
+      <div class="chart-box">
+        <div class="cap"><b>体重 vs 目标</b>（虚线 = 计划目标，绿色 = 你的实测）</div>
+        <div class="legend"><span><i style="background:var(--accent);"></i>计划目标</span><span><i style="background:var(--green);"></i>实测体重</span></div>
+        <div id="wchart"></div>
+      </div>
+      <div class="card" style="padding:8px 14px;" id="bd-list"></div>
+      <div class="card">
+        <h3><span class="dotmark"></span>调整规则（每周日对照）</h3>
+        <ul class="plain">
+          <li><b>掉慢了</b>（周掉 &lt;1 kg）：下周少吃 200 kcal，或多走 20 分钟</li>
+          <li><b>掉太快</b>（已过前两周，周掉 &gt;2.5 kg）：加 200 kcal 回来</li>
+          <li><b>体重没动、腰围在缩：</b>正常，继续做</li>
+        </ul>
+      </div>
+      <div class="callout red">
+        <span class="ttl">红线（碰到就停）</span>
+        血压 ≥150/95 当天不练；头晕、心悸、晕厥感、右上腹剧痛、皮肤发黄 → 停止并就医；力量动作全程不憋气。断食期出现明显不适同样立即停止断食。
+      </div>
+    </section>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>数据基于你提供的 Keep 体脂秤读数与腰围（105 cm）；目标为估算值，以每周日实测为准并按打卡页规则调整。执行前建议体检（血压、肝肾功能）；出现红线症状立即停止就医。勾选与记录保存在你的浏览器本地。</p>
+  </div>
+</footer>
+
+<script>
+/* ===== 工具 ===== */
+function $(id){ return document.getElementById(id); }
+function fmt(d){ var m=('0'+(d.getMonth()+1)).slice(-2), dd=('0'+d.getDate()).slice(-2); return d.getFullYear()+'-'+m+'-'+dd; }
+function parse(s){ var p=s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+function addDays(s, n){ var d=parse(s); d.setDate(d.getDate()+n); return fmt(d); }
+function store(k, v){
+  try{ if(v===undefined){ var x=localStorage.getItem(k); return x?JSON.parse(x):null; } localStorage.setItem(k, JSON.stringify(v)); }catch(e){}
+}
+var WD=['日','一','二','三','四','五','六'];
+
+/* ===== 计划数据 ===== */
+var PHASES=[
+  {name:'清水断食期', start:'2026-10-08', end:'2026-10-10', cal:'0 kcal（只喝水）', carb:'碳水 0g', note:'清肠：只喝水 3L，可加淡盐/电解质；只散步'},
+  {name:'启动期', start:'2026-10-11', end:'2026-10-21', cal:'~1700 kcal', carb:'碳水 100g', note:'建立习惯期；断食期与前期掉水最快，秤上数字别当真'},
+  {name:'稳定减脂期', start:'2026-10-22', end:'2026-11-07', cal:'~1650 kcal', carb:'碳水 90g', note:'全量执行；11/07 试衣'},
+  {name:'冲刺期', start:'2026-11-08', end:'2026-11-21', cal:'~1600 kcal', carb:'碳水 75g', note:'碳水最低、有氧加量、加电解质'},
+  {name:'上台冲刺', start:'2026-11-22', end:'2026-11-28', cal:'~1600 kcal', carb:'碳水 60g', note:'控钠 2–3g、11/23 停肌酸、力量减载'}
+];
+var FAST=['2026-10-08','2026-10-09','2026-10-10'];
+var REFEED=['2026-10-18','2026-11-01','2026-11-15'];
+var MILESTONE={'2026-11-07':'试衣','2026-11-28':'拍摄日'};
+
+var STR_A=['热身 5 分钟（原地踏步 + 关节活动）','高脚杯深蹲 4×10–12','哑铃罗马尼亚硬拉 4×10–12','哑铃地板卧推 4×10–12','单臂哑铃划船 4×10–12/侧','哑铃推举 3×10–12','平板支撑 3×30–45 秒','拉伸 5 分钟'];
+var STR_B=['热身 5 分钟','高脚杯深蹲 4×10–12','哑铃罗马尼亚硬拉 4×10–12','臀桥 或 箭步蹲 3×10–12/侧','站姿提踵 3×15','死虫式/侧平板 3×30–45 秒','拉伸 5 分钟'];
+var STR_C=['健身环冒险 30–40 分钟（低冲击模式）','平板支撑 3×30–45 秒','臀桥 3×12','全身拉伸 5 分钟'];
+
+function dayPlan(s){
+  var d=parse(s), wd=d.getDay();
+  var phase=PHASES[0];
+  for(var i=0;i<PHASES.length;i++){ if(s>=PHASES[i].start && s<=PHASES[i].end){ phase=PHASES[i]; break; } }
+  var refeed=REFEED.indexOf(s)>=0;
+  var ms=MILESTONE[s];
+  var fast=FAST.indexOf(s);
+  var type, typeName, tagCls;
+  if(fast>=0){ type='f'; typeName='清水断食'; tagCls='f'; }
+  else if(ms){ type='m'; typeName=ms; tagCls=(ms==='拍摄日')?'p':'m'; }
+  else if(refeed){ type='r'; typeName='回血日'; tagCls='r'; }
+  else if(wd===0){ type='r'; typeName='休息日'; tagCls='r'; }
+  else if(wd%2===1){ type='s'; typeName='力量'; tagCls='s'; }
+  else { type='c'; typeName='有氧'; tagCls='c'; }
+  if(s==='2026-11-27'){ typeName='休息（补碳水）'; }
+  if(phase.name==='上台冲刺' && s<='2026-11-27'){
+    if(type==='s' && s!=='2026-11-27'){ typeName='力量（减载）'; }
+    if(type==='c'){ typeName='有氧（低强度）'; }
+  }
+  /* 训练 */
+  var train=[];
+  if(fast>=0){ train=['只散步 30 分钟 + 拉伸；不练力量、不骑车、不出大汗']; }
+  else if(s==='2026-11-28'){ train=['拍摄日，不训练']; }
+  else if(ms==='试衣'){ train=['试衣日：有氧 40 分钟低强度 + 记得去试衣']; }
+  else if(phase.name==='上台冲刺'){
+    if(s==='2026-11-27'){ train=['休息日：散步 30 分钟 + 拉伸；今晚吃足碳水']; }
+    else if(wd===1||wd===3||wd===5){ train=['减载力量：哑铃 3×10 轻重量（深蹲/硬拉/推举各 3 组）+ 拉伸 5 分钟']; }
+    else if(wd===2||wd===4){ train=['有氧 40 分钟（骑车或快走，低强度）']; }
+    else if(wd===6){ train=['散步 30 分钟 + 拉伸（为明天拍摄蓄力）']; }
+    else { train=['散步 30–40 分钟 + 拉伸 + 称重/腰围记录']; }
+  }
+  else if(refeed){ train=['回血日：只散步 30–40 分钟 + 拉伸，不练力量不做高强度有氧']; }
+  else if(wd===0){ train=['散步 30–40 分钟 + 全身拉伸 + 晨起称重/腰围/照片/血压记录']; }
+  else if(type==='s'){
+    train=(wd===1?STR_A:(wd===3?STR_B:STR_C)).slice();
+    train.push('要点：重量选「最后两下吃力」；不憋气；组间休息 60–90 秒');
+  } else {
+    train=['骑车或快走 50–60 分钟，强度「能说话但微喘」'+(wd===6?'（周六可加长到 60–90 分钟）':'')];
+    train.push('要点：不跑不跳，心率平稳，训练后拉伸 5 分钟');
+  }
+  /* 三餐 */
+  var meals=[];
+  if(fast>=0){ meals=['全天只喝水，不吃任何食物（3L 温水，少量多次）','头晕 / 乏力 / 心慌 → 立即喝淡盐水或电解质并恢复正常饮食','10/11 起恢复三餐（按启动期餐单）']; }
+  else if(s==='2026-11-28'){ meals=['早餐 08:00：1 个鸡蛋 + 牛奶/蛋白粉 + 半拳燕麦（别空腹上镜）','午餐 12:00：一掌肉 + 一盘菜 + 一拳米饭（正常吃）','拍摄中：少量补水，不吃撑','晚餐：拍摄结束后正常吃，蛋白质 + 蔬菜 + 半拳主食']; }
+  else if(ms==='试衣'){ meals=['12:00 一掌肉 + 一盘菜 + 一拳米饭','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜 + 半拳主食（试衣早点结束、正常吃）']; }
+  else if(refeed){ meals=['12:00 一掌肉 + 一大盘菜 + 一拳半米饭 + 一碗燕麦','15:30 蛋白粉 1 勺 + 1 个水果','19:30 一掌肉 + 一盘菜 + 一拳米饭或 1 根红薯','回血日允许 2300 kcal，别吃超太多']; }
+  else if(phase.name==='冲刺期'){ meals=['12:00 一掌半肉 + 一大盘菜 + 半拳米饭','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜（无主食）']; }
+  else if(phase.name==='上台冲刺'){ meals=['12:00 一掌肉 + 一盘菜 + 半拳米饭','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜（无主食；盐 2–3g，别吃咸）']; }
+  else { meals=['12:00 一掌肉 + 一大盘菜 + 一拳米饭','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜 + 半拳主食']; }
+  /* 饮水 */
+  var water;
+  if(fast>=0){ water=['全天 3L 温水（少量多次）','可加 1–2 杯淡盐水或电解质','黑咖啡 / 茶可不喝或少量']; }
+  else { water=['晨起 500ml 温水','上午 1000ml','训练中 500ml','晚上 1000ml','全天合计 3L']; }
+  /* 补剂 */
+  var supps=[];
+  if(fast>=0){ supps=['复合维生素 + 维D（随第一杯温水）','电解质冲剂（淡，分 2–3 次喝）','肌酸 / 蛋白粉 / 锌 / 镁：断食期暂停，10/11 恢复']; }
+  else {
+    supps=['复合维生素 + 维D（随早餐）','蛋白粉 1 勺（15:30 或训练后）'];
+    if(s>='2026-11-23'){ supps.push('肌酸：已停（11/23 起，为拍摄日上秤更轻）'); }
+    else { supps.push('肌酸 3g（随餐或训练后）'); }
+    supps.push('鱼油 2–3g + 锌（晚餐后）','镁（睡前）');
+    if(phase.name==='冲刺期'||phase.name==='上台冲刺'){ supps.push('电解质（训练前后各一杯）'); }
+    if(type==='s'){ supps.push('（可选）训练前黑咖啡 1 杯'); }
+  }
+  /* 护肤 */
+  var skin=['早：洁面 → 烟酰胺 → 保湿 → 防晒 SPF30+（脸颈手）','晚：洁面 → 烟酰胺 → 保湿（周二/五晚可换 A 醇，11/21 起停）'];
+  if(s>='2026-11-21'){ skin.push('拍前保护：不试新护肤品、控盐、唇膏 + 颈胸手保湿'); }
+  /* 步数 */
+  var steps=(fast>=0)?'6000 步（轻活动）':((wd===0||s==='2026-11-28')?'6000 步（休息日）':'8000 步');
+  /* 备注 */
+  var notes=[];
+  if(fast>=0){
+    notes.push('清水断食第 '+(fast+1)+' 天：清肠期，只喝水；掉秤多为水分，正常');
+    notes.push('血压照常监测；明显波动或头晕心悸立即停止断食');
+    notes.push('10/11 起恢复三餐并按启动期执行');
+  }
+  if(ms){ notes.push(ms==='试衣'?'今天试衣：约 90.5 kg；服装按试衣尺寸定，拍摄时会松一个多码，提前和影楼确认可调整/备小码；贴身款挑略紧一档。':'今天拍摄：按「拍摄日」流程走，早上吃早餐、别空腹，保湿防晒交给化妆师；不纠结秤上数字。'); }
+  if(refeed){ notes.push('回血日：高碳水帮助代谢恢复，放心吃，明天体重会反弹 0.5–1kg 水分，正常。'); }
+  if(wd===0 && !refeed && !ms && fast<0){ notes.push('周日测量：空腹称重 + 量腰围 + 正侧面照 + 血压，对照打卡页目标和曲线，按调整规则微调下周。'); }
+  notes.push('阶段提醒：'+phase.name+'（'+phase.cal+'，'+phase.carb+'）：'+phase.note);
+  return {phase:phase.name, typeName:typeName, tagCls:tagCls, cal:phase.cal, train:train, meals:meals, water:water, supps:supps, skin:skin, steps:steps, notes:notes};
+}
+
+/* ===== 路由 ===== */
+var VIEWS={principle:'view-principle', shopping:'view-shopping', calendar:'view-calendar', checklist:'view-checklist'};
+function route(){
+  var h=(location.hash||'').replace('#','')||'calendar';
+  if(!VIEWS[h]) h='calendar';
+  for(var k in VIEWS){ var v=$(VIEWS[k]); v.classList.toggle('active', k===h); }
+  var tabs=document.querySelectorAll('.tabs a');
+  for(var i=0;i<tabs.length;i++){ tabs[i].classList.toggle('on', tabs[i].getAttribute('href')==='#'+h); }
+  if(h==='calendar'){ renderCal(); renderDetail(); }
+  if(h==='checklist'){ renderCheck(); renderBody(); initWChart(); }
+}
+window.addEventListener('hashchange', route);
+
+/* ===== Hero 天数 ===== */
+(function(){
+  var start=new Date(2026,9,8);
+  var diff=Math.floor((Date.now()-start.getTime())/86400000)+1;
+  var el=$('hero-day');
+  if(diff<1){ el.innerHTML='<span class="dot"></span>10/08 开始'; }
+  else if(diff>51){ el.innerHTML='<span class="dot"></span>已结束 · 进入拍后过渡'; }
+  else { el.innerHTML='<span class="dot"></span>今天：第 '+diff+' 天 · 还剩 '+(51-diff+1)+' 天'; }
+})();
+
+/* ===== 日历 ===== */
+var selDate=fmt(new Date());
+function calTag(p){ return '<span class="tag '+p.tagCls+'">'+p.typeName+'</span>'; }
+function renderCal(){
+  var html='';
+  [['2026-10-01','2026-10-08','2026-10-31'],['2026-11-01','2026-11-01','2026-11-28']].forEach(function(m){
+    var y=+m[0].slice(0,4), mo=+m[0].slice(5,7);
+    var daysIn=new Date(y, mo, 0).getDate();
+    var mLabel=(mo===10?'10 月':'11 月')+' · '+y;
+    var lead=new Date(y, mo-1, 1).getDay();
+    var leadCol=(lead+6)%7;
+    html+='<div class="cal-month"><div class="mh">'+mLabel+'</div><div class="cal-week">';
+    for(var w=0;w<7;w++){ html+='<div>'+WD[(w+1)%7]+'</div>'; }
+    html+='</div><div class="cal-grid">';
+    for(var b=0;b<leadCol;b++){ html+='<div class="cal-day off"></div>'; }
+    for(var dd=1;dd<=daysIn;dd++){
+      var s=y+'-'+('0'+mo).slice(-2)+'-'+('0'+dd).slice(-2);
+      if(s<m[1]||s>m[2]){ html+='<div class="cal-day off"><span class="d">'+dd+'</span></div>'; continue; }
+      var p=dayPlan(s);
+      var cls='cal-day';
+      if(s===fmt(new Date())) cls+=' today';
+      if(s===selDate) cls+=' sel';
+      html+='<div class="'+cls+'" data-d="'+s+'"><span class="d">'+dd+'</span>'+calTag(p)+'</div>';
+    }
+    html+='</div></div>';
+  });
+  $('cal-grids').innerHTML=html;
+  document.querySelectorAll('.cal-day[data-d]').forEach(function(el){
+    el.addEventListener('click', function(){ selDate=el.getAttribute('data-d'); renderCal(); renderDetail(); });
+  });
+}
+function renderDetail(){
+  var p=dayPlan(selDate);
+  var d=parse(selDate);
+  var html='<div class="detail-card"><h3>'+(d.getMonth()+1)+'月'+d.getDate()+'日 · 周'+WD[d.getDay()]+' <span class="ph">'+p.phase+' · '+p.cal+'</span><span class="tg '+p.tagCls+'">'+p.typeName+'</span></h3>';
+  html+=sec('训练', p.train.map(function(x){return '<li>'+x+'</li>';}).join(''));
+  html+=sec('三餐', p.meals.map(function(x){return '<li>'+x+'</li>';}).join(''));
+  html+=sec('饮水', p.water.map(function(x){return '<li>'+x+'</li>';}).join(''));
+  html+=sec('补剂', p.supps.map(function(x){return '<li>'+x+'</li>';}).join(''));
+  html+=sec('护肤', p.skin.map(function(x){return '<li>'+x+'</li>';}).join(''));
+  html+='<div class="d-sec">步数</div><ul><li><b>'+p.steps+'</b></li></ul>';
+  html+=sec('今日备注', p.notes.map(function(x){return '<li>'+x+'</li>';}).join(''));
+  html+='</div>';
+  $('day-detail').innerHTML=html;
+}
+function sec(t, lis){ return '<div class="d-sec">'+t+'</div><ul>'+lis+'</ul>'; }
+$('cal-prev').addEventListener('click', function(){ selDate=addDays(selDate,-1); renderCal(); renderDetail(); });
+$('cal-next').addEventListener('click', function(){ selDate=addDays(selDate,1); renderCal(); renderDetail(); });
+$('cal-today').addEventListener('click', function(){ selDate=fmt(new Date()); renderCal(); renderDetail(); });
+
+/* ===== 采购清单 ===== */
+var SHOP=[
+  {name:'蛋白质（每周采购）', items:[
+    {id:'p1', nm:'鸡胸肉 / 去皮鸡腿', qt:'2 kg'},
+    {id:'p2', nm:'瘦牛肉 / 牛腱', qt:'500 g'},
+    {id:'p3', nm:'三文鱼 / 巴沙鱼 / 虾仁', qt:'1 kg'},
+    {id:'p4', nm:'鸡蛋', qt:'20 个'},
+    {id:'p5', nm:'老豆腐 / 无糖希腊酸奶', qt:'各 1 份'}
+  ]},
+  {name:'蔬菜（每周采购）', items:[
+    {id:'v1', nm:'绿叶菜（生菜/菠菜/油麦菜）', qt:'2 kg'},
+    {id:'v2', nm:'西兰花', qt:'1 kg'},
+    {id:'v3', nm:'黄瓜', qt:'1 kg'},
+    {id:'v4', nm:'番茄', qt:'1 kg'}
+  ]},
+  {name:'主食（每周采购）', items:[
+    {id:'c1', nm:'大米（煮饭用）或燕麦', qt:'1.5 kg'},
+    {id:'c2', nm:'红薯 / 玉米', qt:'1 kg'}
+  ]},
+  {name:'调味与饮品', items:[
+    {id:'d1', nm:'黑咖啡（无糖）', qt:'1 袋'},
+    {id:'d2', nm:'油醋汁 / 柠檬', qt:'1 瓶'},
+    {id:'d3', nm:'酱油、蒜、辣椒、香料（少盐调味）', qt:'适量'},
+    {id:'d4', nm:'电解质冲剂（断食期与冲刺期用）', qt:'1 盒'},
+    {id:'d5', nm:'海盐（断食期兑淡盐水）', qt:'少量'}
+  ]},
+  {name:'补剂（一次采购，够 51 天）', items:[
+    {id:'s1', nm:'乳清蛋白粉', qt:'1 桶（约 1 kg）'},
+    {id:'s2', nm:'肌酸一水', qt:'1 罐（150 g 起）'},
+    {id:'s3', nm:'复合维生素', qt:'1 瓶'},
+    {id:'s4', nm:'维生素 D3（2000 IU）', qt:'1 瓶'},
+    {id:'s5', nm:'鱼油（Omega-3）', qt:'1 瓶'},
+    {id:'s6', nm:'锌', qt:'1 瓶'},
+    {id:'s7', nm:'镁', qt:'1 瓶'}
+  ]},
+  {name:'护肤与上镜（一次采购）', items:[
+    {id:'k1', nm:'氨基酸洁面', qt:'1 支'},
+    {id:'k2', nm:'烟酰胺精华', qt:'1 瓶'},
+    {id:'k3', nm:'保湿乳', qt:'1 瓶'},
+    {id:'k4', nm:'防晒 SPF30+', qt:'1 支'},
+    {id:'k5', nm:'A 醇 0.1–0.3%（可选）', qt:'1 支'},
+    {id:'k6', nm:'水杨酸棉片（T 区用）', qt:'1 盒'},
+    {id:'k7', nm:'补水面膜', qt:'1 盒'},
+    {id:'k8', nm:'身体乳 + 身体磨砂', qt:'各 1'},
+    {id:'k9', nm:'唇膏', qt:'1 支'}
+  ]},
+  {name:'工具与监测', items:[
+    {id:'t1', nm:'厨房秤', qt:'1 个'},
+    {id:'t2', nm:'软尺（量腰围）', qt:'1 条'},
+    {id:'t3', nm:'家用血压计（有则跳过）', qt:'1 台'},
+    {id:'t4', nm:'1 L 水壶', qt:'1 个'}
+  ]}
+];
+function renderShop(){
+  var state=store('jz_shop')||{};
+  var html=''; var total=0, done=0;
+  SHOP.forEach(function(cat){
+    var cd=0, ct=0;
+    cat.items.forEach(function(it){ if(state[it.id]) cd++; ct++; });
+    html+='<div class="cat"><div class="cat-head"><h3>'+cat.name+'</h3><div style="display:flex;align-items:center;gap:10px;"><span class="cnt">'+cd+' / '+ct+'</span><button class="btn sm" data-cat="'+cat.name+'">本类全选</button></div></div><div class="card" style="padding:6px 14px;">';
+    cat.items.forEach(function(it){
+      var on=!!state[it.id];
+      html+='<label class="check-item'+(on?' done':'')+'"><input type="checkbox" data-id="'+it.id+'"'+(on?' checked':'')+'><span><span class="nm">'+it.nm+'</span><span class="qt">'+it.qt+'</span></span></label>';
+    });
+    html+='</div></div>';
+    total+=ct; done+=cd;
+  });
+  $('shop-list').innerHTML=html;
+  $('shop-num').textContent=done+' / '+total;
+  $('shop-bar').style.width=(total?Math.round(done/total*100):0)+'%';
+  document.querySelectorAll('#shop-list .check-item input').forEach(function(inp){
+    inp.addEventListener('change', function(){
+      var st=store('jz_shop')||{};
+      st[inp.getAttribute('data-id')]=inp.checked;
+      store('jz_shop', st);
+      renderShop();
+    });
+  });
+  document.querySelectorAll('#shop-list .btn').forEach(function(b){
+    b.addEventListener('click', function(){
+      var st=store('jz_shop')||{};
+      var catName=b.getAttribute('data-cat');
+      var cat=SHOP.filter(function(c){return c.name===catName;})[0];
+      cat.items.forEach(function(it){ st[it.id]=true; });
+      store('jz_shop', st); renderShop();
+    });
+  });
+}
+$('shop-reset').addEventListener('click', function(){ store('jz_shop', {}); renderShop(); });
+
+/* ===== 打卡 ===== */
+var CK_BASE=[
+  {id:'water', nm:'喝水 3L', nt:'晨起 500ml + 上午 1L + 训练中 500ml + 晚上 1L'},
+  {id:'protein', nm:'蛋白质 200g', nt:'三餐 + 蛋白粉补齐'},
+  {id:'meals', nm:'三餐照做', nt:'12:00 / 15:30 / 19:30，窗口 12–20 点'},
+  {id:'train', nm:'训练完成', nt:'对照每日计划里的训练内容'},
+  {id:'steps', nm:'步数达标', nt:'8000 步（周日 6000）'},
+  {id:'skin_am', nm:'晨间护肤', nt:'洁面 → 烟酰胺 → 保湿 → 防晒'},
+  {id:'skin_pm', nm:'晚间护肤', nt:'洁面 → 烟酰胺 → 保湿（周二/五晚 A 醇）'},
+  {id:'sleep', nm:'23:30 前睡', nt:'睡够 7.5 小时'},
+  {id:'bp', nm:'血压（本周 2–3 次）', nt:'静坐 5 分钟后测；≥150/95 当天不练'}
+];
+var CK_FAST=[
+  {id:'water', nm:'喝水 3L', nt:'温水少量多次，可加淡盐水 / 电解质'},
+  {id:'fast', nm:'全天未进食', nt:'只喝水；头晕乏力立即停止断食'},
+  {id:'walk', nm:'散步 30 分钟', nt:'不训练、不出大汗'},
+  {id:'skin_am', nm:'晨间护肤', nt:'洁面 → 烟酰胺 → 保湿 → 防晒'},
+  {id:'skin_pm', nm:'晚间护肤', nt:'洁面 → 烟酰胺 → 保湿'},
+  {id:'sleep', nm:'23:30 前睡', nt:'睡够 7.5 小时'},
+  {id:'bp', nm:'血压（本周 2–3 次）', nt:'静坐 5 分钟后测'}
+];
+function ckItemsFor(s){
+  var items;
+  if(FAST.indexOf(s)>=0){ items=CK_FAST.slice(); }
+  else {
+    items=CK_BASE.slice();
+    if(parse(s).getDay()===0){ items.push({id:'measure', nm:'测量记录', nt:'空腹称重 + 腰围 + 照片 + 填到下方记录表'}); }
+  }
+  return items;
+}
+function renderCheck(){
+  var d=$('ck-date').value;
+  var items=ckItemsFor(d);
+  var state=store('jz_check')||{};
+  var day=state[d]||{};
+  $('ck-title').textContent=d+'（周'+WD[parse(d).getDay()]+'）';
+  var html=''; var done=0;
+  items.forEach(function(it){
+    var on=!!day[it.id]; if(on) done++;
+    html+='<label class="ck-item'+(on?' done':'')+'"><input type="checkbox" data-id="'+it.id+'"'+(on?' checked':'')+'><span><span class="nm">'+it.nm+'</span><span class="nt">'+it.nt+'</span></span></label>';
+  });
+  $('ck-items').innerHTML=html;
+  var pct=items.length?Math.round(done/items.length*100):0;
+  $('ck-bar').style.width=pct+'%';
+  $('ck-pct').textContent='完成 '+done+' / '+items.length+' 项（'+pct+'%）';
+  document.querySelectorAll('#ck-items input').forEach(function(inp){
+    inp.addEventListener('change', function(){
+      var st=store('jz_check')||{};
+      if(!st[d]) st[d]={};
+      st[d][inp.getAttribute('data-id')]=inp.checked;
+      store('jz_check', st);
+      renderCheck();
+    });
+  });
+  renderHistory();
+}
+function renderHistory(){
+  var state=store('jz_check')||{};
+  var html=''; var today=fmt(new Date());
+  for(var i=6;i>=0;i--){
+    var s=addDays(today,-i);
+    var day=state[s]||{};
+    var items=ckItemsFor(s);
+    var done=0; items.forEach(function(it){ if(day[it.id]) done++; });
+    var pct=items.length?Math.round(done/items.length*100):0;
+    var lbl=s.slice(5).replace('-','/');
+    html+='<div class="hist-day"><span style="min-width:74px;">'+lbl+'</span><div class="bar"><i style="width:'+pct+'%"></i></div><span style="min-width:34px;text-align:right;">'+pct+'%</span></div>';
+  }
+  $('ck-history').innerHTML=html;
+}
+$('ck-today').addEventListener('click', function(){ $('ck-date').value=fmt(new Date()); renderCheck(); });
+$('ck-prev').addEventListener('click', function(){ $('ck-date').value=addDays($('ck-date').value,-1); renderCheck(); });
+$('ck-reset').addEventListener('click', function(){
+  var d=$('ck-date').value;
+  var st=store('jz_check')||{};
+  delete st[d]; store('jz_check', st); renderCheck();
+});
+
+/* ===== 体重/腰围记录 ===== */
+$('ck-date').value=fmt(new Date());
+$('bd-date').value=fmt(new Date());
+function renderBody(){
+  var logs=store('jz_body')||{};
+  var keys=Object.keys(logs).sort();
+  var html='';
+  keys.forEach(function(k){
+    var l=logs[k];
+    html+='<div class="rec-row"><span class="dt">'+k.slice(5).replace('-','/')+'</span><span>体重 <b>'+l.w+' kg</b></span><span style="color:var(--muted);">腰围 '+(l.waist?l.waist+' cm':'—')+'</span><button class="btn sm" data-del="'+k+'" style="margin-left:auto;">删除</button></div>';
+  });
+  if(!keys.length) html='<p style="font-size:13px;color:var(--muted);padding:6px 4px;">还没有记录，每周日填一条。</p>';
+  $('bd-list').innerHTML=html;
+  document.querySelectorAll('#bd-list [data-del]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var st=store('jz_body')||{};
+      delete st[b.getAttribute('data-del')]; store('jz_body', st);
+      renderBody(); initWChart();
+    });
+  });
+}
+$('bd-save').addEventListener('click', function(){
+  var d=$('bd-date').value, w=parseFloat($('bd-weight').value), wa=parseFloat($('bd-waist').value);
+  if(!d){ alert('请选日期'); return; }
+  if(isNaN(w)){ alert('请填体重'); return; }
+  var st=store('jz_body')||{};
+  st[d]={w:w, waist:isNaN(wa)?null:wa};
+  store('jz_body', st);
+  $('bd-weight').value=''; $('bd-waist').value='';
+  renderBody(); initWChart();
+});
+
+/* ===== 体重曲线 ===== */
+var wChart=null;
+function loadECharts(cb){
+  if(window.echarts){ cb(); return; }
+  var s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js';
+  s.onload=function(){ if(window.echarts){cb();return;} cdnjs(cb); };
+  s.onerror=function(){ cdnjs(cb); };
+  document.head.appendChild(s);
+  function cdnjs(cc){
+    var s2=document.createElement('script');
+    s2.src='https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.1/echarts.min.js';
+    s2.onload=function(){ cc(); };
+    s2.onerror=function(){ cc(); };
+    document.head.appendChild(s2);
+  }
+}
+function initWChart(){
+  var box=$('wchart');
+  loadECharts(function(){
+    if(!window.echarts){ box.innerHTML='<p style="padding:14px 4px;color:#5B6577;font-size:13px;">图表库未加载（无网络），请查看打卡页调整规则与记录列表。</p>'; return; }
+    var logs=store('jz_body')||{};
+    var target=[['2026-10-08',100],['2026-10-14',97.5],['2026-10-21',95.5],['2026-10-28',93.5],['2026-11-04',91.5],['2026-11-11',89.5],['2026-11-18',87.5],['2026-11-21',86.5],['2026-11-28',85]];
+    var actual=Object.keys(logs).sort().map(function(k){ return [k, logs[k].w]; });
+    if(!wChart){ wChart=echarts.init(box); }
+    wChart.setOption({
+      tooltip:{trigger:'axis', confine:true, valueFormatter:function(v){ return v+' kg'; }},
+      grid:{left:46, right:20, top:18, bottom:42},
+      xAxis:{type:'time', min:'2026-10-08', max:'2026-11-28', axisLine:{lineStyle:{color:'#C7CFDC'}}, axisTick:{show:false}, axisLabel:{color:'#5B6577', fontSize:11, formatter:function(v){ return echarts.format.formatTime('MM-dd', v); }}},
+      yAxis:{type:'value', min:82, max:101, axisLabel:{color:'#5B6577', fontSize:11, formatter:'{value}'}, splitLine:{lineStyle:{color:'#EAEEF4'}}},
+      series:[
+        {name:'计划目标', type:'line', data:target, smooth:true, symbolSize:6, lineStyle:{width:2.5, color:'#E8542E', type:'dashed'}, itemStyle:{color:'#E8542E'}},
+        {name:'实测体重', type:'line', data:actual, smooth:false, symbolSize:8, lineStyle:{width:2.5, color:'#1B8A6B'}, itemStyle:{color:'#1B8A6B'}, connectNulls:true}
+      ]
+    });
+    wChart.resize();
+  });
+}
+
+/* ===== 启动 ===== */
+renderShop();
+renderBody();
+route();
+</script>
+</body>
+</html>
