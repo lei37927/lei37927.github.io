@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>减脂计划 · 50天日历执行版（2026.10.09–11.28）</title>
+<title>减脂计划 · 50天日历执行版 v2 营养升级（2026.10.09–11.28）</title>
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="%23101B2E"/><path d="M16 6v15M10 14l6 6 6-6" stroke="%23E8542E" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'>
 <link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap">
 <style>
@@ -236,7 +236,21 @@
     .card,.detail-card,.chart-box,.tbl{box-shadow:none;}
     section{page-break-inside:avoid;}
   }
+  /* ===== 动效系统 ===== */
+  @keyframes viewIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .view.active{animation:viewIn .34s cubic-bezier(.22,.61,.36,1) both;}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(.82)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
+  .check-item input:checked,.ck-item input:checked{animation:pop .28s ease;}
+  .check-item.done .nm,.ck-item.done .nm{color:var(--muted);text-decoration:line-through;text-decoration-color:#C7CFDC;}
+  .check-item.done,.ck-item.done{opacity:.8;}
+  .cal-day.sel{animation:pop .3s ease;}
+  .btn:active{transform:scale(.97);}
+  .btn:focus-visible,.cal-day:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  /* 滚动揭示（仅当 JS 启用才生效，JS 不可用时页面始终可见） */
+  html.js .rv{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s cubic-bezier(.22,.61,.36,1);}
+  html.js .rv.on{opacity:1;transform:none;}
 </style>
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
@@ -263,15 +277,17 @@
   <div class="wrap">
     <a href="#principle">原理</a>
     <a href="#shopping">采购清单</a>
+    <a href="#cook">做法</a>
     <a href="#calendar">每日计划</a>
     <a href="#checklist">打卡</a>
+    <a href="#data">数据</a>
   </div>
 </nav>
 
 <!-- ============ 视图：原理 ============ -->
 <div id="view-principle" class="view">
   <div class="wrap">
-    <section>
+    <section class="rv">
       <div class="sec-head"><span class="sec-num">01</span><h2>核心原理</h2></div>
       <div class="cards">
         <div class="card"><h3><span class="dotmark"></span>高蛋白优先</h3><p>每天 200 g 蛋白质（吃不够用乳清蛋白补），保肌肉、保头发、防脱相的第一要素。</p></div>
@@ -290,7 +306,7 @@
         按你的要求，头 3 天只喝白水清肠：全天 3L 温水、少量多次；不吃任何东西、不加盐不加电解质、暂停全部补剂；只散步不训练。头晕乏力立即停止断食、恢复正常饮食。掉秤多为水分，属正常。网购的蛋白粉/肌酸/护肤品 2–3 天到货，正好用这三天缓冲。10/12 起恢复三餐。
       </div>
     </section>
-    <section>
+    <section class="rv">
       <div class="sec-head"><span class="sec-num">02</span><h2>热量与营养素（分阶段）</h2></div>
       <table class="tbl">
         <colgroup><col style="width:24%"><col style="width:19%"><col style="width:19%"><col style="width:19%"><col style="width:19%"></colgroup>
@@ -314,7 +330,7 @@
         </ul>
       </div>
     </section>
-    <section>
+    <section class="rv">
       <div class="sec-head"><span class="sec-num">03</span><h2>血压与红线</h2></div>
       <div class="card">
         <ul class="plain">
@@ -324,7 +340,7 @@
           <li class="no"><b>红线：</b>心悸/胸闷、晕眩晕厥、血压进行性升高（≥150/95）、右上腹剧痛、皮肤巩膜发黄、无法完成日常活动 → 立即停止并就医</li>
         </ul>
       </div>
-    <section>
+    <section class="rv">
       <div class="sec-head"><span class="sec-num">04</span><h2>护肤照做表（照着买照着涂）</h2></div>
       <p class="lead">每个步骤是干嘛的、什么时候做、买哪款，直接照做，不用懂成分。全部换成「药店 + 平价国货」版本，效果不打折。</p>
       <table class="tbl">
@@ -349,7 +365,7 @@
 <!-- ============ 视图：采购清单 ============ -->
 <div id="view-shopping" class="view">
   <div class="wrap">
-    <section>
+    <section class="rv">
       <div class="sec-head"><span class="sec-num">01</span><h2>采购清单</h2></div>
       <p class="lead">按类采购，勾掉即已完成，进度自动保存。蛋白质 / 蔬菜 / 主食按每周采购，补剂与护肤一次买够 50 天。</p>
       <div class="shop-progress">
@@ -363,30 +379,39 @@
       <div id="shop-done" style="margin-bottom:14px;"></div>
       <div id="shop-list"></div>
     </section>
-    <section>
-      <div class="sec-head"><span class="sec-num">02</span><h2>食材做法（照着做）</h2></div>
+  </div>
+</div>
+
+<!-- ============ 视图：做法 ============ -->
+<div id="view-cook" class="view">
+  <div class="wrap">
+    <section class="rv">
+      <div class="sec-head"><span class="sec-num">01</span><h2>食材做法（照着做）</h2></div>
+      <p class="lead">每样食材怎么做、做一次吃几天，全在这里。买回去直接照做，不用每天现做。</p>
       <div class="cards">
         <div class="card"><h3><span class="dotmark"></span>燕麦米饭（主食）</h3><ul class="plain">
           <li><b>泡：</b>燕麦米提前泡 4–6 小时（或头天晚上泡好冷藏）</li>
           <li><b>煮：</b>燕麦米 1 份 : 水 1.7 份，电饭煲杂粮饭模式煮 45–60 分钟；嫌糙可掺 20% 大米</li>
-          <li><b>量：</b>每餐生重 60–100 g（冲刺期小半拳），煮好分装冷藏，吃前蒸热/微波</li>
+          <li><b>量：</b>每餐生重 100g（冲刺期 50–60g），煮好分装冷藏，吃前蒸热/微波</li>
         </ul></div>
         <div class="card"><h3><span class="dotmark"></span>鸡胸肉</h3><ul class="plain">
           <li><b>煎（推荐）：</b>切片 1 cm → 生抽+料酒+黑胡椒+蒜末腌 20 分钟 → 不粘锅中小火每面 3 分钟 → 出锅挤柠檬汁</li>
           <li><b>煮撕：</b>整块冷水下锅+姜葱料酒，水开转小火 8 分钟关火焖 5 分钟 → 捞出撕丝，拌生抽+醋+蒜末</li>
+          <li><b>省事：</b>一次做 2 天量，冷藏分装，吃前微波</li>
         </ul></div>
-        <div class="card"><h3><span class="dotmark"></span>瘦牛肉/牛腱</h3><ul class="plain">
-          <li><b>卤：</b>切块焯水 → 电饭煲/高压锅 + 生抽 3 勺+老抽 1 勺+八角 2 颗+桂皮 1 段+香叶 2 片+姜片，加水没过，煮 40–60 分钟</li>
-          <li>冷藏后切片直接吃，卤一次吃 2–3 天</li>
+        <div class="card"><h3><span class="dotmark"></span>卤牛腱（做一次吃 3–5 天）</h3><ul class="plain">
+          <li><b>省事版：</b>熟食店/超市买现成卤牛腱，切片直接吃</li>
+          <li><b>自己卤：</b>切块焯水 → 电饭煲/高压锅 + 生抽 3 勺+老抽 1 勺+八角 2 颗+桂皮 1 段+香叶 2 片+姜片，加水没过，煮 40–60 分钟 → 冷藏分装，吃 3–5 天</li>
         </ul></div>
-        <div class="card"><h3><span class="dotmark"></span>鱼（巴沙鱼/三文鱼）</h3><ul class="plain">
-          <li><b>清蒸：</b>鱼块+姜丝+料酒腌 10 分钟 → 水开蒸 8–10 分钟 → 出锅淋生抽+葱丝</li>
-          <li>嫌淡就蘸一点点醋/辣椒面，别淋热油</li>
+        <div class="card"><h3><span class="dotmark"></span>罐头鱼（沙丁鱼/金枪鱼/青花鱼）</h3><ul class="plain">
+          <li><b>沙丁鱼/金枪鱼：</b>开罐即食，拌一点醋/柠檬汁/辣椒面直接吃；只买水浸，不买油浸/番茄汁</li>
+          <li><b>金枪鱼：</b>选鰹鱼/light tuna 水浸，每周 ≤3 罐（长鳍汞高，别多吃）</li>
+          <li><b>青花鱼：</b>冷冻整条解冻后煎/烤，一次烤 2–3 条，吃 2 天</li>
         </ul></div>
-        <div class="card"><h3><span class="dotmark"></span>虾 / 蛋 / 豆腐</h3><ul class="plain">
-          <li><b>虾：</b>白灼——水开下锅 2–3 分钟捞出，蘸生抽+醋+姜末</li>
-          <li><b>蛋：</b>水煮蛋——冷水下锅，水开 8 分钟关火焖 2 分钟</li>
-          <li><b>豆腐：</b>老豆腐切块蒸 5 分钟或凉拌，直接吃</li>
+        <div class="card"><h3><span class="dotmark"></span>蛋 / 千张 / 鸡肝</h3><ul class="plain">
+          <li><b>蛋：</b>水煮蛋一次煮 7 个放冰箱，随吃随拿</li>
+          <li><b>千张/豆干：</b>真空即食，切丝凉拌或直接吃；每周 2–3 次（豆制品不用多吃）</li>
+          <li><b>鸡肝：</b>熟食店卤鸡肝买回来切块直接吃；每周 2 次、每次 50g（维A 高，别多吃）</li>
         </ul></div>
         <div class="card"><h3><span class="dotmark"></span>调料总表（就这些，别的都别买）</h3><ul class="plain">
           <li>生抽、料酒、黑胡椒、蒜、姜、葱、醋、辣椒面、柠檬</li>
@@ -400,7 +425,7 @@
 <!-- ============ 视图：日历计划 ============ -->
 <div id="view-calendar" class="view">
   <div class="wrap">
-    <section>
+    <section class="rv">
       <div class="sec-head"><span class="sec-num">01</span><h2>每日计划</h2></div>
       <div class="cal-legend">
         <span><i style="background:var(--accent);"></i>力量</span>
@@ -426,9 +451,9 @@
 <!-- ============ 视图：打卡 ============ -->
 <div id="view-checklist" class="view">
   <div class="wrap">
-    <section>
+    <section class="rv">
       <div class="sec-head"><span class="sec-num">01</span><h2>每日打卡</h2></div>
-      <p class="lead">每天打开打卡页勾当天完成项，进度自动保存；阶段检查会按你的记录动态预估。断食日与周日会显示对应的专属清单。</p>
+      <p class="lead">每天打开这里勾当天完成项，进度自动保存；断食日与周日会显示对应专属清单。体重记录、阶段检查与数据备份都在「数据」页。</p>
       <div class="ck-date">
         <input type="date" id="ck-date">
         <button class="btn sm" id="ck-today">今天</button>
@@ -448,8 +473,14 @@
         </div>
       </div>
     </section>
-    <section>
-      <div class="sec-head"><span class="sec-num">02</span><h2>体重与腰围记录</h2></div>
+  </div>
+</div>
+
+<!-- ============ 视图：数据 ============ -->
+<div id="view-data" class="view">
+  <div class="wrap">
+    <section class="rv">
+      <div class="sec-head"><span class="sec-num">01</span><h2>体重与腰围记录</h2></div>
       <p class="lead">每周日空腹称重后填进来，曲线自动和计划目标对比。</p>
       <div class="form-row">
         <div><label>日期</label><br><input type="date" id="bd-date"></div>
@@ -477,8 +508,8 @@
         血压 ≥150/95 当天不练；头晕、心悸、晕厥感、右上腹剧痛、皮肤发黄 → 停止并就医；力量动作全程不憋气。断食期出现明显不适同样立即停止断食。
       </div>
     </section>
-    <section>
-      <div class="sec-head"><span class="sec-num">03</span><h2>阶段检查（每 7 天对照一次）</h2></div>
+    <section class="rv">
+      <div class="sec-head"><span class="sec-num">02</span><h2>阶段检查（每 7 天对照一次）</h2></div>
       <p class="lead">每周日空腹称重后对照下表：达标 → 继续；没达标 → 按「升级动作」当天就调整，别拖到下周。状态栏自动读取你的体重记录，上方还会按你的打卡完成率和体重趋势动态预估 11/28 结果。</p>
       <div id="cp-forecast"></div>
       <div class="tbl-wrap">
@@ -502,8 +533,8 @@
         每周日早晨空腹、上完厕所、同一台秤、只穿内衣；看 7 天趋势，不看单日波动。体重没动但腰围在缩 = 正常，继续做。回血日/断食后回弹的 0.5–1kg 是水分，不是胖。肌酸停用（11/23 起）后秤上会再掉 1–2kg 水，那是计划内的。
       </div>
     </section>
-    <section>
-      <div class="sec-head"><span class="sec-num">04</span><h2>数据备份 / 换设备</h2></div>
+    <section class="rv">
+      <div class="sec-head"><span class="sec-num">03</span><h2>数据备份 / 换设备</h2></div>
       <div class="card">
         <h3><span class="dotmark"></span>进度存在本浏览器本地</h3>
         <ul class="plain">
@@ -528,7 +559,7 @@
 
 <footer>
   <div class="wrap">
-    <p>数据基于你提供的 Keep 体脂秤读数与腰围（105 cm）；目标为估算值，以每周日实测为准并按打卡页规则调整。执行前建议体检（血压、肝肾功能）；出现红线症状立即停止就医。勾选与记录保存在本浏览器本地，换设备请用打卡页「数据备份」的导出/导入。</p>
+    <p>数据基于你提供的 Keep 体脂秤读数与腰围（105 cm）；目标为估算值，以每周日实测为准并按「数据」页规则调整。执行前建议体检（血压、肝肾功能）；出现红线症状立即停止就医。勾选与记录保存在本浏览器本地，换设备请用「数据」页的导出/导入。</p>
   </div>
 </footer>
 
@@ -617,16 +648,16 @@ function dayPlan(s){
   /* 三餐 */
   var meals=[];
   if(fast>=0){ meals=['全天只喝白水，不吃任何东西（3L 温水，少量多次）','不加盐、不加电解质、不吃任何补剂','头晕 / 乏力 / 心慌 → 立即恢复正常饮食','10/12 起恢复三餐（按启动期餐单）']; }
-  else if(s==='2026-11-28'){ meals=['早餐 08:00：1 个鸡蛋 + 牛奶/蛋白粉 + 半拳燕麦（别空腹上镜）','午餐 12:00：一掌肉 + 一盘菜 + 一拳燕麦米饭（正常吃）','拍摄中：少量补水，不吃撑','晚餐：拍摄结束后正常吃，蛋白质 + 蔬菜 + 半拳主食']; }
-  else if(ms==='试衣'){ meals=['12:00 一掌肉 + 一盘菜 + 一拳燕麦米饭','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜 + 半拳主食（试衣早点结束、正常吃）']; }
-  else if(refeed){ meals=['12:00 一掌肉 + 一大盘菜 + 一拳燕麦米饭','15:30 蛋白粉 1 勺 + 1 个水果','19:30 一掌肉 + 一盘菜 + 一拳燕麦米饭或 1 根红薯','回血日 ~2100 kcal，别吃超太多']; }
-  else if(phase.name==='冲刺期'){ meals=['12:00 一掌肉 + 一大盘菜 + 半拳米饭','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜（无主食）']; }
+  else if(s==='2026-11-28'){ meals=['早餐 08:00：水煮蛋 1 个 + 乳清蛋白粉 30g + 燕麦米 50g（别空腹上镜）','午餐 12:00：鸡胸肉 150g + 蔬菜 200g + 燕麦米 50g（正常吃）','拍摄中：少量补水，不吃撑','晚餐：拍摄结束后正常吃：鸡胸肉 200g 或 罐头鱼 1 罐 100g + 蔬菜 300g + 燕麦米 100g']; }
+  else if(ms==='试衣'){ meals=['12:00 午餐：鸡胸肉 200g + 罐头鱼 1 罐 100g + 燕麦米 100g（生重）+ 蔬菜 300g','15:30 加餐：乳清蛋白粉 30g（≈22g 蛋白）','19:30 晚餐：水煮蛋 3 个 + 千张 100g + 蔬菜 300g + 红薯 150g（试衣早点结束、正常吃）']; }
+  else if(refeed){ meals=['12:00 午餐：鸡胸肉 200g + 罐头鱼 1 罐 100g + 燕麦米 150g + 蔬菜 300g','15:30 加餐：乳清蛋白粉 30g + 水果 1 个（约 200g）','19:30 晚餐：水煮蛋 4 个 + 千张 100g + 蔬菜 300g + 燕麦米 100g 或 红薯 200g','回血日 ~2100 kcal，别吃超太多']; }
+  else if(phase.name==='冲刺期'){ meals=['12:00 午餐：鸡胸肉 250g（≈58g 蛋白）+ 罐头鱼 1 罐 100g（≈24g）+ 燕麦米 60g + 蔬菜 300g','15:30 加餐：乳清蛋白粉 30g（≈22g 蛋白）','19:30 晚餐：水煮蛋 4 个（≈27g）+ 千张 100g（≈18g）+ 蔬菜 300g（无主食）']; }
   else if(phase.name==='上台冲刺'){
-    if(s>='2026-11-26'){ meals=['12:00 一掌肉 + 一大盘菜（无主食；盐 <2g）','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘高钾蔬菜（番茄/黄瓜/菠菜；无主食，19:00 前吃完）']; }
-    else if(s>='2026-11-24'){ meals=['12:00 一掌肉 + 一大盘菜 + 小半拳燕麦米','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜（无主食；盐 <3g，给水负荷排水让路）']; }
-    else { meals=['12:00 一掌肉 + 一盘菜 + 小半拳燕麦米','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜（无主食；盐 2–3g，别吃咸）']; }
+    if(s>='2026-11-26'){ meals=['12:00 午餐：鸡胸肉 250g + 罐头鱼 1 罐 100g + 蔬菜 300g（无主食；盐 <2g）','15:30 加餐：乳清蛋白粉 30g','19:30 晚餐：水煮蛋 4 个 + 高钾蔬菜 300g（番茄/黄瓜/菠菜；无主食，19:00 前吃完）']; }
+    else if(s>='2026-11-24'){ meals=['12:00 午餐：鸡胸肉 250g + 罐头鱼 1 罐 100g + 燕麦米 50g + 蔬菜 300g','15:30 加餐：乳清蛋白粉 30g','19:30 晚餐：水煮蛋 4 个 + 蔬菜 300g（无主食；盐 <3g，给水负荷排水让路）']; }
+    else { meals=['12:00 午餐：鸡胸肉 250g + 罐头鱼 1 罐 100g + 燕麦米 50g + 蔬菜 300g','15:30 加餐：乳清蛋白粉 30g','19:30 晚餐：水煮蛋 4 个 + 蔬菜 300g（无主食；盐 2–3g，别吃咸）']; }
   }
-  else { meals=['12:00 一掌肉 + 一大盘菜 + 一拳燕麦米饭','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜 + 半拳主食']; }
+  else { meals=['12:00 午餐：鸡胸肉 200g（≈46g 蛋白）+ 沙丁鱼/金枪鱼罐头 1 罐 100g（≈24g）+ 燕麦米 100g（生重）+ 蔬菜 300g','15:30 加餐：乳清蛋白粉 30g（≈22g 蛋白）','19:30 晚餐三选一轮换：A 卤牛腱 250g（≈68g）｜B 水煮蛋 6 个（≈40g）+ 千张 150g（≈27g）｜C 沙丁鱼罐头 3 罐 300g（≈72g）；配 蔬菜 300g + 红薯 150g','全天蛋白 ≈195g（缺口用蛋白粉补，每勺 30g≈22g）']; }
   /* 饮水 */
   var water;
   if(fast>=0){ water=['全天 3L 温水（少量多次）','只喝白水：不加盐、不加电解质、不吃任何东西']; }
@@ -640,12 +671,12 @@ function dayPlan(s){
   var supps=[];
   if(fast>=0){ supps=['无：断食期暂停全部补剂，只喝白水']; }
   else {
-    supps=['21金维他多维元素片 1 片 + 星鲨维D 2 粒（随午餐）','蛋白粉 1 勺（15:30 或训练后）'];
+    supps=['21金维他多维元素片 1 片 + 星鲨维D 2 粒（400IU/粒，随午餐）','乳清蛋白粉 30g（1 勺，≈22g 蛋白；15:30 或训练后）'];
     if(s>='2026-11-23'){ supps.push('一水肌酸：已停（11/23 起，肌酸锁水 1–2kg，停掉上秤更轻、上镜更干）'); }
     else { supps.push('康比特锌镁肌酸 3g（随餐或训练后，自带锌镁）'); }
     supps.push('FoYes 鱼油 2 粒（晚餐后）');
-    if(phase.name==='冲刺期'||phase.name==='上台冲刺'){ supps.push('口服补液盐电解质（训练前后各一杯）'); }
-    if(type==='s'){ supps.push('（可选）训练前黑咖啡 1 杯'); }
+    if(phase.name==='冲刺期'||phase.name==='上台冲刺'){ supps.push('口服补液盐 1 袋冲 250ml 温水（训练前后各 1 杯）'); }
+    if(type==='s'){ supps.push('（可选）训练前黑咖啡 200ml 1 杯（无糖）'); }
   }
   /* 护肤 */
   var skin=['早：洗面奶 → 烟酰胺精华 → 保湿乳 → 防晒（脸颈手）','晚：洗面奶 → 烟酰胺 → 保湿乳（周二/五晚 A 醇；周一/三晚 T 区水杨酸棉片，11/21 起停 A 醇）'];
@@ -662,7 +693,7 @@ function dayPlan(s){
   }
   if(ms){ notes.push(ms==='试衣'?'今天试衣：约 90.5 kg；服装按试衣尺寸定，拍摄时会松一个多码，提前和影楼确认可调整/备小码；贴身款挑略紧一档。':'今天拍摄：按「拍摄日」流程走，早上吃早餐、别空腹，保湿防晒交给化妆师；不纠结秤上数字。'); }
   if(refeed){ notes.push('回血日：高碳水帮助代谢恢复，放心吃，明天体重会反弹 0.5–1kg 水分，正常。'); }
-  if(wd===0 && !refeed && !ms && fast<0){ notes.push('周日测量：空腹称重 + 量腰围 + 正侧面照 + 血压，对照打卡页目标和曲线，按调整规则微调下周。'); }
+  if(wd===0 && !refeed && !ms && fast<0){ notes.push('周日测量：空腹称重 + 量腰围 + 正侧面照 + 血压，对照「数据」页阶段检查与曲线，按调整规则微调下周。'); }
   if(s>='2026-11-23' && s<='2026-11-28'){ notes.push('脱水冲刺：11/24–25 水负荷（4.5–5L/天 + 低钠）→ 11/26 减水 → 11/27 几乎不喝 → 11/28 少量润口。顺序错了等于白做：先灌水排钠、再断水。'); }
   if(s>='2026-11-26'){ notes.push('这两天碳水 ≤30g（无主食）：糖原耗尽后皮下水分跟着走，上镜线条更清晰。拍完当天晚上随便吃补回来。'); }
   notes.push('阶段提醒：'+phase.name+'（'+phase.cal+'，'+phase.carb+'）：'+phase.note);
@@ -670,7 +701,7 @@ function dayPlan(s){
 }
 
 /* ===== 路由 ===== */
-var VIEWS={principle:'view-principle', shopping:'view-shopping', calendar:'view-calendar', checklist:'view-checklist'};
+var VIEWS={principle:'view-principle', shopping:'view-shopping', cook:'view-cook', calendar:'view-calendar', checklist:'view-checklist', data:'view-data'};
 function route(){
   var h=(location.hash||'').replace('#','')||'calendar';
   if(!VIEWS[h]) h='calendar';
@@ -685,9 +716,23 @@ function route(){
   if(h==='checklist'){
     /* 进入打卡前：日期跟随日历选中日 */
     $('ck-date').value=selDate;
-    renderCheck(); renderBody(); initWChart();
+    renderCheck();
+  }
+  if(h==='data'){
+    renderBody(); initWChart(); renderCP(); renderForecast();
   }
   window.scrollTo(0,0);
+  animateView($(VIEWS[h]));
+}
+function animateView(v){
+  if(!v) return;
+  var els=v.querySelectorAll('.rv');
+  for(var i=0;i<els.length;i++){
+    els[i].classList.remove('on');
+    void els[i].offsetWidth;
+    els[i].style.transitionDelay=(i*55)+'ms';
+    els[i].classList.add('on');
+  }
 }
 window.addEventListener('hashchange', route);
 
@@ -789,27 +834,34 @@ $('cal-toggle').addEventListener('click', function(){ calOpen=!calOpen; $('cal-g
 
 /* ===== 采购清单 ===== */
 var SHOP=[
-  {name:'蛋白质（每周采购）', items:[
-    {id:'p1', nm:'鸡胸肉 / 去皮鸡腿', qt:'2 kg'},
-    {id:'p2', nm:'瘦牛肉 / 牛腱', qt:'500 g'},
-    {id:'p3', nm:'三文鱼 / 巴沙鱼 / 虾仁', qt:'1 kg'},
-    {id:'p4', nm:'鸡蛋', qt:'20 个'},
-    {id:'p5', nm:'老豆腐 / 无糖希腊酸奶', qt:'各 1 份'}
+  {name:'蛋白质（每周采购 · 罐头/即食为主，不用每天做）', items:[
+    {id:'p1', nm:'鸡蛋（最划算蛋白）', qt:'30 个 · 一次煮 7 个放冰箱'},
+    {id:'p2', nm:'鸡胸肉（冷冻）', qt:'2 kg · 每天午餐 200g，一次煎/煮撕做 2 天量'},
+    {id:'p3', nm:'水浸沙丁鱼罐头（开罐即食；只买水浸，不买油浸/番茄汁）', qt:'10 罐 · 约 10 元/罐（午餐 1 罐 + 晚餐轮换 3 罐）'},
+    {id:'p4', nm:'水浸金枪鱼罐头（选鰹鱼/light tuna）', qt:'3–4 罐 · 约 6–8 元/罐 · 每周 ≤3 罐'},
+    {id:'p5', nm:'青花鱼/鲭鱼（冷冻整条或即食袋）', qt:'1 kg · 烤一次吃 2 天'},
+    {id:'p6', nm:'卤牛腱（熟食店买现成，或一次卤 1kg 吃 3–5 天）', qt:'750 g · 晚餐轮换 3 天，每餐 250g'},
+    {id:'p7', nm:'千张/豆干（真空即食；每周 2–3 次，豆制品不用多吃）', qt:'500 g'},
+    {id:'p8', nm:'熟食店卤鸡肝（每周 2 次 × 50g）', qt:'250 g · 维A 高，别多吃'}
   ]},
-  {name:'蔬菜（每周采购）', items:[
-    {id:'v1', nm:'绿叶菜（生菜/菠菜/油麦菜）', qt:'2 kg'},
-    {id:'v2', nm:'西兰花', qt:'1 kg'},
-    {id:'v3', nm:'黄瓜', qt:'1 kg'},
-    {id:'v4', nm:'番茄', qt:'1 kg'}
+  {name:'蔬菜（每周采购 · 可买冷冻免洗）', items:[
+    {id:'v1', nm:'西洋菜/豆瓣菜（营养密度第 1）', qt:'250g · 约 5 元'},
+    {id:'v2', nm:'大白菜/小白菜（第 2 名，最便宜）', qt:'1 颗（约 1kg）'},
+    {id:'v3', nm:'菠菜（第 5 名；买不到新鲜买冷冻）', qt:'1 kg'},
+    {id:'v4', nm:'西兰花（可买冷冻）', qt:'1 kg'},
+    {id:'v5', nm:'番茄', qt:'1 kg'},
+    {id:'v6', nm:'胡萝卜（配鸡肝补维A）', qt:'500 g'},
+    {id:'v7', nm:'黄瓜（只补水，减量）', qt:'500 g'}
   ]},
   {name:'主食（每周采购）', items:[
-    {id:'c1', nm:'燕麦米（主食，替代大米）', qt:'5 斤 · 约 15 元，做法见本页 02'},
-    {id:'c2', nm:'红薯 / 玉米', qt:'1 kg'}
+    {id:'c1', nm:'燕麦米（主食，替代大米；做法见「做法」页）', qt:'5 斤 · 每餐 100g（生重）'},
+    {id:'c2', nm:'即食燕麦片（备胎：开水一冲就能吃）', qt:'1 袋'},
+    {id:'c3', nm:'红薯 / 玉米', qt:'1 kg · 每餐 150g'}
   ]},
   {name:'调味与饮品', items:[
     {id:'d1', nm:'黑咖啡（无糖，训练前用）', qt:'1 袋'},
     {id:'d2', nm:'柠檬（挤汁当醋用）', qt:'每周 2–3 个'},
-    {id:'d3', nm:'生抽、料酒、黑胡椒、蒜、姜、醋、辣椒面', qt:'适量（总表见本页 02）'},
+    {id:'d3', nm:'生抽、料酒、黑胡椒、蒜、姜、醋、辣椒面', qt:'适量（总表见「做法」页）'},
     {id:'d4', nm:'口服补液盐III（药店，冲刺期/训练后用）', qt:'1–2 盒 · 约 12 元'}
   ]},
   {name:'补剂（一次采购，够 50 天）', items:[
@@ -820,14 +872,14 @@ var SHOP=[
     {id:'s5', nm:'深海鱼油软胶囊（药店/诺特兰德，Omega-3 ≥300mg/粒）', qt:'1 瓶 · 约 25–40 元，每天 2 粒'},
     {id:'s6', nm:'乳清蛋白粉（诺特兰德 2.5kg 约 100–150 元；康比特促销也可）', qt:'1–2.5 kg · 每天 1 勺'}
   ]},
-  {name:'护肤与上镜（一次采购，平价版）', items:[
-    {id:'k1', nm:'旁氏 米粹润泽洁面乳', qt:'120 g · 约 25 元'},
-    {id:'k2', nm:'The Ordinary 烟酰胺精华 10%（想再省：销量款 5% 烟酰胺 ~20 元）', qt:'30 ml · 约 75 元'},
-    {id:'k3', nm:'大宝 维生素E乳（脸+身体通用）', qt:'200 ml · 约 20 元'},
-    {id:'k4', nm:'大宝 水感防晒 SPF50', qt:'约 35 元'},
-    {id:'k5', nm:'露得清 A醇晚霜', qt:'约 50 元'},
-    {id:'k6', nm:'药店 水杨酸软膏（信龙/马应龙）', qt:'约 6 元，T 区薄涂'},
-    {id:'k7', nm:'凡士林 晶冻小罐（唇膏 + 应急补水共用）', qt:'约 15 元'},
+  {name:'护肤与上镜（一次采购，平价版；已逐个查证有效成分与全网性价比）', items:[
+    {id:'k1', nm:'旁氏 米粹洁面乳（有效成分：椰油酰甘氨酸钠等三重氨基酸表活 + 稻米精粹 + 甘油）', qt:'120–150g · 约 20–25 元 · 全网最便宜氨基酸洁面'},
+    {id:'k2', nm:'The Ordinary 烟酰胺精华（有效成分：烟酰胺 10% 控油提亮 + 锌 1% 控油）', qt:'30ml · 约 60–80 元；想再省买 5% 浓度 ~20 元'},
+    {id:'k3', nm:'大宝 维生素E乳（有效成分：维E + 甘油 + 鲸蜡硬脂醇，基础保湿）', qt:'200ml · 约 20 元'},
+    {id:'k4', nm:'大宝 水感多效防晒露 SPF50+ PA++++（有效成分：化学防晒剂复配 + 烟酰胺/积雪草/甘草酸二钾）', qt:'50g · 官方 ~35 元，淘宝渠道 19–25 元'},
+    {id:'k5', nm:'露得清 A醇蓝管/晚霜（有效成分：视黄醇 0.1% + 维E + 泛醇B5，入门黄金浓度）', qt:'约 50–70 元'},
+    {id:'k6', nm:'药店 水杨酸软膏 信龙/马应龙（有效成分：水杨酸 2%–5%，T 区薄涂疏通毛孔）', qt:'约 6 元'},
+    {id:'k7', nm:'凡士林 晶冻小罐（有效成分：100% 矿脂，唇部+局部封闭保湿）', qt:'约 15 元'},
     {id:'k8', nm:'搓澡巾（身体去角质）', qt:'约 8 元'}
   ]},
   {name:'工具与监测', items:[
@@ -838,7 +890,7 @@ var SHOP=[
   ]}
 ];
 function renderShop(){
-  var state=store('jz_shop')||{};
+  var state=store('jz_shop2')||{};
   var html=''; var total=0, done=0;
   SHOP.forEach(function(cat){
     var cd=0, ct=0;
@@ -859,30 +911,30 @@ function renderShop(){
   if(sd){ sd.innerHTML=(total>0 && done===total)?'<div class="callout green" style="margin-bottom:0;"><span class="ttl">采购全部完成</span>可以按计划开跑了。</div>':''; }
   document.querySelectorAll('#shop-list .check-item input').forEach(function(inp){
     inp.addEventListener('change', function(){
-      var st=store('jz_shop')||{};
+      var st=store('jz_shop2')||{};
       var id=inp.getAttribute('data-id');
       if(inp.checked){ st[id]=true; } else { delete st[id]; }
-      store('jz_shop', st);
+      store('jz_shop2', st);
       renderShop();
     });
   });
   document.querySelectorAll('#shop-list .btn').forEach(function(b){
     b.addEventListener('click', function(){
-      var st=store('jz_shop')||{};
+      var st=store('jz_shop2')||{};
       var catName=b.getAttribute('data-cat');
       var cat=SHOP.filter(function(c){return c.name===catName;})[0];
       var allOn=cat.items.every(function(it){return st[it.id];});
       if(allOn){ cat.items.forEach(function(it){ delete st[it.id]; }); }
       else { cat.items.forEach(function(it){ st[it.id]=true; }); }
-      store('jz_shop', st); renderShop();
+      store('jz_shop2', st); renderShop();
     });
   });
 }
 $('shop-reset').addEventListener('click', function(){
-  var st=store('jz_shop')||{};
+  var st=store('jz_shop2')||{};
   var n=Object.keys(st).filter(function(k){return st[k];}).length;
   if(n>0 && !confirm('确定清空全部 '+n+' 项采购勾选？此操作不可撤销。')) return;
-  store('jz_shop', {}); renderShop();
+  store('jz_shop2', {}); renderShop();
 });
 
 /* ===== 打卡 ===== */
@@ -931,7 +983,7 @@ function renderCheck(){
   }
   selDate=clampDate(d);
   var items=ckItemsFor(d);
-  var state=store('jz_check')||{};
+  var state=store('jz_check2')||{};
   var day=state[d]||{};
   $('ck-title').textContent=d+'（周'+WD[parse(d).getDay()]+'）';
   var html=''; var done=0;
@@ -945,11 +997,11 @@ function renderCheck(){
   $('ck-pct').textContent='完成 '+done+' / '+items.length+' 项（'+pct+'%）';
   document.querySelectorAll('#ck-items input').forEach(function(inp){
     inp.addEventListener('change', function(){
-      var st=store('jz_check')||{};
+      var st=store('jz_check2')||{};
       if(!st[d]) st[d]={};
       var idp=inp.getAttribute('data-id');
       if(inp.checked){ st[d][idp]=true; } else { delete st[d][idp]; }
-      store('jz_check', st);
+      store('jz_check2', st);
       renderCheck();
     });
   });
@@ -959,9 +1011,9 @@ function renderCheck(){
 }
 function renderForecast(){
   var box=$('cp-forecast'); if(!box) return;
-  var logs=store('jz_body')||{};
+  var logs=store('jz_body2')||{};
   var keys=Object.keys(logs).sort();
-  var ck=store('jz_check')||{};
+  var ck=store('jz_check2')||{};
   var today=fmt(new Date());
   var total=0, done=0;
   /* 完成率口径：只统计「至少勾过 1 项」的天数，避免把还没开始用 App 的日子算成 0% */
@@ -998,7 +1050,7 @@ function renderForecast(){
   box.innerHTML=html;
 }
 function renderCP(){
-  var logs=store('jz_body')||{};
+  var logs=store('jz_body2')||{};
   var today=fmt(new Date());
   document.querySelectorAll('#cp-body tr').forEach(function(tr){
     var d=tr.getAttribute('data-cp'), wmax=+tr.getAttribute('data-w');
@@ -1010,7 +1062,7 @@ function renderCP(){
   });
 }
 function renderHistory(){
-  var state=store('jz_check')||{};
+  var state=store('jz_check2')||{};
   var html=''; var today=fmt(new Date());
   for(var i=6;i>=0;i--){
     var s=addDays(today,-i);
@@ -1027,11 +1079,11 @@ $('ck-today').addEventListener('click', function(){ $('ck-date').value=clampDate
 $('ck-prev').addEventListener('click', function(){ $('ck-date').value=clampDate(addDays($('ck-date').value||PLAN_START,-1)); renderCheck(); });
 $('ck-reset').addEventListener('click', function(){
   var d=$('ck-date').value;
-  var st=store('jz_check')||{};
+  var st=store('jz_check2')||{};
   var day=st[d]||{};
   var n=Object.keys(day).filter(function(k){return day[k];}).length;
   if(n>0 && !confirm('确定清空 '+d+' 的全部 '+n+' 项打卡？此操作不可撤销。')) return;
-  delete st[d]; store('jz_check', st); renderCheck();
+  delete st[d]; store('jz_check2', st); renderCheck();
 });
 
 /* ===== 体重/腰围记录 ===== */
@@ -1040,7 +1092,7 @@ $('ck-date').min=PLAN_START; $('ck-date').max=PLAN_END;
 $('bd-date').value=fmt(new Date());
 $('bd-date').min=PLAN_START; $('bd-date').max=PLAN_END;
 function renderBody(){
-  var logs=store('jz_body')||{};
+  var logs=store('jz_body2')||{};
   var keys=Object.keys(logs).sort();
   var html='';
   keys.forEach(function(k){
@@ -1053,10 +1105,10 @@ function renderBody(){
   document.querySelectorAll('#bd-list [data-del]').forEach(function(b){
     b.addEventListener('click', function(){
       var k=b.getAttribute('data-del');
-      var st=store('jz_body')||{};
+      var st=store('jz_body2')||{};
       var l=st[k]||{};
       if(!confirm('确定删除 '+k+' 的体重记录（'+l.w+' kg）？此操作不可撤销。')) return;
-      delete st[k]; store('jz_body', st);
+      delete st[k]; store('jz_body2', st);
       renderCheck(); renderBody(); initWChart();
     });
   });
@@ -1066,14 +1118,14 @@ $('bd-save').addEventListener('click', function(){
   if(!d){ alert('请选择日期'); return; }
   if(d<PLAN_START || d>PLAN_END){ alert('记录日期需在计划周期内（'+PLAN_START+' ~ '+PLAN_END+'）'); return; }
   if(isNaN(w)){ alert('请填写体重'); return; }
-  if(w<80 || w>110){ alert('体重 '+w+' kg 不在合理范围（80–110 kg），请核对'); return; }
+  if(w<60 || w>120){ alert('体重 '+w+' kg 不在合理范围（60–120 kg），请核对'); return; }
   if(!isNaN(wa) && (wa<60 || wa>130)){ alert('腰围 '+wa+' cm 不在合理范围（60–130 cm），请核对'); return; }
-  var st=store('jz_body')||{};
+  var st=store('jz_body2')||{};
   if(st[d] && st[d].w!==w){
     if(!confirm(d+' 已有记录 '+st[d].w+' kg，确定覆盖为 '+w+' kg？')) return;
   }
   st[d]={w:w, waist:isNaN(wa)?null:wa};
-  store('jz_body', st);
+  store('jz_body2', st);
   $('bd-weight').value=''; $('bd-waist').value='';
   renderCheck(); renderBody(); initWChart();
 });
@@ -1098,8 +1150,8 @@ function loadECharts(cb){
 function initWChart(){
   var box=$('wchart');
   loadECharts(function(){
-    if(!window.echarts){ box.innerHTML='<p style="padding:14px 4px;color:#5B6577;font-size:13px;">图表库未加载（无网络），请查看打卡页调整规则与记录列表。</p>'; return; }
-    var logs=store('jz_body')||{};
+    if(!window.echarts){ box.innerHTML='<p style="padding:14px 4px;color:#5B6577;font-size:13px;">图表库未加载（无网络），请查看「数据」页调整规则与记录列表。</p>'; return; }
+    var logs=store('jz_body2')||{};
     var target=[['2026-10-09',100],['2026-10-12',99.5],['2026-10-19',97.5],['2026-10-26',95.5],['2026-11-02',93.5],['2026-11-09',91.5],['2026-11-16',89.5],['2026-11-23',87],['2026-11-28',85]];
     var actual=Object.keys(logs).sort().map(function(k){ return [k, logs[k].w]; });
     if(!wChart){ wChart=echarts.init(box); }
@@ -1126,7 +1178,7 @@ function setDataMsg(t, err){
   setDataMsg._t=setTimeout(function(){ el.textContent=''; }, 6000);
 }
 function confirmImport(){
-  var has=Object.keys(store('jz_shop')||{}).length || Object.keys(store('jz_check')||{}).length || Object.keys(store('jz_body')||{}).length;
+  var has=Object.keys(store('jz_shop2')||{}).length || Object.keys(store('jz_check2')||{}).length || Object.keys(store('jz_body2')||{}).length;
   if(has && !confirm('导入将覆盖当前所有采购/打卡/体重数据，确定继续？')) return false;
   return true;
 }
@@ -1146,7 +1198,7 @@ function legacyCopy(t, ok, fail){
   }catch(e){ if(fail) fail(); }
 }
 $('data-export').addEventListener('click', function(){
-  var data={shop:store('jz_shop')||{}, check:store('jz_check')||{}, body:store('jz_body')||{}};
+  var data={shop:store('jz_shop2')||{}, check:store('jz_check2')||{}, body:store('jz_body2')||{}};
   var json=JSON.stringify(data);
   var blob=new Blob([json], {type:'application/json'});
   var a=document.createElement('a');
@@ -1165,11 +1217,11 @@ $('data-paste-btn').addEventListener('click', function(){
   try{
     var d=JSON.parse(t);
     if(!d || typeof d!=='object') throw 0;
-    if(d.shop) store('jz_shop', d.shop);
-    if(d.check) store('jz_check', d.check);
-    if(d.body) store('jz_body', d.body);
+    if(d.shop) store('jz_shop2', d.shop);
+    if(d.check) store('jz_check2', d.check);
+    if(d.body) store('jz_body2', d.body);
     $('data-paste').value='';
-    renderShop(); renderCheck(); renderBody(); initWChart();
+    renderShop(); renderCheck(); renderBody(); initWChart(); renderCP(); renderForecast();
     setDataMsg('导入成功：采购 '+Object.keys(d.shop||{}).length+' 项 / 打卡 '+Object.keys(d.check||{}).length+' 天 / 记录 '+Object.keys(d.body||{}).length+' 条');
   }catch(e){ setDataMsg('导入失败：内容不是有效的进度文本，请重新复制', true); }
 });
@@ -1182,11 +1234,11 @@ $('data-file').addEventListener('change', function(){
       var d=JSON.parse(r.result);
       if(!d || typeof d!=='object') throw 0;
       if(!confirmImport()) return;
-      if(d.shop) store('jz_shop', d.shop);
-      if(d.check) store('jz_check', d.check);
-      if(d.body) store('jz_body', d.body);
+      if(d.shop) store('jz_shop2', d.shop);
+      if(d.check) store('jz_check2', d.check);
+      if(d.body) store('jz_body2', d.body);
       setDataMsg('导入成功：采购 '+Object.keys(d.shop||{}).length+' 项 / 打卡 '+Object.keys(d.check||{}).length+' 天 / 记录 '+Object.keys(d.body||{}).length+' 条');
-      renderShop(); renderCheck(); renderBody(); initWChart();
+      renderShop(); renderCheck(); renderBody(); initWChart(); renderCP(); renderForecast();
     }catch(e){ setDataMsg('导入失败：文件格式不对', true); }
   };
   r.readAsText(f);
