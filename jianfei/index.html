@@ -249,6 +249,24 @@
   /* 滚动揭示（仅当 JS 启用才生效，JS 不可用时页面始终可见） */
   html.js .rv{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s cubic-bezier(.22,.61,.36,1);}
   html.js .rv.on{opacity:1;transform:none;}
+  /* ===== 每日计划时间线卡片 ===== */
+  .tl{display:flex;flex-direction:column;gap:10px;margin-top:2px;}
+  .tl-card{display:flex;align-items:stretch;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow-card);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;}
+  .tl-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-pop);border-color:#C9D6E8;}
+  .tl-card.warn{border-color:#F0C9BE;background:#FFF7F4;}
+  .tl-time{flex:none;min-width:60px;height:34px;display:flex;align-items:center;justify-content:center;background:var(--ink);color:#fff;border-radius:999px;font-size:12.5px;font-weight:800;letter-spacing:.03em;margin-top:2px;box-shadow:0 3px 8px -3px rgba(16,27,46,.3);}
+  .tl-card.warn .tl-time{background:var(--red);}
+  .tl-body{flex:1;min-width:0;}
+  .tl-body h4{font-size:14.5px;font-weight:800;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:8px;}
+  .tl-body ul{margin:0;padding:0;list-style:none;}
+  .tl-body li{font-size:13px;color:#333D4D;line-height:1.6;padding:2px 0;}
+  .tl-body li::before{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:1.5px;flex:none;}
+  .tl-body li b{color:var(--ink);}
+  .detail-card h3{margin-bottom:10px;}
+  @media (max-width:560px){
+    .tl-time{min-width:50px;font-size:11.5px;height:32px;}
+    .tl-card{padding:10px 12px;gap:10px;}
+  }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -367,7 +385,7 @@
   <div class="wrap">
     <section class="rv">
       <div class="sec-head"><span class="sec-num">01</span><h2>采购清单</h2></div>
-      <p class="lead">按类采购，勾掉即已完成，进度自动保存。蛋白质 / 蔬菜 / 主食按每周采购，补剂与护肤一次买够 50 天。</p>
+      <p class="lead">按类采购，勾掉即已完成，进度自动保存。蛋白质 / 主食 / 补剂 / 护肤全部<b>一次性买齐 50 天</b>（冷冻罐头可存，不用每周跑），只有蔬菜每周买。</p>
       <div class="shop-progress">
         <div>
           <div class="num" id="shop-num">0 / 0</div>
@@ -651,13 +669,13 @@ function dayPlan(s){
   else if(s==='2026-11-28'){ meals=['早餐 08:00：水煮蛋 1 个 + 乳清蛋白粉 30g + 燕麦米 50g（别空腹上镜）','午餐 12:00：鸡胸肉 150g + 蔬菜 200g + 燕麦米 50g（正常吃）','拍摄中：少量补水，不吃撑','晚餐：拍摄结束后正常吃：鸡胸肉 200g 或 罐头鱼 1 罐 100g + 蔬菜 300g + 燕麦米 100g']; }
   else if(ms==='试衣'){ meals=['12:00 午餐：鸡胸肉 200g + 罐头鱼 1 罐 100g + 燕麦米 100g（生重）+ 蔬菜 300g','15:30 加餐：乳清蛋白粉 30g（≈22g 蛋白）','19:30 晚餐：水煮蛋 3 个 + 千张 100g + 蔬菜 300g + 红薯 150g（试衣早点结束、正常吃）']; }
   else if(refeed){ meals=['12:00 午餐：鸡胸肉 200g + 罐头鱼 1 罐 100g + 燕麦米 150g + 蔬菜 300g','15:30 加餐：乳清蛋白粉 30g + 水果 1 个（约 200g）','19:30 晚餐：水煮蛋 4 个 + 千张 100g + 蔬菜 300g + 燕麦米 100g 或 红薯 200g','回血日 ~2100 kcal，别吃超太多']; }
-  else if(phase.name==='冲刺期'){ meals=['12:00 午餐：鸡胸肉 250g（≈58g 蛋白）+ 罐头鱼 1 罐 100g（≈24g）+ 燕麦米 60g + 蔬菜 300g','15:30 加餐：乳清蛋白粉 30g（≈22g 蛋白）','19:30 晚餐：水煮蛋 4 个（≈27g）+ 千张 100g（≈18g）+ 蔬菜 300g（无主食）']; }
+  else if(phase.name==='冲刺期'){ meals=['12:00 午餐：鸡胸肉 250g（≈58g 蛋白）+ 罐头鱼 1 罐 100g（≈24g；每周 1 次换煎烤青花鱼 150g）+ 燕麦米 60g + 蔬菜 300g','15:30 加餐：乳清蛋白粉 30g（≈22g 蛋白）','19:30 晚餐：水煮蛋 4 个（≈27g）+ 千张 100g（≈18g）+ 蔬菜 300g（无主食）']; }
   else if(phase.name==='上台冲刺'){
     if(s>='2026-11-26'){ meals=['12:00 午餐：鸡胸肉 250g + 罐头鱼 1 罐 100g + 蔬菜 300g（无主食；盐 <2g）','15:30 加餐：乳清蛋白粉 30g','19:30 晚餐：水煮蛋 4 个 + 高钾蔬菜 300g（番茄/黄瓜/菠菜；无主食，19:00 前吃完）']; }
     else if(s>='2026-11-24'){ meals=['12:00 午餐：鸡胸肉 250g + 罐头鱼 1 罐 100g + 燕麦米 50g + 蔬菜 300g','15:30 加餐：乳清蛋白粉 30g','19:30 晚餐：水煮蛋 4 个 + 蔬菜 300g（无主食；盐 <3g，给水负荷排水让路）']; }
     else { meals=['12:00 午餐：鸡胸肉 250g + 罐头鱼 1 罐 100g + 燕麦米 50g + 蔬菜 300g','15:30 加餐：乳清蛋白粉 30g','19:30 晚餐：水煮蛋 4 个 + 蔬菜 300g（无主食；盐 2–3g，别吃咸）']; }
   }
-  else { meals=['12:00 午餐：鸡胸肉 200g（≈46g 蛋白）+ 沙丁鱼/金枪鱼罐头 1 罐 100g（≈24g）+ 燕麦米 100g（生重）+ 蔬菜 300g','15:30 加餐：乳清蛋白粉 30g（≈22g 蛋白）','19:30 晚餐三选一轮换：A 卤牛腱 250g（≈68g）｜B 水煮蛋 6 个（≈40g）+ 千张 150g（≈27g）｜C 沙丁鱼罐头 3 罐 300g（≈72g）；配 蔬菜 300g + 红薯 150g','全天蛋白 ≈195g（缺口用蛋白粉补，每勺 30g≈22g）']; }
+  else { meals=['12:00 午餐：鸡胸肉 200g（≈46g 蛋白）+ 罐头鱼 1 罐 100g（≈24g；沙丁鱼/金枪鱼轮换，每周 1 次换煎烤青花鱼 150g）+ 燕麦米 100g（生重）+ 蔬菜 300g','15:30 加餐：乳清蛋白粉 30g（≈22g 蛋白）','19:30 晚餐三选一轮换：A 卤牛腱 250g（≈68g）｜B 水煮蛋 6 个（≈40g）+ 千张 150g（≈27g）｜C 沙丁鱼罐头 3 罐 300g（≈72g）；配 蔬菜 300g + 红薯 150g','全天蛋白 ≈195g（缺口用蛋白粉补，每勺 30g≈22g）']; }
   /* 饮水 */
   var water;
   if(fast>=0){ water=['全天 3L 温水（少量多次）','只喝白水：不加盐、不加电解质、不吃任何东西']; }
@@ -809,24 +827,65 @@ function clampCal(){
   next.style.cursor=next.disabled?'not-allowed':'pointer';
 }
 function syncCkDate(){ if($('ck-date')) $('ck-date').value=selDate; }
+function tlCard(t, tag, lines, cls){
+  var lis=lines.map(function(x){return '<li>'+x+'</li>';}).join('');
+  return '<div class="tl-card'+(cls?' '+cls:'')+'"><div class="tl-time">'+t+'</div><div class="tl-body"><h4>'+tag+'</h4><ul>'+lis+'</ul></div></div>';
+}
 function renderDetail(){
   var p=dayPlan(selDate);
   var d=parse(selDate);
+  var cards=[];
+  var w=p.water||[], tr=p.train||[], me=p.meals||[], su=p.supps||[], sk=p.skin||[], nt=p.notes||[];
+  /* 晨起卡：晨起饮水 + 周日测量 + 早护 */
+  var morn=[];
+  if(w.length && /^(晨起|拍摄日|减水日|全天|总共|水负荷)/.test(w[0])) morn.push(w[0]);
+  nt.forEach(function(x){ if(/周日测量|称重/.test(x) && morn.length<3) morn.push(x); });
+  if(sk.length) morn.push(sk[0]);
+  if(morn.length) cards.push({t:'07:00', html:tlCard('07:00','晨起',morn)});
+  /* 三餐按时间拆卡，补剂自动归位到对应餐卡 */
+  var full=[];
+  function flushFull(){ if(full.length){ cards.push({t:'00:00', html:tlCard('全天','今日要求',full)}); full=[]; } }
+  me.forEach(function(line){
+    var m=line.match(/^(早餐\s*)?(\d{2}:\d{2})\s*([^：:]{0,8})?[：:]\s*(.*)$/);
+    if(!m){ full.push(line); return; }
+    flushFull();
+    var body=[m[4]];
+    if(/午餐/.test(m[3])){ su.forEach(function(x){ if(/随午餐|肌酸/.test(x)) body.push(x); }); }
+    if(/晚餐/.test(m[3])){ su.forEach(function(x){ if(/鱼油/.test(x)) body.push(x); }); }
+    cards.push({t:m[2], html:tlCard(m[2], m[3]||'早餐', body)});
+  });
+  flushFull();
+  /* 训练卡：力量/有氧固定 16:30，散步拉伸类标「随时」 */
+  if(tr.length){
+    var ttag=(/散步|拉伸|休息|试衣/.test(tr.join('')))?'随时':'16:30';
+    var tbody=tr.slice();
+    su.forEach(function(x){ if(/补液盐|咖啡/.test(x)) tbody.push(x); });
+    cards.push({t:'16:30', html:tlCard(ttag,'训练',tbody)});
+  }
+  /* 护肤·晚 + 拍前保护 */
+  if(sk.length>1){
+    var nightSkin=[sk[1]];
+    sk.slice(2).forEach(function(x){ nightSkin.push(x); });
+    cards.push({t:'20:30', html:tlCard('20:30','护肤 · 晚',nightSkin)});
+  }
+  /* 睡前卡：步数 + 全天饮水小结 */
+  var night=[];
+  night.push('<b>步数：</b>'+p.steps);
+  w.forEach(function(x){ if(/合计|全天|总共|≤1L|1\.5–2L|4\.5–5L|300ml/.test(x)) night.push(x); });
+  cards.push({t:'23:00', html:tlCard('23:00','睡前 · 全天小结',night)});
+  /* 特殊备注卡（红线/脱水/试衣/拍摄/回血） */
+  var special=nt.filter(function(x){ return !/周日测量|称重/.test(x); });
+  if(special.length) cards.push({t:'99:00', html:tlCard('注意','今日注意',special,'warn')});
+  /* 按时间排序后拼接 */
+  cards.sort(function(a,b){ return a.t>b.t?1:(a.t<b.t?-1:0); });
   var html='<div class="detail-card"><h3>'+(d.getMonth()+1)+'月'+d.getDate()+'日 · 周'+WD[d.getDay()]+' <span class="ph">'+p.phase+' · '+p.cal+'</span><span class="tg '+p.tagCls+'">'+p.typeName+'</span></h3>';
-  html+=sec('训练', p.train.map(function(x){return '<li>'+x+'</li>';}).join(''));
-  html+=sec('三餐', p.meals.map(function(x){return '<li>'+x+'</li>';}).join(''));
-  html+=sec('饮水', p.water.map(function(x){return '<li>'+x+'</li>';}).join(''));
-  html+=sec('补剂', p.supps.map(function(x){return '<li>'+x+'</li>';}).join(''));
-  html+=sec('护肤', p.skin.map(function(x){return '<li>'+x+'</li>';}).join(''));
-  html+='<div class="d-sec">步数</div><ul><li><b>'+p.steps+'</b></li></ul>';
-  html+=sec('今日备注', p.notes.map(function(x){return '<li>'+x+'</li>';}).join(''));
+  html+='<div class="tl">'+cards.map(function(c){return c.html;}).join('')+'</div>';
   html+='<div style="margin-top:18px;"><button class="btn primary" id="goto-checklist">去打卡 → '+selDate.slice(5).replace('-','/')+'</button></div>';
   html+='</div>';
   $('day-detail').innerHTML=html;
   var gc=$('goto-checklist');
   if(gc){ gc.addEventListener('click', function(){ location.hash='#checklist'; }); }
 }
-function sec(t, lis){ return '<div class="d-sec">'+t+'</div><ul>'+lis+'</ul>'; }
 $('cal-prev').addEventListener('click', function(){ if(selDate<=PLAN_START) return; selDate=addDays(selDate,-1); syncCkDate(); renderCal(); renderDetail(); });
 $('cal-next').addEventListener('click', function(){ if(selDate>=PLAN_END) return; selDate=addDays(selDate,1); syncCkDate(); renderCal(); renderDetail(); });
 $('cal-today').addEventListener('click', function(){ selDate=clampDate(fmt(new Date())); syncCkDate(); renderCal(); renderDetail(); });
@@ -834,15 +893,15 @@ $('cal-toggle').addEventListener('click', function(){ calOpen=!calOpen; $('cal-g
 
 /* ===== 采购清单 ===== */
 var SHOP=[
-  {name:'蛋白质（每周采购 · 罐头/即食为主，不用每天做）', items:[
-    {id:'p1', nm:'鸡蛋（最划算蛋白）', qt:'30 个 · 一次煮 7 个放冰箱'},
-    {id:'p2', nm:'鸡胸肉（冷冻）', qt:'2 kg · 每天午餐 200g，一次煎/煮撕做 2 天量'},
-    {id:'p3', nm:'水浸沙丁鱼罐头（开罐即食；只买水浸，不买油浸/番茄汁）', qt:'10 罐 · 约 10 元/罐（午餐 1 罐 + 晚餐轮换 3 罐）'},
-    {id:'p4', nm:'水浸金枪鱼罐头（选鰹鱼/light tuna）', qt:'3–4 罐 · 约 6–8 元/罐 · 每周 ≤3 罐'},
-    {id:'p5', nm:'青花鱼/鲭鱼（冷冻整条或即食袋）', qt:'1 kg · 烤一次吃 2 天'},
-    {id:'p6', nm:'卤牛腱（熟食店买现成，或一次卤 1kg 吃 3–5 天）', qt:'750 g · 晚餐轮换 3 天，每餐 250g'},
-    {id:'p7', nm:'千张/豆干（真空即食；每周 2–3 次，豆制品不用多吃）', qt:'500 g'},
-    {id:'p8', nm:'熟食店卤鸡肝（每周 2 次 × 50g）', qt:'250 g · 维A 高，别多吃'}
+  {name:'蛋白质（一次性买齐 · 冷冻/罐头可存，不用每天做）', items:[
+    {id:'p1', nm:'鸡蛋（最划算蛋白）', qt:'140 个 · 一次煮 7 个放冰箱'},
+    {id:'p2', nm:'鸡胸肉（冷冻，一次买齐分装）', qt:'11 kg · 每天午餐 200–250g，一次煎/煮撕做 2 天量'},
+    {id:'p3', nm:'水浸沙丁鱼罐头（开罐即食；只买水浸，不买油浸/番茄汁）', qt:'50 罐 · 约 10 元/罐（午餐 25 罐 + 晚餐 C 24 罐 + 1 罐余量）'},
+    {id:'p4', nm:'水浸金枪鱼罐头（选鰹鱼/light tuna）', qt:'14 罐 · 约 6–8 元/罐 · 每周 2 罐替换午餐'},
+    {id:'p5', nm:'青花鱼/鲭鱼（冷冻整条）', qt:'1 kg · 每周 1 次午餐 150g（煎烤），替换当天罐头'},
+    {id:'p6', nm:'卤牛腱（熟食店买现成，或一次卤 2kg 分装冷冻）', qt:'2 kg · 晚餐 A 轮换 8 次，每餐 250g'},
+    {id:'p7', nm:'千张/豆干（真空即食；豆制品不用多吃，按计划吃）', qt:'3 kg · 晚餐 B 150g×8 + 回血/试衣 100g×4 + 冲刺 100g×13'},
+    {id:'p8', nm:'熟食店卤鸡肝（分装冷冻，每次 50g）', qt:'700 g · 每周 2 次 ×50g ×7 周'}
   ]},
   {name:'蔬菜（每周采购 · 可买冷冻免洗）', items:[
     {id:'v1', nm:'西洋菜/豆瓣菜（营养密度第 1）', qt:'250g · 约 5 元'},
@@ -853,24 +912,23 @@ var SHOP=[
     {id:'v6', nm:'胡萝卜（配鸡肝补维A）', qt:'500 g'},
     {id:'v7', nm:'黄瓜（只补水，减量）', qt:'500 g'}
   ]},
-  {name:'主食（每周采购）', items:[
-    {id:'c1', nm:'燕麦米（主食，替代大米；做法见「做法」页）', qt:'5 斤 · 每餐 100g（生重）'},
-    {id:'c2', nm:'即食燕麦片（备胎：开水一冲就能吃）', qt:'1 袋'},
-    {id:'c3', nm:'红薯 / 玉米', qt:'1 kg · 每餐 150g'}
+  {name:'主食（一次性买齐）', items:[
+    {id:'c1', nm:'燕麦米（升糖慢，替代大米；做法见「做法」页）', qt:'4.5 kg · 每餐 50–100g（生重），按每日计划吃'},
+    {id:'c3', nm:'红薯 / 玉米', qt:'4.5 kg · 每餐 150g（回血日 200g），阴凉处分批吃'}
   ]},
   {name:'调味与饮品', items:[
     {id:'d1', nm:'黑咖啡（无糖，训练前用）', qt:'1 袋'},
     {id:'d2', nm:'柠檬（挤汁当醋用）', qt:'每周 2–3 个'},
     {id:'d3', nm:'生抽、料酒、黑胡椒、蒜、姜、醋、辣椒面', qt:'适量（总表见「做法」页）'},
-    {id:'d4', nm:'口服补液盐III（药店，冲刺期/训练后用）', qt:'1–2 盒 · 约 12 元'}
+    {id:'d4', nm:'口服补液盐III（药店，冲刺期/训练后用）', qt:'5 盒（50 袋）· 冲刺+上台 21 天 ×每天 2 杯 ≈42 袋'}
   ]},
   {name:'补剂（一次采购，够 50 天）', items:[
     {id:'s1', nm:'多维元素片（药店国药准字，如 21金维他/多维元素片）', qt:'60–100 片 · 约 10–25 元，每天 1 片'},
-    {id:'s2', nm:'维生素D3软胶囊 400IU（药店国药准字）', qt:'1–2 瓶 · 约 10–15 元/瓶，每天 2 粒'},
+    {id:'s2', nm:'维生素D3软胶囊 400IU（药店国药准字）', qt:'2 瓶（100 粒/瓶）· 每天 2 粒 ×47 天 ≈94 粒'},
     {id:'s3', nm:'一水肌酸粉（诺特兰德 300g 约 40–70 元，促销 38；更省爱兰纯 ~20 元）', qt:'300 g · 每天 3 g，11/23 停'},
     {id:'s4', nm:'葡萄糖酸锌片（药店）', qt:'约 8 元，每天 1 片随午餐'},
     {id:'s5', nm:'深海鱼油软胶囊（药店/诺特兰德，Omega-3 ≥300mg/粒）', qt:'1 瓶 · 约 25–40 元，每天 2 粒'},
-    {id:'s6', nm:'乳清蛋白粉（诺特兰德 2.5kg 约 100–150 元；康比特促销也可）', qt:'1–2.5 kg · 每天 1 勺'}
+    {id:'s6', nm:'乳清蛋白粉（诺特兰德 2.5kg 约 100–150 元；康比特促销也可）', qt:'2.5 kg 一桶 · 每天 30g（1 勺）×47 天 ≈1.4 kg'}
   ]},
   {name:'护肤与上镜（一次采购，平价版；已逐个查证有效成分与全网性价比）', items:[
     {id:'k1', nm:'旁氏 米粹洁面乳（有效成分：椰油酰甘氨酸钠等三重氨基酸表活 + 稻米精粹 + 甘油）', qt:'120–150g · 约 20–25 元 · 全网最便宜氨基酸洁面'},
