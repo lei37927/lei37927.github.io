@@ -124,6 +124,19 @@
   .cal-legend{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--muted);margin-bottom:16px;}
   .cal-legend span{display:inline-flex;align-items:center;gap:6px;}
   .cal-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+  #cal-grids.folded{display:none;}
+  #cal-strip{display:flex;gap:6px;overflow-x:auto;padding:4px 2px 14px;margin-bottom:2px;scrollbar-width:thin;}
+  #cal-strip::-webkit-scrollbar{height:6px;}
+  #cal-strip::-webkit-scrollbar-thumb{background:#C7CFDC;border-radius:3px;}
+  #cal-strip::-webkit-scrollbar-track{background:#F3F5F9;border-radius:3px;}
+  .strip-day{flex:0 0 46px;text-align:center;border:1px solid var(--line-2);border-radius:10px;padding:6px 0 5px;cursor:pointer;background:var(--card);transition:border-color .15s,transform .15s,box-shadow .15s;}
+  .strip-day:hover{border-color:#B9C6DA;transform:translateY(-1px);}
+  .strip-day.today{border-color:var(--line-2);}
+  .strip-day.today .sd{color:var(--accent);}
+  .strip-day.sel{background:var(--accent-soft);border-color:var(--accent);box-shadow:0 0 0 1.5px var(--accent);}
+  .strip-day.sel .sd{color:var(--accent);font-weight:900;}
+  .strip-day .sd{font-size:11.5px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.3;}
+  .strip-day .dot{display:block;width:8px;height:8px;border-radius:50%;margin:4px auto 0;}
   .cal-week{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;font-size:12px;color:var(--faint);text-align:center;font-weight:700;margin-bottom:7px;}
   .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;}
   .cal-day{min-height:60px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:7px 8px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:3px;transition:all .15s ease;box-shadow:0 1px 1px rgba(16,27,46,.02);}
@@ -137,6 +150,9 @@
   .cal-day .tag{font-size:10.5px;line-height:1.3;padding:2px 6px;border-radius:5px;color:#fff;width:fit-content;font-weight:800;letter-spacing:.02em;}
   .tag.s{background:var(--accent);} .tag.c{background:var(--blue);} .tag.r{background:var(--green);}
   .tag.m{background:var(--amber);} .tag.p{background:var(--red);} .tag.f{background:var(--violet);}
+  /* 详情卡类型徽标（白字必须配背景，否则隐形） */
+  .tg.s{background:var(--accent);} .tg.c{background:var(--blue);} .tg.r{background:var(--green);}
+  .tg.m{background:var(--amber);} .tg.p{background:var(--red);} .tg.f{background:var(--violet);}
   .detail-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;margin-bottom:14px;box-shadow:var(--shadow-card);}
   .detail-card h3{font-size:17px;font-weight:900;color:var(--ink);display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;line-height:1.5;}
   .detail-card h3 .ph{font-size:12.5px;font-weight:700;color:var(--muted);background:#F2F4FA;border:1px solid var(--line);padding:3px 10px;border-radius:999px;}
@@ -170,6 +186,12 @@
   .rec-row{display:flex;gap:10px;align-items:center;padding:9px 6px;border-bottom:1px dashed #E9EDF4;font-size:13px;}
   .rec-row:last-child{border-bottom:none;}
   .rec-row .dt{min-width:84px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--card);}
+  .cp-table{margin:0;min-width:660px;}
+  .cp-table td{font-size:12.5px;line-height:1.6;}
+  .cp-table td:last-child{color:#333D4D;}
+  .cp-st{font-weight:800;font-variant-numeric:tabular-nums;}
+  .st-wait{color:var(--muted);} .st-todo{color:var(--amber);} .st-ok{color:var(--green);} .st-no{color:var(--red);}
   @media (max-width:640px){
     .hero{padding:36px 0 32px;}
     .hero h1{font-size:26px;}
@@ -183,6 +205,26 @@
     .form-row input{width:112px;}
     .check-item .qt{display:block;margin-left:0;margin-top:2px;line-height:1.5;}
     .cat-head{flex-wrap:wrap;gap:6px;}
+    /* 触控目标 ≥44px（移动端） */
+    .strip-day{flex:0 0 50px;min-height:46px;padding:9px 0 8px;}
+    .strip-day .sd{font-size:12px;}
+    .btn{min-height:44px;}
+    .btn.sm{min-height:44px;padding:0 14px;}
+    .cal-nav .btn{min-height:44px;}
+    .tabs a{min-height:44px;padding:0 14px;}
+    /* 阶段检查表：移动端纵向堆叠为卡片，升级动作列直接可见 */
+    .tbl-wrap{overflow:visible;border:none;background:transparent;}
+    .cp-table{min-width:0;display:block;}
+    .cp-table thead{display:none;}
+    .cp-table,.cp-table tbody,.cp-table tr,.cp-table td{display:block;width:100%;box-sizing:border-box;}
+    .cp-table tr{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;padding:10px 12px;box-shadow:var(--shadow-card);}
+    .cp-table td{border:none;padding:2px 0;}
+    .cp-table td:nth-child(1){font-size:14px;font-weight:900;color:var(--ink);}
+    .cp-table td:nth-child(2)::before{content:'日期 · ';font-weight:800;color:var(--muted);}
+    .cp-table td:nth-child(3)::before{content:'目标体重 · ';font-weight:800;color:var(--muted);}
+    .cp-table td:nth-child(4)::before{content:'状态 · ';font-weight:800;color:var(--muted);}
+    .cp-table td:nth-child(5){margin-top:6px;padding-top:8px;border-top:1px dashed var(--line-2);color:#333D4D !important;}
+    .cp-table td:nth-child(5)::before{content:'没达标 → 立刻升级：';display:block;font-weight:800;color:var(--accent);margin-bottom:2px;}
   }
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{transition:none !important;animation:none !important;}
@@ -284,20 +326,20 @@
       </div>
     <section>
       <div class="sec-head"><span class="sec-num">04</span><h2>护肤照做表（照着买照着涂）</h2></div>
-      <p class="lead">每个步骤是干嘛的、什么时候做、买哪款，直接照做，不用懂成分。</p>
+      <p class="lead">每个步骤是干嘛的、什么时候做、买哪款，直接照做，不用懂成分。全部换成「药店 + 平价国货」版本，效果不打折。</p>
       <table class="tbl">
         <colgroup><col style="width:16%"><col style="width:17%"><col style="width:28%"><col style="width:14%"><col style="width:25%"></colgroup>
         <thead><tr><th>步骤</th><th>什么时候</th><th>买什么</th><th>参考价</th><th>怎么用（一句话）</th></tr></thead>
         <tbody>
           <tr><td><b>洁面</b>（洗脸）</td><td>早晚各一次</td><td>旁氏 米粹润泽洁面乳 120g</td><td>~25 元</td><td>脸打湿后挤 1cm，揉出泡沫洗全脸冲净</td></tr>
-          <tr><td><b>烟酰胺</b>（提亮控油）</td><td>洗完脸后</td><td>The Ordinary 烟酰胺精华 10%</td><td>~75 元</td><td>滴 3 滴在手心，按压全脸，避开眼周</td></tr>
-          <tr><td><b>保湿乳</b>（锁水）</td><td>精华后，早晚</td><td>适乐肤 C乳 473ml</td><td>~90 元</td><td>挤 1 泵涂脸+脖子；晚上多涂点，还能当身体乳</td></tr>
-          <tr><td><b>防晒</b>（防黑防斑）</td><td>早上出门前</td><td>蜜丝婷 防晒 SPF50</td><td>~49 元</td><td>黄豆大小涂脸+脖子+手背，出门前 15 分钟</td></tr>
-          <tr><td><b>A醇</b>（细腻毛孔）</td><td>周二/五晚</td><td>露得清 A醇晚霜</td><td>~50 元</td><td>绿豆大小涂全脸避开眼周；次日必须防晒；11/21 起停</td></tr>
-          <tr><td><b>T 区控油</b></td><td>周一/三晚</td><td>Stridex 水杨酸棉片（红盒）</td><td>~70 元</td><td>擦额头/鼻翼/下巴，别擦两颊</td></tr>
-          <tr><td><b>面膜</b>（应急补水）</td><td>每周日晚</td><td>森田 玻尿酸面膜</td><td>~50 元/20 片</td><td>洗完脸敷 15 分钟，揭掉涂保湿乳</td></tr>
-          <tr><td><b>身体</b>（上镜光泽）</td><td>每周 2 次</td><td>多芬 身体磨砂膏</td><td>~30 元</td><td>洗澡时搓脖子/胸口/手臂，冲净涂 C 乳</td></tr>
-          <tr><td><b>唇膏</b>（拍前不干裂）</td><td>每晚+拍前</td><td>凡士林 润唇膏</td><td>~20 元</td><td>睡前厚涂，拍摄前半小时再涂一次</td></tr>
+          <tr><td><b>烟酰胺</b>（提亮控油）</td><td>洗完脸后</td><td>The Ordinary 烟酰胺精华 10%（30ml 能用 2 个月；想再省就淘宝销量款 5% 烟酰胺精华，约 20 元）</td><td>~75 元</td><td>滴 3 滴在手心，按压全脸，避开眼周</td></tr>
+          <tr><td><b>保湿乳</b>（锁水）</td><td>精华后，早晚</td><td>大宝 维生素E乳 200ml（脸+身体一瓶搞定）</td><td>~20 元</td><td>挤 1 泵涂脸+脖子；晚上多涂点当身体乳</td></tr>
+          <tr><td><b>防晒</b>（防黑防斑）</td><td>早上出门前</td><td>大宝 水感防晒 SPF50</td><td>~35 元</td><td>黄豆大小涂脸+脖子+手背，出门前 15 分钟</td></tr>
+          <tr><td><b>A醇</b>（细腻毛孔）</td><td>周二/五晚</td><td>露得清 A醇晚霜（已是最平价有效款；想更狠：药店维A酸乳膏 0.025%，需医生处方，刺激性大，11/21 前必须停）</td><td>~50 元</td><td>绿豆大小涂全脸避开眼周；次日必须防晒；11/21 起停</td></tr>
+          <tr><td><b>T 区控油</b></td><td>周一/三晚</td><td>药店 水杨酸软膏（信龙/马应龙，国药准字）</td><td>~6 元</td><td>绿豆大小薄涂额头/鼻翼/下巴，别涂两颊</td></tr>
+          <tr><td><b>应急补水</b>（原面膜砍掉）</td><td>每周日晚</td><td>不用买面膜：凡士林晶冻厚涂 15 分钟擦掉再上保湿乳</td><td>省 50 元</td><td>凡士林和下面唇膏买同一小罐</td></tr>
+          <tr><td><b>身体</b>（上镜光泽）</td><td>每周 2 次</td><td>搓澡巾（超市/网上几块钱）</td><td>~8 元</td><td>洗澡时搓脖子/胸口/手臂，冲净涂大宝维E乳</td></tr>
+          <tr><td><b>唇膏</b>（拍前不干裂）</td><td>每晚+拍前</td><td>凡士林 晶冻小罐（唇+应急补水共用）</td><td>~15 元</td><td>睡前厚涂，拍摄前半小时再涂一次</td></tr>
         </tbody>
       </table>
     </section>
@@ -318,7 +360,39 @@
         <div class="bar"><i id="shop-bar"></i></div>
         <button class="btn sm" id="shop-reset">清空勾选</button>
       </div>
+      <div id="shop-done" style="margin-bottom:14px;"></div>
       <div id="shop-list"></div>
+    </section>
+    <section>
+      <div class="sec-head"><span class="sec-num">02</span><h2>食材做法（照着做）</h2></div>
+      <div class="cards">
+        <div class="card"><h3><span class="dotmark"></span>燕麦米饭（主食）</h3><ul class="plain">
+          <li><b>泡：</b>燕麦米提前泡 4–6 小时（或头天晚上泡好冷藏）</li>
+          <li><b>煮：</b>燕麦米 1 份 : 水 1.7 份，电饭煲杂粮饭模式煮 45–60 分钟；嫌糙可掺 20% 大米</li>
+          <li><b>量：</b>每餐生重 60–100 g（冲刺期小半拳），煮好分装冷藏，吃前蒸热/微波</li>
+        </ul></div>
+        <div class="card"><h3><span class="dotmark"></span>鸡胸肉</h3><ul class="plain">
+          <li><b>煎（推荐）：</b>切片 1 cm → 生抽+料酒+黑胡椒+蒜末腌 20 分钟 → 不粘锅中小火每面 3 分钟 → 出锅挤柠檬汁</li>
+          <li><b>煮撕：</b>整块冷水下锅+姜葱料酒，水开转小火 8 分钟关火焖 5 分钟 → 捞出撕丝，拌生抽+醋+蒜末</li>
+        </ul></div>
+        <div class="card"><h3><span class="dotmark"></span>瘦牛肉/牛腱</h3><ul class="plain">
+          <li><b>卤：</b>切块焯水 → 电饭煲/高压锅 + 生抽 3 勺+老抽 1 勺+八角 2 颗+桂皮 1 段+香叶 2 片+姜片，加水没过，煮 40–60 分钟</li>
+          <li>冷藏后切片直接吃，卤一次吃 2–3 天</li>
+        </ul></div>
+        <div class="card"><h3><span class="dotmark"></span>鱼（巴沙鱼/三文鱼）</h3><ul class="plain">
+          <li><b>清蒸：</b>鱼块+姜丝+料酒腌 10 分钟 → 水开蒸 8–10 分钟 → 出锅淋生抽+葱丝</li>
+          <li>嫌淡就蘸一点点醋/辣椒面，别淋热油</li>
+        </ul></div>
+        <div class="card"><h3><span class="dotmark"></span>虾 / 蛋 / 豆腐</h3><ul class="plain">
+          <li><b>虾：</b>白灼——水开下锅 2–3 分钟捞出，蘸生抽+醋+姜末</li>
+          <li><b>蛋：</b>水煮蛋——冷水下锅，水开 8 分钟关火焖 2 分钟</li>
+          <li><b>豆腐：</b>老豆腐切块蒸 5 分钟或凉拌，直接吃</li>
+        </ul></div>
+        <div class="card"><h3><span class="dotmark"></span>调料总表（就这些，别的都别买）</h3><ul class="plain">
+          <li>生抽、料酒、黑胡椒、蒜、姜、葱、醋、辣椒面、柠檬</li>
+          <li>不买：沙拉酱、番茄酱、老干妈、任何「轻食酱」</li>
+        </ul></div>
+      </div>
     </section>
   </div>
 </div>
@@ -340,8 +414,10 @@
         <button class="btn sm" id="cal-prev">前一天</button>
         <button class="btn sm" id="cal-today">回到今天</button>
         <button class="btn sm" id="cal-next">后一天</button>
+        <button class="btn sm" id="cal-toggle">展开整月日历</button>
       </div>
-      <div id="cal-grids"></div>
+      <div id="cal-strip"></div>
+      <div id="cal-grids" class="folded"></div>
       <div id="day-detail"></div>
     </section>
   </div>
@@ -352,7 +428,7 @@
   <div class="wrap">
     <section>
       <div class="sec-head"><span class="sec-num">01</span><h2>每日打卡</h2></div>
-      <p class="lead">选日期勾选当天完成项，进度自动保存到本机。断食日与周日会显示对应的专属清单。</p>
+      <p class="lead">每天打开打卡页勾当天完成项，进度自动保存；阶段检查会按你的记录动态预估。断食日与周日会显示对应的专属清单。</p>
       <div class="ck-date">
         <input type="date" id="ck-date">
         <button class="btn sm" id="ck-today">今天</button>
@@ -388,11 +464,12 @@
       </div>
       <div class="card" style="padding:8px 14px;" id="bd-list"></div>
       <div class="card">
-        <h3><span class="dotmark"></span>调整规则（每周日对照）</h3>
+        <h3><span class="dotmark"></span>每周日怎么调（先看上面的阶段检查表）</h3>
         <ul class="plain">
-          <li><b>掉慢了</b>（周掉 &lt;1 kg）：下周少吃 200 kcal，或多走 20 分钟</li>
-          <li><b>掉太快</b>（已过前两周，周掉 &gt;2.5 kg）：加 200 kcal 回来</li>
-          <li><b>体重没动、腰围在缩：</b>正常，继续做</li>
+          <li><b>周掉 &lt;1 kg 且没到检查点目标：</b>按检查点「升级动作」当天就执行，别等下周</li>
+          <li><b>连续两周没达标：</b>直接跳到下一级升级动作（16:8 → 20:4、碳水循环 → 断碳冲刺）</li>
+          <li><b>掉太快</b>（前两周之后周掉 &gt;2.5 kg）：加 200 kcal 回来，防止掉肌肉</li>
+          <li><b>体重没动、腰围在缩：</b>正常，继续做，数字会追上来</li>
         </ul>
       </div>
       <div class="callout red">
@@ -401,19 +478,48 @@
       </div>
     </section>
     <section>
-      <div class="sec-head"><span class="sec-num">03</span><h2>数据备份 / 换设备</h2></div>
+      <div class="sec-head"><span class="sec-num">03</span><h2>阶段检查（每 7 天对照一次）</h2></div>
+      <p class="lead">每周日空腹称重后对照下表：达标 → 继续；没达标 → 按「升级动作」当天就调整，别拖到下周。状态栏自动读取你的体重记录，上方还会按你的打卡完成率和体重趋势动态预估 11/28 结果。</p>
+      <div id="cp-forecast"></div>
+      <div class="tbl-wrap">
+      <table class="tbl cp-table">
+        <colgroup><col style="width:9%"><col style="width:17%"><col style="width:15%"><col style="width:13%"><col style="width:46%"></colgroup>
+        <thead><tr><th>检查点</th><th>日期</th><th>目标体重</th><th>状态</th><th>没达标 → 立刻升级（照做，别讨价还价）</th></tr></thead>
+        <tbody id="cp-body">
+          <tr data-cp="2026-10-12" data-w="99.5"><td><b>CP1</b></td><td>10/12 周日</td><td>≤ 99.5 kg</td><td class="cp-st">—</td><td>断食 3 天掉的主要是水，恢复吃饭会回弹 0.5–1kg，属正常。若 &gt;99.5：检查是否偷吃或盐吃重；10/15 起执行严格 16:8，晚餐 18:00 前吃完</td></tr>
+          <tr data-cp="2026-10-19" data-w="97.5"><td><b>CP2</b></td><td>10/19 周日</td><td>≤ 97.5 kg</td><td class="cp-st">—</td><td>没到：燕麦米每餐 100g → 70g（生重）；每天步数 9000 → 12000；戒掉所有酱料和含糖饮料</td></tr>
+          <tr data-cp="2026-10-26" data-w="95.5"><td><b>CP3</b></td><td>10/26 周日</td><td>≤ 95.5 kg</td><td class="cp-st">—</td><td>没到：改碳水循环（周一/四碳水 50g，其余 100g）；力量训练每组做到力竭再停；23:00 前睡，睡不够皮质醇高会锁水</td></tr>
+          <tr data-cp="2026-11-02" data-w="93.5"><td><b>CP4</b></td><td>11/02 周日</td><td>≤ 93.5 kg</td><td class="cp-st">—</td><td>没到：全天摄入降到 1500 kcal；每天加 30 分钟坡度快走；每周挑 2 天做轻断食日（全天 ≤600 kcal，只喝水+电解质+蛋白粉）</td></tr>
+          <tr data-cp="2026-11-09" data-w="91.5"><td><b>CP5</b></td><td>11/09 周日<br>（11/07 试衣日目标 90.5–91.5）</td><td>≤ 91.5 kg</td><td class="cp-st">—</td><td>没到：进食窗口缩成 20:4（每天只吃一顿，17:00–21:00）；有氧每周 3 次改 HIIT；先复查称重口径（空腹/排便后/同一台秤）</td></tr>
+          <tr data-cp="2026-11-16" data-w="89.5"><td><b>CP6</b></td><td>11/16 周日</td><td>≤ 89.5 kg</td><td class="cp-st">—</td><td>没到：进入最后冲刺——碳水降到 30g/天（基本无主食）+ 钠 &lt;2g/天 + 每天快走 1 小时</td></tr>
+          <tr data-cp="2026-11-23" data-w="87"><td><b>CP7</b></td><td>11/23 周日</td><td>≤ 87 kg</td><td class="cp-st">—</td><td>没到也别慌：11/24 起脱水流程照常执行（水负荷→减水→拍摄日几乎不喝），低钠+脱水能在秤上和照片上追回 1–2kg 观感</td></tr>
+          <tr data-cp="2026-11-28" data-w="85"><td><b>终点</b></td><td>11/28 周六 拍摄</td><td>≤ 85 kg<br>（脱水后可能 84–84.5）</td><td class="cp-st">—</td><td>拍摄日看的是状态不是数字：脱水完成 + 睡够 + 当天早餐正常吃别空腹，把状态交给化妆师</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="callout warn">
+        <span class="ttl">称重口径（每次一样，否则数字骗你）</span>
+        每周日早晨空腹、上完厕所、同一台秤、只穿内衣；看 7 天趋势，不看单日波动。体重没动但腰围在缩 = 正常，继续做。回血日/断食后回弹的 0.5–1kg 是水分，不是胖。肌酸停用（11/23 起）后秤上会再掉 1–2kg 水，那是计划内的。
+      </div>
+    </section>
+    <section>
+      <div class="sec-head"><span class="sec-num">04</span><h2>数据备份 / 换设备</h2></div>
       <div class="card">
         <h3><span class="dotmark"></span>进度存在本浏览器本地</h3>
         <ul class="plain">
           <li>所有勾选与记录都存在你<b>这台设备的浏览器</b>里（localStorage），不需要注册账号</li>
-          <li>部署到你自己的网站后一样可用，但<b>每个设备/浏览器各存各的</b>，不会自动同步</li>
-          <li>换电脑/手机或换浏览器时：旧设备点「导出」，把文件带到新设备点「导入」即可恢复</li>
+          <li>跨设备：旧设备点<b>「一键导出」</b>（自动复制到剪贴板）→ 发到新设备（微信/QQ 发给自己）→ 新设备点<b>「粘贴导入」</b>，10 秒完成</li>
+          <li>文件导入同样可用：导出会同时下载一份 JSON 文件，换设备时选文件导入</li>
         </ul>
         <div class="form-row" style="margin-top:6px;">
-          <button class="btn" id="data-export">导出进度文件</button>
-          <button class="btn" id="data-import-btn">导入进度文件</button>
+          <button class="btn primary" id="data-export">一键导出（下载 + 复制）</button>
+          <button class="btn" id="data-import-btn">导入文件</button>
           <input type="file" id="data-file" accept=".json" style="display:none;">
           <span id="data-msg" style="font-size:12.5px;color:var(--green);"></span>
+        </div>
+        <div class="form-row" style="margin-top:2px;align-items:stretch;">
+          <textarea id="data-paste" rows="2" placeholder="从旧设备复制过来的进度文本，粘到这里" style="flex:1;min-height:56px;padding:10px 12px;border:1px solid var(--line-2);border-radius:10px;font-size:12.5px;color:var(--ink);background:#fff;font-family:inherit;resize:vertical;"></textarea>
+          <button class="btn" id="data-paste-btn" style="align-self:center;">粘贴导入</button>
         </div>
       </div>
     </section>
@@ -436,9 +542,21 @@ function store(k, v){
   try{
     if(v===undefined){ var x=localStorage.getItem(k); return x?JSON.parse(x):null; }
     localStorage.setItem(k, JSON.stringify(v));
-  }catch(e){}
+    return true;
+  }catch(e){
+    if(!store._warned){
+      store._warned=true;
+      try{ alert('浏览器本地存储不可用（可能是隐私模式或容量已满），本次勾选不会被保存。请用普通浏览器模式打开。'); }catch(_){}
+    }
+    return false;
+  }
 }
 var WD=['日','一','二','三','四','五','六'];
+/* 计划区间硬边界（50 天） */
+var PLAN_START='2026-10-09', PLAN_END='2026-11-28';
+function clampDate(s){ if(!s || s<PLAN_START) return PLAN_START; if(s>PLAN_END) return PLAN_END; return s; }
+/* 周日检查点日期映射（用于体重记录打标） */
+var CP_MAP={'2026-10-12':'CP1','2026-10-19':'CP2','2026-10-26':'CP3','2026-11-02':'CP4','2026-11-09':'CP5','2026-11-16':'CP6','2026-11-23':'CP7','2026-11-28':'终点'};
 
 /* ===== 计划数据 ===== */
 var PHASES=[
@@ -470,7 +588,7 @@ function dayPlan(s){
   else if(wd===0){ type='r'; typeName='休息日'; tagCls='r'; }
   else if(wd%2===1){ type='s'; typeName='力量'; tagCls='s'; }
   else { type='c'; typeName='有氧'; tagCls='c'; }
-  if(s==='2026-11-27'){ typeName='休息（补碳水）'; }
+  if(s==='2026-11-27'){ typeName='休息（脱水冲刺）'; }
   if(phase.name==='上台冲刺' && s<='2026-11-27'){
     if(type==='s' && s!=='2026-11-27'){ typeName='力量（减载）'; }
     if(type==='c'){ typeName='有氧（低强度）'; }
@@ -481,7 +599,7 @@ function dayPlan(s){
   else if(s==='2026-11-28'){ train=['拍摄日，不训练']; }
   else if(ms==='试衣'){ train=['试衣日：有氧 40 分钟低强度 + 记得去试衣']; }
   else if(phase.name==='上台冲刺'){
-    if(s==='2026-11-27'){ train=['休息日：散步 30 分钟 + 拉伸；今晚吃足碳水']; }
+    if(s==='2026-11-27'){ train=['休息日：散步 30 分钟 + 拉伸（不大量出汗）']; }
     else if(wd===1||wd===3||wd===5){ train=['减载力量：哑铃 3×10 轻重量（深蹲/硬拉/推举各 3 组）+ 拉伸 5 分钟']; }
     else if(wd===2||wd===4){ train=['有氧 40 分钟（骑车或快走，低强度）']; }
     else if(wd===6){ train=['散步 30 分钟 + 拉伸（为明天拍摄蓄力）']; }
@@ -499,22 +617,31 @@ function dayPlan(s){
   /* 三餐 */
   var meals=[];
   if(fast>=0){ meals=['全天只喝白水，不吃任何东西（3L 温水，少量多次）','不加盐、不加电解质、不吃任何补剂','头晕 / 乏力 / 心慌 → 立即恢复正常饮食','10/12 起恢复三餐（按启动期餐单）']; }
-  else if(s==='2026-11-28'){ meals=['早餐 08:00：1 个鸡蛋 + 牛奶/蛋白粉 + 半拳燕麦（别空腹上镜）','午餐 12:00：一掌肉 + 一盘菜 + 一拳米饭（正常吃）','拍摄中：少量补水，不吃撑','晚餐：拍摄结束后正常吃，蛋白质 + 蔬菜 + 半拳主食']; }
-  else if(ms==='试衣'){ meals=['12:00 一掌肉 + 一盘菜 + 一拳米饭','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜 + 半拳主食（试衣早点结束、正常吃）']; }
-  else if(refeed){ meals=['12:00 一掌肉 + 一大盘菜 + 一拳米饭 + 一碗燕麦','15:30 蛋白粉 1 勺 + 1 个水果','19:30 一掌肉 + 一盘菜 + 一拳米饭或 1 根红薯','回血日 ~2100 kcal，别吃超太多']; }
+  else if(s==='2026-11-28'){ meals=['早餐 08:00：1 个鸡蛋 + 牛奶/蛋白粉 + 半拳燕麦（别空腹上镜）','午餐 12:00：一掌肉 + 一盘菜 + 一拳燕麦米饭（正常吃）','拍摄中：少量补水，不吃撑','晚餐：拍摄结束后正常吃，蛋白质 + 蔬菜 + 半拳主食']; }
+  else if(ms==='试衣'){ meals=['12:00 一掌肉 + 一盘菜 + 一拳燕麦米饭','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜 + 半拳主食（试衣早点结束、正常吃）']; }
+  else if(refeed){ meals=['12:00 一掌肉 + 一大盘菜 + 一拳燕麦米饭','15:30 蛋白粉 1 勺 + 1 个水果','19:30 一掌肉 + 一盘菜 + 一拳燕麦米饭或 1 根红薯','回血日 ~2100 kcal，别吃超太多']; }
   else if(phase.name==='冲刺期'){ meals=['12:00 一掌肉 + 一大盘菜 + 半拳米饭','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜（无主食）']; }
-  else if(phase.name==='上台冲刺'){ meals=['12:00 一掌肉 + 一盘菜 + 小半拳米饭','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜（无主食；盐 2–3g，别吃咸）']; }
-  else { meals=['12:00 一掌肉 + 一大盘菜 + 一拳米饭','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜 + 半拳主食']; }
+  else if(phase.name==='上台冲刺'){
+    if(s>='2026-11-26'){ meals=['12:00 一掌肉 + 一大盘菜（无主食；盐 <2g）','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘高钾蔬菜（番茄/黄瓜/菠菜；无主食，19:00 前吃完）']; }
+    else if(s>='2026-11-24'){ meals=['12:00 一掌肉 + 一大盘菜 + 小半拳燕麦米','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜（无主食；盐 <3g，给水负荷排水让路）']; }
+    else { meals=['12:00 一掌肉 + 一盘菜 + 小半拳燕麦米','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜（无主食；盐 2–3g，别吃咸）']; }
+  }
+  else { meals=['12:00 一掌肉 + 一大盘菜 + 一拳燕麦米饭','15:30 蛋白粉 1 勺','19:30 一掌肉 + 一盘菜 + 半拳主食']; }
   /* 饮水 */
   var water;
   if(fast>=0){ water=['全天 3L 温水（少量多次）','只喝白水：不加盐、不加电解质、不吃任何东西']; }
+  else if(s==='2026-11-28'){ water=['拍摄日：总共只喝 300ml 左右润口，拍完再正常补水','从昨晚 19:00 起没喝水，现在上镜最干']; }
+  else if(s==='2026-11-27'){ water=['全天 ≤1L，19:00 后一滴不喝','钠 <2g + 低碳水：身体会把多余水分排掉']; }
+  else if(s>='2026-11-26'){ water=['减水日：全天 1.5–2L，少量多次','继续低钠（<2g）：排水关键在盐不在水']; }
+  else if(s>='2026-11-24'){ water=['水负荷日：全天 4.5–5L，少量多次','高水 + 低钠（<3g）：先把体内钠排掉，后面减水才掉水分']; }
+  else if(s>='2026-11-22'){ water=['全天 3L 正常','钠降到 3g 内，为下周脱水流程做准备']; }
   else { water=['晨起 500ml 温水','上午 1000ml','训练中 500ml','晚上 1000ml','全天合计 3L']; }
   /* 补剂 */
   var supps=[];
   if(fast>=0){ supps=['无：断食期暂停全部补剂，只喝白水']; }
   else {
     supps=['21金维他多维元素片 1 片 + 星鲨维D 2 粒（随午餐）','蛋白粉 1 勺（15:30 或训练后）'];
-    if(s>='2026-11-23'){ supps.push('康比特锌镁肌酸：已停（11/23 起，为拍摄日上秤更轻）'); }
+    if(s>='2026-11-23'){ supps.push('一水肌酸：已停（11/23 起，肌酸锁水 1–2kg，停掉上秤更轻、上镜更干）'); }
     else { supps.push('康比特锌镁肌酸 3g（随餐或训练后，自带锌镁）'); }
     supps.push('FoYes 鱼油 2 粒（晚餐后）');
     if(phase.name==='冲刺期'||phase.name==='上台冲刺'){ supps.push('口服补液盐电解质（训练前后各一杯）'); }
@@ -536,6 +663,8 @@ function dayPlan(s){
   if(ms){ notes.push(ms==='试衣'?'今天试衣：约 90.5 kg；服装按试衣尺寸定，拍摄时会松一个多码，提前和影楼确认可调整/备小码；贴身款挑略紧一档。':'今天拍摄：按「拍摄日」流程走，早上吃早餐、别空腹，保湿防晒交给化妆师；不纠结秤上数字。'); }
   if(refeed){ notes.push('回血日：高碳水帮助代谢恢复，放心吃，明天体重会反弹 0.5–1kg 水分，正常。'); }
   if(wd===0 && !refeed && !ms && fast<0){ notes.push('周日测量：空腹称重 + 量腰围 + 正侧面照 + 血压，对照打卡页目标和曲线，按调整规则微调下周。'); }
+  if(s>='2026-11-23' && s<='2026-11-28'){ notes.push('脱水冲刺：11/24–25 水负荷（4.5–5L/天 + 低钠）→ 11/26 减水 → 11/27 几乎不喝 → 11/28 少量润口。顺序错了等于白做：先灌水排钠、再断水。'); }
+  if(s>='2026-11-26'){ notes.push('这两天碳水 ≤30g（无主食）：糖原耗尽后皮下水分跟着走，上镜线条更清晰。拍完当天晚上随便吃补回来。'); }
   notes.push('阶段提醒：'+phase.name+'（'+phase.cal+'，'+phase.carb+'）：'+phase.note);
   return {phase:phase.name, typeName:typeName, tagCls:tagCls, cal:phase.cal, train:train, meals:meals, water:water, supps:supps, skin:skin, steps:steps, notes:notes};
 }
@@ -548,8 +677,17 @@ function route(){
   for(var k in VIEWS){ var v=$(VIEWS[k]); v.classList.toggle('active', k===h); }
   var tabs=document.querySelectorAll('.tabs a');
   for(var i=0;i<tabs.length;i++){ tabs[i].classList.toggle('on', tabs[i].getAttribute('href')==='#'+h); }
-  if(h==='calendar'){ renderCal(); renderDetail(); }
-  if(h==='checklist'){ renderCheck(); renderBody(); initWChart(); }
+  if(h==='calendar'){
+    /* 进入日历前：若打卡页已选过日期，则日历跟随 */
+    if($('ck-date').value) selDate=clampDate($('ck-date').value);
+    renderCal(); renderDetail();
+  }
+  if(h==='checklist'){
+    /* 进入打卡前：日期跟随日历选中日 */
+    $('ck-date').value=selDate;
+    renderCheck(); renderBody(); initWChart();
+  }
+  window.scrollTo(0,0);
 }
 window.addEventListener('hashchange', route);
 
@@ -564,9 +702,28 @@ window.addEventListener('hashchange', route);
 })();
 
 /* ===== 日历 ===== */
-var selDate=(fmt(new Date())<'2026-10-09')?'2026-10-09':fmt(new Date());
+var selDate=clampDate(fmt(new Date()));
+var calOpen=false;
+var DOT={s:'var(--accent)',c:'var(--blue)',r:'var(--green)',m:'var(--amber)',p:'var(--red)',f:'var(--violet)'};
 function calTag(p){ return '<span class="tag '+p.tagCls+'">'+p.typeName+'</span>'; }
+function renderStrip(){
+  var html='';
+  for(var s='2026-10-09'; s<='2026-11-28'; s=addDays(s,1)){
+    var p=dayPlan(s);
+    var cls='strip-day';
+    if(s===fmt(new Date())) cls+=' today';
+    if(s===selDate) cls+=' sel';
+    html+='<div class="'+cls+'" data-d="'+s+'" title="'+p.typeName+'"><span class="sd">'+s.slice(5).replace('-','/')+'</span><i class="dot" style="background:'+(DOT[p.tagCls]||'#C7CFDC')+';"></i></div>';
+  }
+  $('cal-strip').innerHTML=html;
+  document.querySelectorAll('#cal-strip .strip-day').forEach(function(el){
+    el.addEventListener('click', function(){ selDate=el.getAttribute('data-d'); syncCkDate(); renderCal(); renderDetail(); });
+  });
+  var sel=document.querySelector('#cal-strip .strip-day.sel');
+  if(sel){ try{ sel.scrollIntoView({inline:'center', block:'nearest'}); }catch(e){} }
+}
 function renderCal(){
+  renderStrip();
   var html='';
   [['2026-10-01','2026-10-09','2026-10-31'],['2026-11-01','2026-11-01','2026-11-28']].forEach(function(m){
     var y=+m[0].slice(0,4), mo=+m[0].slice(5,7);
@@ -591,9 +748,22 @@ function renderCal(){
   });
   $('cal-grids').innerHTML=html;
   document.querySelectorAll('.cal-day[data-d]').forEach(function(el){
-    el.addEventListener('click', function(){ selDate=el.getAttribute('data-d'); renderCal(); renderDetail(); });
+    el.addEventListener('click', function(){ selDate=el.getAttribute('data-d'); syncCkDate(); renderCal(); renderDetail(); });
   });
+  $('cal-grids').classList.toggle('folded', !calOpen);
+  $('cal-toggle').textContent=calOpen?'收起整月日历':'展开整月日历';
+  clampCal();
 }
+function clampCal(){
+  var prev=$('cal-prev'), next=$('cal-next');
+  prev.disabled=(selDate<=PLAN_START);
+  next.disabled=(selDate>=PLAN_END);
+  prev.style.opacity=prev.disabled?'.45':'1';
+  next.style.opacity=next.disabled?'.45':'1';
+  prev.style.cursor=prev.disabled?'not-allowed':'pointer';
+  next.style.cursor=next.disabled?'not-allowed':'pointer';
+}
+function syncCkDate(){ if($('ck-date')) $('ck-date').value=selDate; }
 function renderDetail(){
   var p=dayPlan(selDate);
   var d=parse(selDate);
@@ -605,13 +775,17 @@ function renderDetail(){
   html+=sec('护肤', p.skin.map(function(x){return '<li>'+x+'</li>';}).join(''));
   html+='<div class="d-sec">步数</div><ul><li><b>'+p.steps+'</b></li></ul>';
   html+=sec('今日备注', p.notes.map(function(x){return '<li>'+x+'</li>';}).join(''));
+  html+='<div style="margin-top:18px;"><button class="btn primary" id="goto-checklist">去打卡 → '+selDate.slice(5).replace('-','/')+'</button></div>';
   html+='</div>';
   $('day-detail').innerHTML=html;
+  var gc=$('goto-checklist');
+  if(gc){ gc.addEventListener('click', function(){ location.hash='#checklist'; }); }
 }
 function sec(t, lis){ return '<div class="d-sec">'+t+'</div><ul>'+lis+'</ul>'; }
-$('cal-prev').addEventListener('click', function(){ selDate=addDays(selDate,-1); renderCal(); renderDetail(); });
-$('cal-next').addEventListener('click', function(){ selDate=addDays(selDate,1); renderCal(); renderDetail(); });
-$('cal-today').addEventListener('click', function(){ selDate=fmt(new Date()); renderCal(); renderDetail(); });
+$('cal-prev').addEventListener('click', function(){ if(selDate<=PLAN_START) return; selDate=addDays(selDate,-1); syncCkDate(); renderCal(); renderDetail(); });
+$('cal-next').addEventListener('click', function(){ if(selDate>=PLAN_END) return; selDate=addDays(selDate,1); syncCkDate(); renderCal(); renderDetail(); });
+$('cal-today').addEventListener('click', function(){ selDate=clampDate(fmt(new Date())); syncCkDate(); renderCal(); renderDetail(); });
+$('cal-toggle').addEventListener('click', function(){ calOpen=!calOpen; $('cal-grids').classList.toggle('folded', !calOpen); this.textContent=calOpen?'收起整月日历':'展开整月日历'; });
 
 /* ===== 采购清单 ===== */
 var SHOP=[
@@ -629,32 +803,32 @@ var SHOP=[
     {id:'v4', nm:'番茄', qt:'1 kg'}
   ]},
   {name:'主食（每周采购）', items:[
-    {id:'c1', nm:'大米（煮饭用）或燕麦', qt:'1.5 kg'},
+    {id:'c1', nm:'燕麦米（主食，替代大米）', qt:'5 斤 · 约 15 元，做法见本页 02'},
     {id:'c2', nm:'红薯 / 玉米', qt:'1 kg'}
   ]},
   {name:'调味与饮品', items:[
-    {id:'d1', nm:'黑咖啡（无糖）', qt:'1 袋'},
-    {id:'d2', nm:'油醋汁 / 柠檬', qt:'1 瓶'},
-    {id:'d3', nm:'酱油、蒜、辣椒、香料（少盐调味）', qt:'适量'},
-    {id:'d4', nm:'口服补液盐III（药店）', qt:'1–2 盒 · 约 12 元，冲刺期用'}
+    {id:'d1', nm:'黑咖啡（无糖，训练前用）', qt:'1 袋'},
+    {id:'d2', nm:'柠檬（挤汁当醋用）', qt:'每周 2–3 个'},
+    {id:'d3', nm:'生抽、料酒、黑胡椒、蒜、姜、醋、辣椒面', qt:'适量（总表见本页 02）'},
+    {id:'d4', nm:'口服补液盐III（药店，冲刺期/训练后用）', qt:'1–2 盒 · 约 12 元'}
   ]},
   {name:'补剂（一次采购，够 50 天）', items:[
-    {id:'s1', nm:'21金维他 多维元素片(21)', qt:'100 片 · 约 35 元，每天 1 片'},
-    {id:'s2', nm:'星鲨 维生素D滴剂（400IU）', qt:'3 盒 · 约 20 元/盒，每天 2 粒'},
-    {id:'s3', nm:'康比特 锌镁肌酸（99.99%）', qt:'300 g · 约 79 元，每天 3 g，11/23 停'},
-    {id:'s4', nm:'FoYes 高纯度鱼油（97%）', qt:'1 大瓶 · 约 130 元，每天 2 粒'},
-    {id:'s5', nm:'康比特 乳清蛋白粉', qt:'5 磅 · 约 248 元，每天 1 勺'}
+    {id:'s1', nm:'多维元素片（药店国药准字，如 21金维他/多维元素片）', qt:'60–100 片 · 约 10–25 元，每天 1 片'},
+    {id:'s2', nm:'维生素D3软胶囊 400IU（药店国药准字）', qt:'1–2 瓶 · 约 10–15 元/瓶，每天 2 粒'},
+    {id:'s3', nm:'一水肌酸粉（诺特兰德 300g 约 40–70 元，促销 38；更省爱兰纯 ~20 元）', qt:'300 g · 每天 3 g，11/23 停'},
+    {id:'s4', nm:'葡萄糖酸锌片（药店）', qt:'约 8 元，每天 1 片随午餐'},
+    {id:'s5', nm:'深海鱼油软胶囊（药店/诺特兰德，Omega-3 ≥300mg/粒）', qt:'1 瓶 · 约 25–40 元，每天 2 粒'},
+    {id:'s6', nm:'乳清蛋白粉（诺特兰德 2.5kg 约 100–150 元；康比特促销也可）', qt:'1–2.5 kg · 每天 1 勺'}
   ]},
-  {name:'护肤与上镜（一次采购，品牌已定）', items:[
+  {name:'护肤与上镜（一次采购，平价版）', items:[
     {id:'k1', nm:'旁氏 米粹润泽洁面乳', qt:'120 g · 约 25 元'},
-    {id:'k2', nm:'The Ordinary 烟酰胺精华 10%', qt:'30 ml · 约 75 元'},
-    {id:'k3', nm:'适乐肤 C乳（保湿，脸+身体通用）', qt:'473 ml · 约 90 元'},
-    {id:'k4', nm:'蜜丝婷 防晒 SPF50', qt:'约 49 元'},
+    {id:'k2', nm:'The Ordinary 烟酰胺精华 10%（想再省：销量款 5% 烟酰胺 ~20 元）', qt:'30 ml · 约 75 元'},
+    {id:'k3', nm:'大宝 维生素E乳（脸+身体通用）', qt:'200 ml · 约 20 元'},
+    {id:'k4', nm:'大宝 水感防晒 SPF50', qt:'约 35 元'},
     {id:'k5', nm:'露得清 A醇晚霜', qt:'约 50 元'},
-    {id:'k6', nm:'Stridex 水杨酸棉片（红盒）', qt:'约 70 元，T 区用'},
-    {id:'k7', nm:'森田 玻尿酸面膜', qt:'20 片 · 约 50 元，每周日晚'},
-    {id:'k8', nm:'多芬 身体磨砂膏', qt:'约 30 元，每周 2 次'},
-    {id:'k9', nm:'凡士林 润唇膏', qt:'约 20 元'}
+    {id:'k6', nm:'药店 水杨酸软膏（信龙/马应龙）', qt:'约 6 元，T 区薄涂'},
+    {id:'k7', nm:'凡士林 晶冻小罐（唇膏 + 应急补水共用）', qt:'约 15 元'},
+    {id:'k8', nm:'搓澡巾（身体去角质）', qt:'约 8 元'}
   ]},
   {name:'工具与监测', items:[
     {id:'t1', nm:'厨房秤', qt:'1 个'},
@@ -669,7 +843,8 @@ function renderShop(){
   SHOP.forEach(function(cat){
     var cd=0, ct=0;
     cat.items.forEach(function(it){ if(state[it.id]) cd++; ct++; });
-    html+='<div class="cat"><div class="cat-head"><h3>'+cat.name+'</h3><div style="display:flex;align-items:center;gap:10px;"><span class="cnt">'+cd+' / '+ct+'</span><button class="btn sm" data-cat="'+cat.name+'">本类全选</button></div></div><div class="card" style="padding:6px 14px;">';
+    var allOn=cd===ct && ct>0;
+    html+='<div class="cat"><div class="cat-head"><h3>'+cat.name+'</h3><div style="display:flex;align-items:center;gap:10px;"><span class="cnt">'+cd+' / '+ct+'</span><button class="btn sm" data-cat="'+cat.name+'">'+(allOn?'清空本类':'全选本类')+'</button></div></div><div class="card" style="padding:6px 14px;">';
     cat.items.forEach(function(it){
       var on=!!state[it.id];
       html+='<label class="check-item'+(on?' done':'')+'"><input type="checkbox" data-id="'+it.id+'"'+(on?' checked':'')+'><span><span class="nm">'+it.nm+'</span><span class="qt">'+it.qt+'</span></span></label>';
@@ -680,10 +855,13 @@ function renderShop(){
   $('shop-list').innerHTML=html;
   $('shop-num').textContent=done+' / '+total;
   $('shop-bar').style.width=(total?Math.round(done/total*100):0)+'%';
+  var sd=$('shop-done');
+  if(sd){ sd.innerHTML=(total>0 && done===total)?'<div class="callout green" style="margin-bottom:0;"><span class="ttl">采购全部完成</span>可以按计划开跑了。</div>':''; }
   document.querySelectorAll('#shop-list .check-item input').forEach(function(inp){
     inp.addEventListener('change', function(){
       var st=store('jz_shop')||{};
-      st[inp.getAttribute('data-id')]=inp.checked;
+      var id=inp.getAttribute('data-id');
+      if(inp.checked){ st[id]=true; } else { delete st[id]; }
       store('jz_shop', st);
       renderShop();
     });
@@ -693,12 +871,19 @@ function renderShop(){
       var st=store('jz_shop')||{};
       var catName=b.getAttribute('data-cat');
       var cat=SHOP.filter(function(c){return c.name===catName;})[0];
-      cat.items.forEach(function(it){ st[it.id]=true; });
+      var allOn=cat.items.every(function(it){return st[it.id];});
+      if(allOn){ cat.items.forEach(function(it){ delete st[it.id]; }); }
+      else { cat.items.forEach(function(it){ st[it.id]=true; }); }
       store('jz_shop', st); renderShop();
     });
   });
 }
-$('shop-reset').addEventListener('click', function(){ store('jz_shop', {}); renderShop(); });
+$('shop-reset').addEventListener('click', function(){
+  var st=store('jz_shop')||{};
+  var n=Object.keys(st).filter(function(k){return st[k];}).length;
+  if(n>0 && !confirm('确定清空全部 '+n+' 项采购勾选？此操作不可撤销。')) return;
+  store('jz_shop', {}); renderShop();
+});
 
 /* ===== 打卡 ===== */
 var CK_BASE=[
@@ -727,11 +912,24 @@ function ckItemsFor(s){
   else {
     items=CK_BASE.slice();
     if(parse(s).getDay()===0){ items.push({id:'measure', nm:'测量记录', nt:'空腹称重 + 腰围 + 照片 + 填到下方记录表'}); }
+    if(s>='2026-11-24' && s<='2026-11-27'){ items.push({id:'dehyd', nm:'脱水流程执行', nt:'对照每日计划：水负荷/减水/低钠/低碳'}); }
+    if(s==='2026-11-28'){ items.push({id:'dehyd', nm:'拍摄日控水 ≤300ml', nt:'少量润口，拍完再正常补水'}); }
   }
   return items;
 }
 function renderCheck(){
   var d=$('ck-date').value;
+  /* 越界防护：计划外日期不渲染可勾选清单 */
+  if(!d || d<PLAN_START || d>PLAN_END){
+    selDate=clampDate(d);
+    $('ck-title').textContent='不在计划周期';
+    $('ck-items').innerHTML='<p style="font-size:13px;color:var(--amber);padding:10px 4px;">该日期不在 50 天计划（'+PLAN_START+' ~ '+PLAN_END+'）内，请选计划内日期。</p>';
+    $('ck-bar').style.width='0%';
+    $('ck-pct').textContent='';
+    renderHistory(); renderCP(); renderForecast();
+    return;
+  }
+  selDate=clampDate(d);
   var items=ckItemsFor(d);
   var state=store('jz_check')||{};
   var day=state[d]||{};
@@ -749,12 +947,67 @@ function renderCheck(){
     inp.addEventListener('change', function(){
       var st=store('jz_check')||{};
       if(!st[d]) st[d]={};
-      st[d][inp.getAttribute('data-id')]=inp.checked;
+      var idp=inp.getAttribute('data-id');
+      if(inp.checked){ st[d][idp]=true; } else { delete st[d][idp]; }
       store('jz_check', st);
       renderCheck();
     });
   });
   renderHistory();
+  renderCP();
+  renderForecast();
+}
+function renderForecast(){
+  var box=$('cp-forecast'); if(!box) return;
+  var logs=store('jz_body')||{};
+  var keys=Object.keys(logs).sort();
+  var ck=store('jz_check')||{};
+  var today=fmt(new Date());
+  var total=0, done=0;
+  /* 完成率口径：只统计「至少勾过 1 项」的天数，避免把还没开始用 App 的日子算成 0% */
+  for(var s='2026-10-09'; s<today; s=addDays(s,1)){
+    var day=ck[s]||{};
+    var checkedKeys=Object.keys(day).filter(function(k){return day[k];});
+    if(!checkedKeys.length) continue;
+    var items=ckItemsFor(s);
+    total+=items.length; done+=checkedKeys.length;
+  }
+  var rate=total?Math.round(done/total*100):null;
+  var pred=null, delta=null;
+  /* 体重外推：至少 2 条记录且间隔>0.5 天才做线性外推；记录太少只给引导，不外推 */
+  if(keys.length>=2){
+    var w2=logs[keys[keys.length-1]].w, w1=logs[keys[keys.length-2]].w;
+    var t2=parse(keys[keys.length-1]).getTime(), t1=parse(keys[keys.length-2]).getTime();
+    var dtDays=(t2-t1)/86400000;
+    var slope=dtDays>0.5 ? (w2-w1)/dtDays : 0;
+    var endT=parse('2026-11-28').getTime();
+    pred=Math.round((w2+slope*((endT-t2)/86400000))*10)/10;
+    delta=Math.round((pred-85)*10)/10;
+  }
+  var html='<div class="card"><h3><span class="dotmark"></span>动态预估（按你的打卡 + 体重自动算）</h3><ul class="plain">';
+  html+='<li>已执行 '+done+' / '+total+' 项 · 平均完成率 <b>'+(rate===null?'—':rate+'%')+'</b>（仅统计有打卡的天数）'+(rate!==null&&rate<70?' <span style="color:var(--red);">完成率偏低：先把每天清单做完，再谈减重</span>':'')+'</li>';
+  if(pred===null){
+    html+='<li>体重记录 '+keys.length+' 条：<b>至少再记录 1 次（隔几天）</b>，这里才会自动预测 11/28 体重，并提示要不要升级</li>';
+  } else {
+    var cls=(delta<=0?'st-ok':(delta<=2?'st-todo':'st-no'));
+    var advice=(delta<=0?'按当前速度预计可达标，保持执行即可':(delta<=2?'紧贴目标：最后两周按冲刺期执行，别松劲':'按当前速度预计落后 '+delta+' kg：直接执行检查点表里更高两档的升级动作'));
+    html+='<li>按当前速度，<b>11/28 预计 '+pred+' kg</b>（目标 85 kg，<span class="'+cls+'">'+(delta>0?'差 +':'差 ')+delta+' kg</span>）</li>';
+    html+='<li>'+advice+'</li>';
+  }
+  html+='</ul></div>';
+  box.innerHTML=html;
+}
+function renderCP(){
+  var logs=store('jz_body')||{};
+  var today=fmt(new Date());
+  document.querySelectorAll('#cp-body tr').forEach(function(tr){
+    var d=tr.getAttribute('data-cp'), wmax=+tr.getAttribute('data-w');
+    var cell=tr.querySelector('.cp-st');
+    if(!cell) return;
+    if(d>today){ cell.textContent='未到'; cell.className='cp-st st-wait'; }
+    else if(!logs[d]){ cell.textContent='待记录'; cell.className='cp-st st-todo'; }
+    else { cell.textContent=logs[d].w+' kg'; cell.className='cp-st '+(logs[d].w<=wmax?'st-ok':'st-no'); }
+  });
 }
 function renderHistory(){
   var state=store('jz_check')||{};
@@ -770,44 +1023,59 @@ function renderHistory(){
   }
   $('ck-history').innerHTML=html;
 }
-$('ck-today').addEventListener('click', function(){ $('ck-date').value=fmt(new Date()); renderCheck(); });
-$('ck-prev').addEventListener('click', function(){ $('ck-date').value=addDays($('ck-date').value,-1); renderCheck(); });
+$('ck-today').addEventListener('click', function(){ $('ck-date').value=clampDate(fmt(new Date())); renderCheck(); });
+$('ck-prev').addEventListener('click', function(){ $('ck-date').value=clampDate(addDays($('ck-date').value||PLAN_START,-1)); renderCheck(); });
 $('ck-reset').addEventListener('click', function(){
   var d=$('ck-date').value;
   var st=store('jz_check')||{};
+  var day=st[d]||{};
+  var n=Object.keys(day).filter(function(k){return day[k];}).length;
+  if(n>0 && !confirm('确定清空 '+d+' 的全部 '+n+' 项打卡？此操作不可撤销。')) return;
   delete st[d]; store('jz_check', st); renderCheck();
 });
 
 /* ===== 体重/腰围记录 ===== */
-$('ck-date').value=(fmt(new Date())<'2026-10-09')?'2026-10-09':fmt(new Date());
+$('ck-date').value=clampDate(fmt(new Date()));
+$('ck-date').min=PLAN_START; $('ck-date').max=PLAN_END;
 $('bd-date').value=fmt(new Date());
+$('bd-date').min=PLAN_START; $('bd-date').max=PLAN_END;
 function renderBody(){
   var logs=store('jz_body')||{};
   var keys=Object.keys(logs).sort();
   var html='';
   keys.forEach(function(k){
     var l=logs[k];
-    html+='<div class="rec-row"><span class="dt">'+k.slice(5).replace('-','/')+'</span><span>体重 <b>'+l.w+' kg</b></span><span style="color:var(--muted);">腰围 '+(l.waist?l.waist+' cm':'—')+'</span><button class="btn sm" data-del="'+k+'" style="margin-left:auto;">删除</button></div>';
+    var cpTag=CP_MAP[k]?'<span style="font-size:11px;font-weight:800;color:var(--blue);background:#EEF3FA;padding:1px 7px;border-radius:999px;white-space:nowrap;">'+CP_MAP[k]+'</span>':'';
+    html+='<div class="rec-row"><span class="dt">'+k.slice(5).replace('-','/')+'</span><span>体重 <b>'+l.w+' kg</b></span><span style="color:var(--muted);">腰围 '+(l.waist?l.waist+' cm':'—')+'</span>'+cpTag+'<button class="btn sm" data-del="'+k+'" style="margin-left:auto;">删除</button></div>';
   });
   if(!keys.length) html='<p style="font-size:13px;color:var(--muted);padding:6px 4px;">还没有记录，每周日填一条。</p>';
   $('bd-list').innerHTML=html;
   document.querySelectorAll('#bd-list [data-del]').forEach(function(b){
     b.addEventListener('click', function(){
+      var k=b.getAttribute('data-del');
       var st=store('jz_body')||{};
-      delete st[b.getAttribute('data-del')]; store('jz_body', st);
-      renderBody(); initWChart();
+      var l=st[k]||{};
+      if(!confirm('确定删除 '+k+' 的体重记录（'+l.w+' kg）？此操作不可撤销。')) return;
+      delete st[k]; store('jz_body', st);
+      renderCheck(); renderBody(); initWChart();
     });
   });
 }
 $('bd-save').addEventListener('click', function(){
   var d=$('bd-date').value, w=parseFloat($('bd-weight').value), wa=parseFloat($('bd-waist').value);
-  if(!d){ alert('请选日期'); return; }
-  if(isNaN(w)){ alert('请填体重'); return; }
+  if(!d){ alert('请选择日期'); return; }
+  if(d<PLAN_START || d>PLAN_END){ alert('记录日期需在计划周期内（'+PLAN_START+' ~ '+PLAN_END+'）'); return; }
+  if(isNaN(w)){ alert('请填写体重'); return; }
+  if(w<80 || w>110){ alert('体重 '+w+' kg 不在合理范围（80–110 kg），请核对'); return; }
+  if(!isNaN(wa) && (wa<60 || wa>130)){ alert('腰围 '+wa+' cm 不在合理范围（60–130 cm），请核对'); return; }
   var st=store('jz_body')||{};
+  if(st[d] && st[d].w!==w){
+    if(!confirm(d+' 已有记录 '+st[d].w+' kg，确定覆盖为 '+w+' kg？')) return;
+  }
   st[d]={w:w, waist:isNaN(wa)?null:wa};
   store('jz_body', st);
   $('bd-weight').value=''; $('bd-waist').value='';
-  renderBody(); initWChart();
+  renderCheck(); renderBody(); initWChart();
 });
 
 /* ===== 体重曲线 ===== */
@@ -832,7 +1100,7 @@ function initWChart(){
   loadECharts(function(){
     if(!window.echarts){ box.innerHTML='<p style="padding:14px 4px;color:#5B6577;font-size:13px;">图表库未加载（无网络），请查看打卡页调整规则与记录列表。</p>'; return; }
     var logs=store('jz_body')||{};
-    var target=[['2026-10-09',100],['2026-10-16',97.5],['2026-10-23',95.5],['2026-10-30',93.5],['2026-11-07',90.5],['2026-11-14',88.5],['2026-11-21',86.5],['2026-11-28',85]];
+    var target=[['2026-10-09',100],['2026-10-12',99.5],['2026-10-19',97.5],['2026-10-26',95.5],['2026-11-02',93.5],['2026-11-09',91.5],['2026-11-16',89.5],['2026-11-23',87],['2026-11-28',85]];
     var actual=Object.keys(logs).sort().map(function(k){ return [k, logs[k].w]; });
     if(!wChart){ wChart=echarts.init(box); }
     wChart.setOption({
@@ -848,17 +1116,62 @@ function initWChart(){
     wChart.resize();
   });
 }
+window.addEventListener('resize', function(){ if(wChart){ try{ wChart.resize(); }catch(e){} } });
 
 /* ===== 数据导出/导入 ===== */
+function setDataMsg(t, err){
+  var el=$('data-msg'); if(!el) return;
+  el.textContent=t; el.style.color=err?'var(--red)':'var(--green)';
+  clearTimeout(setDataMsg._t);
+  setDataMsg._t=setTimeout(function(){ el.textContent=''; }, 6000);
+}
+function confirmImport(){
+  var has=Object.keys(store('jz_shop')||{}).length || Object.keys(store('jz_check')||{}).length || Object.keys(store('jz_body')||{}).length;
+  if(has && !confirm('导入将覆盖当前所有采购/打卡/体重数据，确定继续？')) return false;
+  return true;
+}
+function copyText(t, ok, fail){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(ok, function(){ legacyCopy(t, ok, fail); });
+  } else { legacyCopy(t, ok, fail); }
+}
+function legacyCopy(t, ok, fail){
+  try{
+    var ta=document.createElement('textarea');
+    ta.value=t; ta.style.position='fixed'; ta.style.left='-9999px';
+    document.body.appendChild(ta); ta.select();
+    var r=document.execCommand('copy');
+    document.body.removeChild(ta);
+    if(r) ok(); else if(fail) fail();
+  }catch(e){ if(fail) fail(); }
+}
 $('data-export').addEventListener('click', function(){
   var data={shop:store('jz_shop')||{}, check:store('jz_check')||{}, body:store('jz_body')||{}};
-  var blob=new Blob([JSON.stringify(data)], {type:'application/json'});
+  var json=JSON.stringify(data);
+  var blob=new Blob([json], {type:'application/json'});
   var a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
   a.download='减脂进度-'+fmt(new Date())+'.json';
   document.body.appendChild(a); a.click(); a.remove();
-  $('data-msg').textContent='已导出，请保存好这个文件';
-  setTimeout(function(){ $('data-msg').textContent=''; }, 4000);
+  copyText(json,
+    function(){ setDataMsg('文件已下载，并复制到剪贴板——直接粘贴发给新设备即可'); },
+    function(){ setDataMsg('文件已下载，但剪贴板未复制成功：请打开下载的 JSON 文件，全选复制后粘贴到新设备', true); }
+  );
+});
+$('data-paste-btn').addEventListener('click', function(){
+  var t=($('data-paste').value||'').trim();
+  if(!t){ setDataMsg('先把复制的内容粘到上面的框里再点导入', true); return; }
+  if(!confirmImport()) return;
+  try{
+    var d=JSON.parse(t);
+    if(!d || typeof d!=='object') throw 0;
+    if(d.shop) store('jz_shop', d.shop);
+    if(d.check) store('jz_check', d.check);
+    if(d.body) store('jz_body', d.body);
+    $('data-paste').value='';
+    renderShop(); renderCheck(); renderBody(); initWChart();
+    setDataMsg('导入成功：采购 '+Object.keys(d.shop||{}).length+' 项 / 打卡 '+Object.keys(d.check||{}).length+' 天 / 记录 '+Object.keys(d.body||{}).length+' 条');
+  }catch(e){ setDataMsg('导入失败：内容不是有效的进度文本，请重新复制', true); }
 });
 $('data-import-btn').addEventListener('click', function(){ $('data-file').click(); });
 $('data-file').addEventListener('change', function(){
@@ -867,13 +1180,14 @@ $('data-file').addEventListener('change', function(){
   r.onload=function(){
     try{
       var d=JSON.parse(r.result);
+      if(!d || typeof d!=='object') throw 0;
+      if(!confirmImport()) return;
       if(d.shop) store('jz_shop', d.shop);
       if(d.check) store('jz_check', d.check);
       if(d.body) store('jz_body', d.body);
-      $('data-msg').textContent='导入成功：采购 '+Object.keys(d.shop||{}).length+' 项 / 打卡 '+Object.keys(d.check||{}).length+' 天 / 记录 '+Object.keys(d.body||{}).length+' 条';
+      setDataMsg('导入成功：采购 '+Object.keys(d.shop||{}).length+' 项 / 打卡 '+Object.keys(d.check||{}).length+' 天 / 记录 '+Object.keys(d.body||{}).length+' 条');
       renderShop(); renderCheck(); renderBody(); initWChart();
-    }catch(e){ $('data-msg').style.color='var(--red)'; $('data-msg').textContent='导入失败：文件格式不对'; }
-    setTimeout(function(){ $('data-msg').style.color='var(--green)'; $('data-msg').textContent=''; }, 4000);
+    }catch(e){ setDataMsg('导入失败：文件格式不对', true); }
   };
   r.readAsText(f);
   this.value='';
