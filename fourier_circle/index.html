@@ -427,9 +427,15 @@ body.rail-open .rail-scrim{opacity:1;pointer-events:auto}
             <div class="switch" id="hpSwitch" role="switch" aria-checked="false" tabindex="0"></div>
           </span>
         </div>
-        <div class="field">
-          <label>播放速度 <span class="val mono" id="speedVal">1.0×</span></label>
-          <input type="range" id="speedSlider" min="0.2" max="3" step="0.1" value="1">
+        <div class="field" style="display:flex;align-items:center;gap:10px">
+          <div style="flex:1;min-width:0">
+            <label>播放速度 <span class="val mono" id="speedVal">1.0×</span></label>
+            <input type="range" id="speedSlider" min="0.2" max="3" step="0.1" value="1">
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;flex:0 0 auto;padding-top:16px">
+            <span style="font-size:12px;color:var(--ink-2);white-space:nowrap">统一圆</span>
+            <div class="switch" id="uniformSwitch" role="switch" tabindex="0" aria-checked="false"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -912,7 +918,7 @@ var canvas=document.getElementById('canvas');
 var ctx=canvas.getContext('2d');
 var CX=canvas.width/2, CY=canvas.height/2, viewScale=1.0;
 var state={shape:'heart',N:40,speed:1,t:0,playing:true,showCircles:true,showTarget:true,randomSeed:0,
-  ordering:'smart', showFreqLabel:false, traceContent:'outer', showConnectors:true, highPerf:false};
+  ordering:'smart', showFreqLabel:false, traceContent:'outer', showConnectors:true, highPerf:false, uniformCircles:false};
 var pathConnectors=[];
 var view={scale:1, tx:0, ty:0, fit:true};
 var coefs=[], targetPts=[];
@@ -1544,17 +1550,20 @@ function render(now){
     var R=c.amp*viewScale;
     var nx=px+R*Math.cos(a), ny=py+R*Math.sin(a);
     if(state.showCircles){
-      var f=1 - k/M;
-      var warm=(k<6);
-      var tailDf = warm ? 1.0 : df;
-      var ca=0.90*Math.pow(f, warm?0.3:0.85)*tailDf;
-      var la=0.95*Math.pow(f, warm?0.4:1.0)*tailDf;
+      var f=1 - k/M, warm=(k<6), ca, la, circleColor, lw;
+      if(state.uniformCircles){
+        ca=0.7; la=0.7; circleColor='rgba(94,234,212,'+ca.toFixed(3)+')'; lw=1.0;
+      } else {
+        var tailDf = warm ? 1.0 : df;
+        ca=0.90*Math.pow(f, warm?0.3:0.85)*tailDf;
+        la=0.95*Math.pow(f, warm?0.4:1.0)*tailDf;
+        circleColor = warm
+          ? 'rgba(94,234,212,'+ca.toFixed(3)+')'
+          : 'rgba(15,118,110,'+ca.toFixed(3)+')';
+        lw = warm ? 1.2 : 0.9;
+      }
       ctx.beginPath(); ctx.arc(px,py,R,0,Math.PI*2);
-      ctx.strokeStyle = warm
-        ? 'rgba(94,234,212,'+ca.toFixed(3)+')'
-        : 'rgba(15,118,110,'+ca.toFixed(3)+')';
-      ctx.lineWidth = warm ? 1.2 : 0.9;
-      ctx.stroke();
+      ctx.strokeStyle=circleColor; ctx.lineWidth=lw; ctx.stroke();
       ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(nx,ny);
       ctx.strokeStyle='rgba(201,168,106,'+la.toFixed(3)+')';
       ctx.lineWidth=1; ctx.stroke();
@@ -1814,6 +1823,8 @@ function setToggleUI(){
   document.getElementById('freqState').textContent=state.showFreqLabel?'显示':'隐藏';
   document.getElementById('hpSwitch').classList.toggle('on',state.highPerf);
   document.getElementById('hpSwitch').setAttribute('aria-checked',state.highPerf);
+  document.getElementById('uniformSwitch').classList.toggle('on',state.uniformCircles);
+  document.getElementById('uniformSwitch').setAttribute('aria-checked',state.uniformCircles);
 }
 
 /* ================= 画廊 ================= */
@@ -6014,6 +6025,7 @@ function bindSwitch(el,onChange){
 bindSwitch(document.getElementById('circSwitch'),function(){ state.showCircles=!state.showCircles; setToggleUI(); writeHash(); });
 bindSwitch(document.getElementById('tgtSwitch'),function(){ state.showTarget=!state.showTarget; setToggleUI(); writeHash(); });
 bindSwitch(document.getElementById('freqSwitch'),function(){ state.showFreqLabel=!state.showFreqLabel; setToggleUI(); writeHash(); });
+bindSwitch(document.getElementById('uniformSwitch'),function(){ state.uniformCircles=!state.uniformCircles; setToggleUI(); writeHash(); });
 bindSwitch(document.getElementById('hpSwitch'),function(){
   state.highPerf=!state.highPerf;
   /* 若当前 N 超过关闭后上限则钳制并从头播放 */
@@ -6522,7 +6534,7 @@ window.__app={
       randomSeed:state.randomSeed, hasCustom:hasCustom,
       ordering:state.ordering, showFreqLabel:state.showFreqLabel,
       traceContent:state.traceContent, showConnectors:state.showConnectors,
-      sample:currentSample(), highPerf:state.highPerf,
+      sample:currentSample(), highPerf:state.highPerf, uniformCircles:state.uniformCircles,
       viewScale:view.scale};
   }); },
   debugBuild:function(id){ return safeReturn(function(){
@@ -6563,7 +6575,7 @@ function getState(){ return {shape:state.shape,N:state.N,speed:state.speed,t:sta
   randomSeed:state.randomSeed,hasCustom:hasCustom,
   ordering:state.ordering, showFreqLabel:state.showFreqLabel,
   traceContent:state.traceContent, showConnectors:state.showConnectors,
-  sample:currentSample(), highPerf:state.highPerf,
+  sample:currentSample(), highPerf:state.highPerf, uniformCircles:state.uniformCircles,
   viewScale:view.scale}; }
 })();
 </script>
