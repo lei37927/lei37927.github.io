@@ -1518,7 +1518,48 @@ function render(now){
     ctx.strokeStyle='rgba(160,155,145,'+(0.5*targetAlpha)+')'; ctx.lineWidth=1;
     ctx.setLineDash([5,5]); ctx.stroke(); ctx.setLineDash([]);
   }
-  /* 已画轨迹（纯函数：0..t，随 N 连续重建；内容区间画实金，连接线区间淡显/隐藏） */
+  /* 旋转圆链 + 连杆（先于轨迹绘制：轨迹在交叉处覆盖圆链，保证金线连续） */
+  var px=CX, py=CY, endX=px, endY=py;
+  var ac=activeCoefs();
+  var M=Math.min(state.N,ac.length);
+  var df=Math.max(0.55, Math.min(1.05, 1.1 - M/800)); /* 高频密度系数 */
+  var labelMax = M>120 ? 8 : 24;
+  for(var k=0;k<M;k++){
+    var c=ac[k]; if(!c) break;
+    var a=2*Math.PI*c.freq*state.t+c.phase;
+    var R=c.amp*viewScale;
+    var nx=px+R*Math.cos(a), ny=py+R*Math.sin(a);
+    if(state.showCircles){
+      var f=1 - k/M;
+      var warm=(k<6);
+      var tailDf = warm ? 1.0 : df;
+      var ca=0.90*Math.pow(f, warm?0.3:0.85)*tailDf;
+      var la=0.95*Math.pow(f, warm?0.4:1.0)*tailDf;
+      ctx.beginPath(); ctx.arc(px,py,R,0,Math.PI*2);
+      ctx.strokeStyle = warm
+        ? 'rgba(94,234,212,'+ca.toFixed(3)+')'
+        : 'rgba(15,118,110,'+ca.toFixed(3)+')';
+      ctx.lineWidth = warm ? 1.2 : 0.9;
+      ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(nx,ny);
+      ctx.strokeStyle='rgba(201,168,106,'+la.toFixed(3)+')';
+      ctx.lineWidth=1; ctx.stroke();
+    }
+    /* 频率标签 */
+    if(state.showFreqLabel && k<labelMax){
+      var lbl=(c.freq>0?'+':'')+c.freq;
+      ctx.font='10px '+(getComputedStyle(document.body).getPropertyValue('--font-num')||'monospace');
+      var tw=ctx.measureText(lbl).width;
+      ctx.fillStyle='rgba(10,9,8,0.75)';
+      ctx.fillRect(px-tw/2-3, py-5, tw+6, 12);
+      ctx.fillStyle = c.freq<0 ? '#D8A88E' : (c.freq===0?'#9AA9B2':'#F5C451');
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(lbl, px, py+1);
+    }
+    px=nx; py=ny;
+  }
+  endX=px; endY=py;
+  /* 已画轨迹（0..t，随 N 连续重建；内容区间画实金，连接线区间淡显/隐藏） */
   if(state.t>0.0005){
     /* 计算内容区间 = [0, state.t] 减去 connectors 区间 */
     var segs=[];
@@ -1573,47 +1614,6 @@ function render(now){
       ctx.setLineDash([]);
     }
   }
-  /* 旋转圆链 + 连杆 */
-  var px=CX, py=CY, endX=px, endY=py;
-  var ac=activeCoefs();
-  var M=Math.min(state.N,ac.length);
-  var df=Math.max(0.55, Math.min(1.05, 1.1 - M/800)); /* 高频密度系数 */
-  var labelMax = M>120 ? 8 : 24;
-  for(var k=0;k<M;k++){
-    var c=ac[k]; if(!c) break;
-    var a=2*Math.PI*c.freq*state.t+c.phase;
-    var R=c.amp*viewScale;
-    var nx=px+R*Math.cos(a), ny=py+R*Math.sin(a);
-    if(state.showCircles){
-      var f=1 - k/M;
-      var warm=(k<6);
-      var tailDf = warm ? 1.0 : df;
-      var ca=0.90*Math.pow(f, warm?0.3:0.85)*tailDf;
-      var la=0.95*Math.pow(f, warm?0.4:1.0)*tailDf;
-      ctx.beginPath(); ctx.arc(px,py,R,0,Math.PI*2);
-      ctx.strokeStyle = warm
-        ? 'rgba(94,234,212,'+ca.toFixed(3)+')'
-        : 'rgba(15,118,110,'+ca.toFixed(3)+')';
-      ctx.lineWidth = warm ? 1.2 : 0.9;
-      ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(nx,ny);
-      ctx.strokeStyle='rgba(201,168,106,'+la.toFixed(3)+')';
-      ctx.lineWidth=1; ctx.stroke();
-    }
-    /* 频率标签 */
-    if(state.showFreqLabel && k<labelMax){
-      var lbl=(c.freq>0?'+':'')+c.freq;
-      ctx.font='10px '+(getComputedStyle(document.body).getPropertyValue('--font-num')||'monospace');
-      var tw=ctx.measureText(lbl).width;
-      ctx.fillStyle='rgba(10,9,8,0.75)';
-      ctx.fillRect(px-tw/2-3, py-5, tw+6, 12);
-      ctx.fillStyle = c.freq<0 ? '#D8A88E' : (c.freq===0?'#9AA9B2':'#F5C451');
-      ctx.textAlign='center'; ctx.textBaseline='middle';
-      ctx.fillText(lbl, px, py+1);
-    }
-    px=nx; py=ny;
-  }
-  endX=px; endY=py;
   /* 笔尖 */
   ctx.beginPath(); ctx.arc(endX,endY,4.5,0,Math.PI*2);
   ctx.fillStyle='#F5E7BC';
@@ -6458,6 +6458,10 @@ window.__app={
     return {n:n, S:S, maxDev:+mx.toFixed(3), meanDev:+(sum/cnt).toFixed(3), maxDevFreq:+mx2.toFixed(3), coefsLen:activeCoefs().length};
   }); },
   debugTarget:function(){ return safeReturn(function(){ return targetPts; }); },
+  debugApprox:function(u,n){ return safeReturn(function(){
+    var p=pointAtCoefs(activeCoefs(),u,n);
+    return {x:+p.x.toFixed(3),y:+p.y.toFixed(3)};
+  }); },
   debugConn:function(){ return safeReturn(function(){
     return {S:targetPts.length, ranges:pathConnectors};
   }); },
