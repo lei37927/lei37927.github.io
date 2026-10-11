@@ -1156,6 +1156,7 @@ function tracePadded(b,w,h){
 }
 function retraceBitmap(mode,thr,ringIdx,traceContent){
   if(!uploadedBitmap) return {ok:false,error:'尚无图像'};
+  var KS=8192; /* 上传图固定高采样，支撑高性能模式 N 到 2000 */
   if(thr==null||thr==='auto') thr=recommendThreshold(uploadedBitmap,mode);
   var bw=buildBinary(uploadedBitmap,mode,thr);
   var content=traceContent||state.traceContent||'outer';
@@ -1167,26 +1168,26 @@ function retraceBitmap(mode,thr,ringIdx,traceContent){
     var skelRings=tracePadded(skel,bw.w,bw.h);
     var allRings=skelRings.length?skelRings:rings;
     stitched=stitchRings(allRings);
-    var wr=resampleWeighted(stitched.path,currentSample(),stitched.connectors);
+    var wr=resampleWeighted(stitched.path,KS,stitched.connectors);
     contourRaw=wr.pts;
     stitched={path:stitched.path, connectors:wr.connIdx};
   } else if(content==='holes'){
     var rawRings=tracePadded(bw.rawBinary,bw.w,bw.h);
     if(rawRings.length>1){
       var st=stitchRings(rawRings);
-      var wr2=resampleWeighted(st.path,currentSample(),st.connectors);
+      var wr2=resampleWeighted(st.path,KS,st.connectors);
       contourRaw=wr2.pts;
       stitched={path:st.path, connectors:wr2.connIdx};
     } else {
       stitched={path:rings[0],connectors:[]};
-      contourRaw=resample(chaikin(rings[0],2),currentSample());
+      contourRaw=resample(chaikin(rings[0],2),KS);
     }
   } else {
     var ri = (ringIdx!=null)? clamp(ringIdx,0,rings.length-1) : 0;
     var chosen=rings[ri];
     if(chosen.length<8) return {ok:false,error:'轮廓点过少（<8），请换图或调整阈值', binary:bw, rings:rings, ringIdx:ri};
     stitched={path:chosen,connectors:[]};
-    contourRaw=resample(chaikin(chosen,2),currentSample());
+    contourRaw=resample(chaikin(chosen,2),KS);
   }
   var contourNorm=normalize(contourRaw,380);
   pathConnectors=(stitched&&stitched.connectors)?stitched.connectors:[];
@@ -1728,7 +1729,7 @@ var N_TICKS_MOBILE=(function(){
 })();
 function currentTicks(){
   var isMobile=(window.matchMedia&&window.matchMedia('(max-width:760px)').matches);
-  var isComplex=(SHAPE_GROUP[state.shape]==='complex');
+  var isComplex=(SHAPE_GROUP[state.shape]==='complex')||state.shape==='upload';
   var unlock=state.highPerf||false;
   if(isMobile){
     if(isComplex){
@@ -1868,7 +1869,7 @@ var SHAPES=[
 ];
 function currentSample(){
   var g=SHAPE_GROUP[state.shape];
-  if(g==='complex') return 8192;
+  if(g==='complex'||state.shape==='upload') return 8192;
   return 2048;
 }
 /* ===== INLINED FRAGMENTS ===== */
@@ -6028,6 +6029,7 @@ bindSwitch(document.getElementById('freqSwitch'),function(){ state.showFreqLabel
 bindSwitch(document.getElementById('uniformSwitch'),function(){ state.uniformCircles=!state.uniformCircles; setToggleUI(); writeHash(); });
 bindSwitch(document.getElementById('hpSwitch'),function(){
   state.highPerf=!state.highPerf;
+  setToggleUI();
   /* 若当前 N 超过关闭后上限则钳制并从头播放 */
   var t=currentTicks(); var maxN=t[t.length-1];
   if(state.N>maxN){ setN(maxN); } else { syncNToolbar(); }
