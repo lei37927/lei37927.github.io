@@ -204,20 +204,18 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
 .switch.on{background:var(--brass);border-color:var(--brass)}
 .switch.on::after{left:16px;background:#1C1508}
 
-/* 统计卡：紧凑小卡网格 */
-.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
-.stat{background:var(--bg-base);border:1px solid var(--hairline);border-radius:9px;padding:8px 9px;min-width:0}
-.stat-main{grid-column:span 2;border-color:var(--brass-deep);background:rgba(201,168,106,0.06)}
-.stat-main .num{font-size:18px}
-.stat .num{font-size:16px;font-weight:700;color:var(--brass-bright);font-family:var(--font-num);
-  font-variant-numeric:tabular-nums;line-height:1.1;white-space:nowrap}
+/* 统计卡：主指标整行 + 辅助指标两两一行(2×2)，文字完整不截断 */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.stat{background:var(--bg-base);border:1px solid var(--hairline);border-radius:9px;padding:9px 11px;min-width:0}
+.stat-main{grid-column:span 2;border-color:var(--brass-deep);background:rgba(201,168,106,0.06);
+  display:flex;align-items:baseline;gap:10px}
+.stat-main .num{font-size:20px}
+.stat-main .lab{margin-top:0;margin-left:auto;font-size:10px}
+.stat .num{font-size:17px;font-weight:700;color:var(--brass-bright);font-family:var(--font-num);
+  font-variant-numeric:tabular-nums;line-height:1.15;white-space:nowrap}
 .stat .num.good{color:var(--sage)}
 .stat .num.bad{color:var(--danger)}
-.stat .lab{font-size:9px;color:var(--ink-3);margin-top:3px;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@media (max-width:719px){
-  .stats{grid-template-columns:repeat(3,1fr)}
-  .stat-main{grid-column:span 1}
-}
+.stat .lab{font-size:10px;color:var(--ink-3);margin-top:3px;letter-spacing:.2px;line-height:1.2;white-space:nowrap}
 
 /* ===== 弹窗 ===== */
 .overlay{position:fixed;inset:0;background:rgba(8,7,6,.72);display:flex;align-items:center;justify-content:center;
@@ -1490,6 +1488,22 @@ function paintBg(){
   for(var y=13;y<H;y+=26) for(var x=13;x<W;x+=26) g.fillRect(x,y,1.2,1.2);
 }
 var TRAJ=360, lastStatsAt=0;
+/* Catmull-Rom 平滑：把离散采样点用三次贝泽尔光滑连接，曲线严格穿过每个采样点 */
+function smoothStrokePath(c, pts){
+  if(pts.length<2) return;
+  if(pts.length===2){ c.moveTo(pts[0].x,pts[0].y); c.lineTo(pts[1].x,pts[1].y); return; }
+  c.moveTo(pts[0].x,pts[0].y);
+  var n=pts.length;
+  for(var i=0;i<n-1;i++){
+    var p0=pts[i-1]||pts[i];
+    var p1=pts[i];
+    var p2=pts[i+1];
+    var p3=pts[i+2]||p2;
+    c.bezierCurveTo(p1.x+(p2.x-p0.x)/6, p1.y+(p2.y-p0.y)/6,
+                    p2.x-(p3.x-p1.x)/6, p2.y-(p3.y-p1.y)/6,
+                    p2.x,p2.y);
+  }
+}
 function render(now){
   ctx.drawImage(bgCanvas,0,0);
   ctx.save();
@@ -1579,17 +1593,23 @@ function render(now){
         cur=ce; ptr++;
       } else { segs.push([cur,T,'gold']); break; }
     }
-    /* 画内容区间（实金） */
+    /* 采样密度：① 随放大倍数提高；② 保证最高频分量每圈≥40 采样点，否则高频圆会画成多边形 */
+    var acf=activeCoefs(), maxF=1;
+    for(var ci=0;ci<state.N && ci<acf.length;ci++){ var af=Math.abs(acf[ci].freq); if(af>maxF)maxF=af; }
+    var trajNow=Math.max(Math.round(TRAJ*Math.max(1,view.scale)), maxF*40);
+    if(trajNow>6000)trajNow=6000;
+    /* 画内容区间（实金，Catmull-Rom 圆滑） */
     segs.forEach(function(sg){
       if(sg[2]!=='gold')return;
-      ctx.beginPath();
-      var steps=Math.max(2,Math.ceil((sg[1]-sg[0])*TRAJ));
+      var steps=Math.max(2,Math.ceil((sg[1]-sg[0])*trajNow));
+      var pts=[];
       for(var q=0;q<=steps;q++){
         var u=sg[0]+(sg[1]-sg[0])*q/steps;
         var p=pointAtCoefs(coefs,u,state.N);
-        var X=CX+p.x*viewScale, Y=CY+p.y*viewScale;
-        if(q===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+        pts.push({x:CX+p.x*viewScale,y:CY+p.y*viewScale});
       }
+      ctx.beginPath();
+      smoothStrokePath(ctx,pts);
       ctx.strokeStyle='#F5C451'; ctx.lineWidth=2.2; ctx.lineJoin='round'; ctx.lineCap='round';
       ctx.shadowColor='rgba(245,196,81,0.35)'; ctx.shadowBlur=12;
       ctx.stroke(); ctx.shadowBlur=0;
@@ -1601,14 +1621,15 @@ function render(now){
       ctx.lineWidth=1;
       segs.forEach(function(sg){
         if(sg[2]!=='conn')return;
-        ctx.beginPath();
-        var steps=Math.max(2,Math.ceil((sg[1]-sg[0])*TRAJ));
+        var steps=Math.max(2,Math.ceil((sg[1]-sg[0])*trajNow));
+        var pts=[];
         for(var q=0;q<=steps;q++){
           var u=sg[0]+(sg[1]-sg[0])*q/steps;
           var p=pointAtCoefs(coefs,u,state.N);
-          var X=CX+p.x*viewScale, Y=CY+p.y*viewScale;
-          if(q===0)ctx.moveTo(X,Y); else ctx.lineTo(X,Y);
+          pts.push({x:CX+p.x*viewScale,y:CY+p.y*viewScale});
         }
+        ctx.beginPath();
+        smoothStrokePath(ctx,pts);
         ctx.stroke();
       });
       ctx.setLineDash([]);
