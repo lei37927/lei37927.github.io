@@ -699,9 +699,21 @@ function normalize(pts,span){
 /* ================= 图形 ================= */
 function paramShape(fn){ var pts=[]; for(var i=0;i<SAMPLE;i++) pts.push(fn(i/SAMPLE*Math.PI*2)); return pts; }
 function polygonVerts(verts){
-  var pts=[],per=Math.floor(SAMPLE/verts.length),s,j,u,a,b;
-  for(s=0;s<verts.length;s++){ a=verts[s]; b=verts[(s+1)%verts.length];
-    for(j=0;j<per;j++){ u=j/per; pts.push({x:a.x+(b.x-a.x)*u, y:a.y+(b.y-a.y)*u}); } }
+  /* 沿周长按弧长均匀重采样到恰好 SAMPLE 点（2 的幂、闭合），FFT 无需补零；
+     同时修正旧版"每条边固定点数"导致的长短边点密度不均（短边过密、长边过稀） */
+  var n=verts.length, segLen=[], total=0, s;
+  for(s=0;s<n;s++){
+    var a=verts[s], b=verts[(s+1)%n];
+    var L=Math.hypot(b.x-a.x,b.y-a.y); segLen.push(L); total+=L;
+  }
+  var pts=[];
+  for(var i=0;i<SAMPLE;i++){
+    var d=total*i/SAMPLE, acc=0, si=0;
+    while(si<n-1 && acc+segLen[si]<=d){ acc+=segLen[si]; si++; }
+    var p0=verts[si], p1=verts[(si+1)%n];
+    var t=(segLen[si]>0)?(d-acc)/segLen[si]:0;
+    pts.push({x:p0.x+(p1.x-p0.x)*t, y:p0.y+(p1.y-p0.y)*t});
+  }
   return pts;
 }
 function organicShape(seed,high){
@@ -838,17 +850,21 @@ function iterativeFFT(re, im, invert){
 }
 function computeDFT(pts){
   var M=pts.length;
-  /* 补零到 2 的幂次 */
   var N=1; while(N<M) N<<=1;
+  /* 周期闭合重采样到 N（2 的幂），而不是补零：
+     补零会把闭合形状变成"形状 + 缩回原点"的非闭合信号，截断后起点偏移、边缘毛刺 */
   var re=new Array(N), im=new Array(N);
-  for(var i=0;i<M;i++){ re[i]=pts[i].x; im[i]=pts[i].y; }
-  for(var i=M;i<N;i++){ re[i]=0; im[i]=0; }
+  for(var i=0;i<N;i++){
+    var ph=i*M/N, i0=Math.floor(ph)%M, i1=(i0+1)%M, f=ph-Math.floor(ph);
+    re[i]=pts[i0].x+(pts[i1].x-pts[i0].x)*f;
+    im[i]=pts[i0].y+(pts[i1].y-pts[i0].y)*f;
+  }
   iterativeFFT(re, im, false);
-  /* 与旧 DFT 对齐：除以 M（原始点数） */
+  /* 除以重采样后点数 N */
   var out=[];
   for(var k=0;k<N;k++){
     var fre=(k<=N/2)?k:k-N;
-    var rr=re[k]/M, ii=im[k]/M;
+    var rr=re[k]/N, ii=im[k]/N;
     out.push({freq:fre, amp:Math.sqrt(rr*rr+ii*ii), phase:Math.atan2(ii,rr)});
   }
   out.sort(function(a,b){ return b.amp-a.amp; });
@@ -1511,6 +1527,37 @@ function smoothStrokePath(c, pts){
                     p2.x,p2.y);
   }
 }
+/* ===== 整条轨迹点缓存 =====
+   N=1000 时若每帧对 0..t 的每个采样点都重算 N 个圆，是 O(点数×N)≈数百万次三角函数/帧，越画越卡。
+   改为：N/缩放/识别内容变化时一次性算好整条轨迹点（含是否连接线标记），每帧只把缓存点 0..t 描一遍（无三角函数）。 */
+var traceCache=null, traceCacheKey='';
+function traceDensity(){
+  var acf=activeCoefs(), maxF=1;
+  for(var ci=0;ci<state.N && ci<acf.length;ci++){ var af=Math.abs(acf[ci].freq); if(af>maxF)maxF=af; }
+  /* 最高频分量每圈≥16 采样点（Catmull-Rom 会补平滑，无需旧版的40）；随放大倍数提高，保证矢量放大清晰 */
+  var d=Math.max(Math.round(TRAJ*Math.max(1,view.scale)), maxF*16);
+  return Math.min(d, 4000);
+}
+function ensureTraceCache(){
+  var density=traceDensity();
+  var key=state.shape+'|'+state.N+'|'+density+'|'+state.traceContent;
+  if(traceCache && traceCacheKey===key) return traceCache;
+  var cvs=pathConnectors.map(function(iv){ return [iv[0]/SAMPLE, iv[1]/SAMPLE]; });
+  function inConn(u){ for(var i=0;i<cvs.length;i++){ if(u>=cvs[i][0]&&u<=cvs[i][1]) return true; } return false; }
+  var acf=activeCoefs(), L=Math.min(state.N,acf.length);
+  var pts=new Array(density+1);
+  for(var q=0;q<=density;q++){
+    var u=q/density, x=0, y=0;
+    for(var k=0;k<L;k++){
+      var c=acf[k]; if(!c) break;
+      var a=2*Math.PI*c.freq*u+c.phase;
+      x+=c.amp*Math.cos(a); y+=c.amp*Math.sin(a);
+    }
+    pts[q]={x:CX+x*viewScale, y:CY+y*viewScale, conn:inConn(u)};
+  }
+  traceCache=pts; traceCacheKey=key;
+  return pts;
+}
 function render(now){
   ctx.drawImage(bgCanvas,0,0);
   ctx.save();
@@ -1539,35 +1586,41 @@ function render(now){
     ctx.strokeStyle='rgba(160,155,145,'+(0.5*targetAlpha)+')'; ctx.lineWidth=1;
     ctx.setLineDash([5,5]); ctx.stroke(); ctx.setLineDash([]);
   }
-  /* 旋转圆链 + 连杆（先于轨迹绘制：轨迹在交叉处覆盖圆链，保证金线连续） */
+  /* 旋转圆链 + 连杆：位置逐圆递推，路径按颜色分组累积到 Path2D，循环结束后批量描边
+     （把 N 个圆逐个 stroke 的上千次 draw call 降到几次；轨迹在之后绘制、交叉处覆盖圆链） */
   var px=CX, py=CY, endX=px, endY=py;
   var ac=activeCoefs();
   var M=Math.min(state.N,ac.length);
-  var df=Math.max(0.55, Math.min(1.05, 1.1 - M/800)); /* 高频密度系数 */
   var labelMax = M>120 ? 8 : 24;
+  var circleGroups=[], connPath=new Path2D(), connColor='rgba(201,168,106,0.6)';
+  var warmP=null, tA=null, tB=null, tC=null, up=null;
+  if(state.showCircles){
+    if(state.uniformCircles){
+      up=new Path2D();
+      circleGroups.push({color:'rgba(94,234,212,0.7)',lw:1.0,path:up});
+      connColor='rgba(201,168,106,0.6)';
+    } else {
+      warmP=new Path2D(); tA=new Path2D(); tB=new Path2D(); tC=new Path2D();
+      circleGroups.push({color:'rgba(94,234,212,0.9)',lw:1.2,path:warmP});
+      circleGroups.push({color:'rgba(15,118,110,0.85)',lw:0.9,path:tA});
+      circleGroups.push({color:'rgba(15,118,110,0.5)',lw:0.9,path:tB});
+      circleGroups.push({color:'rgba(15,118,110,0.25)',lw:0.9,path:tC});
+      connColor='rgba(201,168,106,0.55)';
+    }
+  }
   for(var k=0;k<M;k++){
     var c=ac[k]; if(!c) break;
     var a=2*Math.PI*c.freq*state.t+c.phase;
     var R=c.amp*viewScale;
     var nx=px+R*Math.cos(a), ny=py+R*Math.sin(a);
     if(state.showCircles){
-      var f=1 - k/M, warm=(k<6), ca, la, circleColor, lw;
       if(state.uniformCircles){
-        ca=0.7; la=0.7; circleColor='rgba(94,234,212,'+ca.toFixed(3)+')'; lw=1.0;
+        up.arc(px,py,R,0,Math.PI*2);
       } else {
-        var tailDf = warm ? 1.0 : df;
-        ca=0.90*Math.pow(f, warm?0.3:0.85)*tailDf;
-        la=0.95*Math.pow(f, warm?0.4:1.0)*tailDf;
-        circleColor = warm
-          ? 'rgba(94,234,212,'+ca.toFixed(3)+')'
-          : 'rgba(15,118,110,'+ca.toFixed(3)+')';
-        lw = warm ? 1.2 : 0.9;
+        if(k<6) warmP.arc(px,py,R,0,Math.PI*2);
+        else { var fr=k/M; (fr<0.34?tA:(fr<0.67?tB:tC)).arc(px,py,R,0,Math.PI*2); }
       }
-      ctx.beginPath(); ctx.arc(px,py,R,0,Math.PI*2);
-      ctx.strokeStyle=circleColor; ctx.lineWidth=lw; ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(px,py); ctx.lineTo(nx,ny);
-      ctx.strokeStyle='rgba(201,168,106,'+la.toFixed(3)+')';
-      ctx.lineWidth=1; ctx.stroke();
+      connPath.moveTo(px,py); connPath.lineTo(nx,ny);
     }
     /* 频率标签 */
     if(state.showFreqLabel && k<labelMax){
@@ -1583,67 +1636,43 @@ function render(now){
     px=nx; py=ny;
   }
   endX=px; endY=py;
-  /* 已画轨迹（0..t，随 N 连续重建；内容区间画实金，连接线区间淡显/隐藏） */
+  /* 批量描边圆链（少数几次 stroke） */
+  if(state.showCircles){
+    ctx.lineJoin='round';
+    for(var gi=0;gi<circleGroups.length;gi++){
+      var g=circleGroups[gi];
+      ctx.beginPath(); ctx.strokeStyle=g.color; ctx.lineWidth=g.lw; ctx.stroke(g.path);
+    }
+    ctx.beginPath(); ctx.strokeStyle=connColor; ctx.lineWidth=1; ctx.stroke(connPath);
+  }
+  /* 已画轨迹（0..t）：直接描缓存点，内容段实金、连接线淡显；每帧无三角函数重算 */
   if(state.t>0.0005){
-    /* 计算内容区间 = [0, state.t] 减去 connectors 区间 */
-    var segs=[];
-    var cur=0, T=state.t;
-    /* connectors 在 u 域的区间（已映射到 SAMPLE 比例） */
-    var cvs=pathConnectors.map(function(iv){ return [iv[0]/SAMPLE, iv[1]/SAMPLE]; });
-    cvs.sort(function(a,b){return a[0]-b[0];});
-    var ptr=0;
-    while(cur<T){
-      /* 找从 cur 起第一个 connector 覆盖的起点 */
-      var nx=T;
-      while(ptr<cvs.length && cvs[ptr][1]<cur) ptr++;
-      if(ptr<cvs.length && cvs[ptr][0]<T){
-        var cs=Math.max(cur,cvs[ptr][0]), ce=Math.min(T,cvs[ptr][1]);
-        if(cs>cur){ segs.push([cur,cs,'gold']); }
-        segs.push([cs,ce,'conn']);
-        cur=ce; ptr++;
-      } else { segs.push([cur,T,'gold']); break; }
-    }
-    /* 采样密度：① 随放大倍数提高；② 保证最高频分量每圈≥40 采样点，否则高频圆会画成多边形 */
-    var acf=activeCoefs(), maxF=1;
-    for(var ci=0;ci<state.N && ci<acf.length;ci++){ var af=Math.abs(acf[ci].freq); if(af>maxF)maxF=af; }
-    var trajNow=Math.max(Math.round(TRAJ*Math.max(1,view.scale)), maxF*40);
-    if(trajNow>6000)trajNow=6000;
-    /* 画内容区间（实金，Catmull-Rom 圆滑） */
-    segs.forEach(function(sg){
-      if(sg[2]!=='gold')return;
-      var steps=Math.max(2,Math.ceil((sg[1]-sg[0])*trajNow));
-      var pts=[];
-      for(var q=0;q<=steps;q++){
-        var u=sg[0]+(sg[1]-sg[0])*q/steps;
-        var p=pointAtCoefs(coefs,u,state.N);
-        pts.push({x:CX+p.x*viewScale,y:CY+p.y*viewScale});
-      }
-      ctx.beginPath();
-      smoothStrokePath(ctx,pts);
-      ctx.strokeStyle='#F5C451'; ctx.lineWidth=2.2; ctx.lineJoin='round'; ctx.lineCap='round';
-      ctx.shadowColor='rgba(245,196,81,0.35)'; ctx.shadowBlur=12;
-      ctx.stroke(); ctx.shadowBlur=0;
-    });
-    /* 画连接线区间（淡显=虚线；隐藏=不画） */
-    if(state.showConnectors){
-      ctx.setLineDash([3,4]);
-      ctx.strokeStyle='rgba(94,234,212,0.28)';
-      ctx.lineWidth=1;
-      segs.forEach(function(sg){
-        if(sg[2]!=='conn')return;
-        var steps=Math.max(2,Math.ceil((sg[1]-sg[0])*trajNow));
-        var pts=[];
-        for(var q=0;q<=steps;q++){
-          var u=sg[0]+(sg[1]-sg[0])*q/steps;
-          var p=pointAtCoefs(coefs,u,state.N);
-          pts.push({x:CX+p.x*viewScale,y:CY+p.y*viewScale});
+    var cache=ensureTraceCache();
+    var kEnd=Math.round(state.t*(cache.length-1));
+    function strokeRuns(isConn){
+      var s=0;
+      while(s<=kEnd){
+        while(s<=kEnd && cache[s].conn!==isConn) s++;
+        var e=s, run=[];
+        while(e<=kEnd && cache[e].conn===isConn){ run.push(cache[e]); e++; }
+        if(run.length>=2){
+          ctx.beginPath();
+          smoothStrokePath(ctx,run);
+          if(isConn){
+            ctx.strokeStyle='rgba(94,234,212,0.28)'; ctx.lineWidth=1;
+            ctx.setLineDash([3,4]); ctx.stroke(); ctx.setLineDash([]);
+          } else {
+            ctx.strokeStyle='#F5C451'; ctx.lineWidth=2.2; ctx.lineJoin='round'; ctx.lineCap='round';
+            /* 辉光 shadow 很贵：圆少时保留，N>300 自动关闭以保流畅 */
+            if(state.N<=300){ ctx.shadowColor='rgba(245,196,81,0.35)'; ctx.shadowBlur=12; }
+            ctx.stroke(); ctx.shadowBlur=0;
+          }
         }
-        ctx.beginPath();
-        smoothStrokePath(ctx,pts);
-        ctx.stroke();
-      });
-      ctx.setLineDash([]);
+        s=e;
+      }
     }
+    strokeRuns(false);
+    if(state.showConnectors) strokeRuns(true);
   }
   /* 笔尖 */
   ctx.beginPath(); ctx.arc(endX,endY,4.5,0,Math.PI*2);
@@ -6496,6 +6525,9 @@ window.__app={
   debugApprox:function(u,n){ return safeReturn(function(){
     var p=pointAtCoefs(activeCoefs(),u,n);
     return {x:+p.x.toFixed(3),y:+p.y.toFixed(3)};
+  }); },
+  debugCoefs:function(){ return safeReturn(function(){
+    return coefs.map(function(c){return {f:c.freq,a:+c.amp.toFixed(3),p:+c.phase.toFixed(3)};});
   }); },
   debugConn:function(){ return safeReturn(function(){
     return {S:targetPts.length, ranges:pathConnectors};
